@@ -5,13 +5,16 @@
 #define STRAIGHTNUM 4
 #define KNIGHTNUM 8
 
+
+
+
 const int xDiagMoves[] = {1,1,-1,-1};
 const int yDiagMoves[] = {1,-1,1,-1};
 const int xStraightMoves[] = {1,-1,0,0};
 const int yStraightMoves[] = {0,0,1,-1};
 const int xKnightMoves[] = {1,1,2,2,-1,-1,-2,-2};
 const int yKnightMoves[] = {2,-2,1,-1,2,-2,1,-1};
-
+const int xCastlingPlaces[] = {8,6,5,7,1,4,5,3};//rookfrom,rookto,kingfrom,kingto, first for the short, then for the long
 
 
 bool isOnBoard(int x,int y){
@@ -61,8 +64,53 @@ bool ChessGame::checkSingle(Tile start,int dx,int dy,Color color){
 		return false;
 }	
 
+bool ChessGame::checkCastling(int kingnum,bool isShort){
+	Color color=pieces[kingnum].color;
+	if (pieces[kingnum].hasMoved==true)
+		return false;
+	int row=0;
+	if (color==Black)
+		row+=SIZE-1;
+	int d=4;
+	if (isShort)
+		d=0;
+	Piece_dark expectedRook=pieces[board[xCastlingPlaces[d]-1][row].piecenum];
+	if (((expectedRook.type==Rook) && (expectedRook.color==color) && (expectedRook.hasMoved==false)
+	 && (board[xCastlingPlaces[d+1]-1][row].type==None) && (board[xCastlingPlaces[d+3]-1][row].type==None)) &&
+	 ((isShort) || (board[xCastlingPlaces[d]][row].type==None)))
+		return true;
+	else
+		return false;
+}
+
+void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,Color color, bool isShort){
+	if (color==White){
+		rookfrom->y=1;
+		rookto->y=1;
+		kingfrom->y=1;
+		kingto->y=1;
+	}
+	else{
+		rookfrom->y=SIZE;
+		rookto->y=SIZE;
+		kingfrom->y=SIZE;
+		kingto->y=SIZE;
+	}
+	if (isShort){
+		kingfrom->x=xCastlingPlaces[2];
+		kingto->x=xCastlingPlaces[3];
+		rookto->x=xCastlingPlaces[1];
+		rookfrom->x=xCastlingPlaces[0];
+	}
+	else{
+		kingfrom->x=xCastlingPlaces[6];
+		kingto->x=xCastlingPlaces[7];
+		rookto->x=xCastlingPlaces[5];
+		rookfrom->x=xCastlingPlaces[4];
+	}
+}
+
 std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,Color color){
-	//printf("Checking line from (%d,%d) dx=%d dy=%d\n",start.x,start.y,dx,dy);
 	std::vector<Tile> result;
 	int x=start.x;
 	int y=start.y;
@@ -93,7 +141,6 @@ void ChessGame::updatePieceVision(int num){
 	Color color=pieces[num].color;
 	int i;
 	std::vector<Tile>line;
-	//printf("updating%d %d\n",pieces[num].place.x,pieces[num].place.y);
 	switch(pieces[num].type){
 		case Bishop:
 			for(i=0;i<DIAGNUM;i++){
@@ -150,6 +197,19 @@ void ChessGame::updatePieceVision(int num){
 			for(i=0;i<STRAIGHTNUM;i++)
 				if (checkSingle(place,xStraightMoves[i],yStraightMoves[i],color))
 					result.push_back(board[place.x+xStraightMoves[i]-1][place.y+yStraightMoves[i]-1]);
+			int row;
+			if (checkCastling(num,true)){
+				row=0;
+				if (color==Black)
+					row=SIZE-1;
+				result.push_back(board[xCastlingPlaces[3]-1][row]);
+			}
+			if (checkCastling(num,false)){
+				row=0;
+				if (color==Black)
+					row=SIZE-1;
+				result.push_back(board[xCastlingPlaces[7]-1][row]);
+			}
 			break;
 	}
 	pieces[num].vision=result;
