@@ -1,20 +1,20 @@
 #include "chess_connector.h"
 
 // Это метод для старта сервера. После вызова клиенты могут начать подключаться
-static RealChessConnector RealChessConnector::bind (std::string ip_addr = std::string("*"), std::string port = std::string("*"))
+RealChessConnector RealChessConnector::bind (std::string ip_addr, std::string port)
 throw 	(Network::Exception)
 {
 	Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-	return RealChessConnector (Network::Socket::bind (endpoint.str()));
+	return RealChessConnector (std::move (Network::Socket::bind (endpoint.str())));
 }
 // Это метод для подключения к другому игроку
-static RealChessConnector RealChessConnector::connect (std::string ip_addr, std::string port)
+RealChessConnector RealChessConnector::connect (std::string ip_addr, std::string port)
 throw 	(Network::Exception)
 {
 	Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-	return RealChessConnector (Network::Socket::connect (endpoint.str()));
+	return RealChessConnector (std::move (Network::Socket::connect (endpoint.str())));
 }
-virtual void RealChessConnector::sendCommand (Command command)
+void RealChessConnector::sendCommand (Command command)
 throw (
 	Network::Exception,
 	Network::WrongOrderException,
@@ -24,12 +24,12 @@ throw (
 {
 	socket.send (command.serialize ());
 }
-virtual Command RealChessConnector::receiveCommand ()
+Command RealChessConnector::receiveCommand ()
 throw (
 	Network::Exception,
 	Network::WrongOrderException, 
 	Network::NoMessagesException
 )
 {
-	return Command (socket.recv (true)); // включен неблокирующий режим
+	return Command (socket.recv (false)); // включен блокирующий режим
 }

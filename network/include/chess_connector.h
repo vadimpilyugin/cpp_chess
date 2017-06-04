@@ -39,38 +39,24 @@ class RealChessConnector {
 public:
 	// Это метод для старта сервера. После вызова клиенты могут начать подключаться
 	static RealChessConnector bind (std::string ip_addr = std::string("*"), std::string port = std::string("*"))
-	throw 	(Network::Exception)
-	{
-		Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-		return RealChessConnector (Network::Socket::bind (endpoint.str()));
-	}
+	throw 	(Network::Exception);
 	// Это метод для подключения к другому игроку
 	static RealChessConnector connect (std::string ip_addr, std::string port)
-	throw 	(Network::Exception)
-	{
-		Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-		return RealChessConnector (Network::Socket::connect (endpoint.str()));
-	}
+	throw 	(Network::Exception);
 	virtual void sendCommand (Command command)
 	throw (
 		Network::Exception,
 		Network::WrongOrderException,
 		Network::CannotSendException,
 		Printer::AssertException
-	)
-	{
-		socket.send (command.serialize ());
-	}
+	);
 	virtual Command receiveCommand ()
 	throw (
 		Network::Exception,
 		Network::WrongOrderException, 
 		Network::NoMessagesException
-	)
-	{
-		return Command (socket.recv (false)); // включен блокирующий режим
-	}
+	);
 private:
-	RealChessConnector (Network::Socket socket_): socket(socket_) {}
+	RealChessConnector (Network::Socket &&socket_): socket(std::move(socket_)) {}
 	Network::Socket socket;
 };
