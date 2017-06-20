@@ -84,7 +84,7 @@ namespace Network {
 			Printer::AssertException
 		);
 		// принимает строку от другого сокета
-		std::string recv(bool nonblock = false) 
+		std::string recv(bool nonblock = true) 
 		throw (
 			Exception,
 			WrongOrderException, 

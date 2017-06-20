@@ -1,4 +1,11 @@
 #include "chess_connector.h"
+#ifndef _WIN32
+#include <unistd.h>
+#else
+#include <windows.h>
+
+#define sleep(n)	Sleep(n)
+#endif
 
 int main () {
 	// Подключаемся к серверу
@@ -7,7 +14,17 @@ int main () {
 	client.sendCommand (Command ("Hello from client"));
 	Printer::debug ("Послали приветствие");
 	// Ждем подключений
-	Command command = client.receiveCommand ();
+	bool new_message = false;
+	Command command;
+	while (!new_message) {
+		try {
+			command = client.receiveCommand ();
+			new_message = true;
+		}
+		catch (Network::NoMessagesException &exc) {
+			sleep (1);
+		}
+	}
 	Printer::debug (command.serialize (), "Получили ответ");
 	return 0;
 }

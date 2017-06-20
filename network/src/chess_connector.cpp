@@ -31,5 +31,5 @@ throw (
 	Network::NoMessagesException
 )
 {
-	return Command (socket.recv (false)); // включен блокирующий режим
+	return Command (socket.recv ()); 
 }

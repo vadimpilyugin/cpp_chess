@@ -6,7 +6,7 @@
 
 struct Command {
 	std::string payload;
-	Command (std::string payload_): payload(payload_) {}
+	Command (std::string payload_ = std::string()): payload(payload_) {}
 	std::string serialize () { return payload; }
 };
 
