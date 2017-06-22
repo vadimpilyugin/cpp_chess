@@ -6,7 +6,9 @@ public:
 	virtual std::string getLogText () {
 		return log_string;
 	}
-
+	virtual void update () {
+		
+	}
 private:
 	std::string log_string;
 };
