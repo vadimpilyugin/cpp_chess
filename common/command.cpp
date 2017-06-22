@@ -3,7 +3,12 @@
 class Command {
 public:
 	Color color;
-	virtual std::string serialize () = 0;
+	Command (std::string command_ = std::string()): command (command_) {}
+	virtual std::string serialize () {
+		return Color::toString (color);
+	}
+private:
+	static const std::string command;
 };
 
 class Move: public Command {

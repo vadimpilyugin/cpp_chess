@@ -5,7 +5,7 @@
 class Command {
 public:
 	Color color;
-	virtual std::string serialize () = 0;
+	virtual std::string serialize ();
 };
 
 class Move: public Command {
