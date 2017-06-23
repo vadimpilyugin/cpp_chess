@@ -26,6 +26,7 @@ struct Command: Clonable {
 		NoSuchPieceException
 	);
 	virtual Command* clone() const { return new Command(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 
 struct Move: public Command {
@@ -39,6 +40,7 @@ struct Move: public Command {
 	virtual std::string serialize () const;
 	virtual Move* deserialize (std::string command) throw (NoSuchPieceException, WrongCommandException);
 	virtual Move* clone() const { return new Move(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 struct GiveUpCommand: public Command {
 	static const std::string CLASS_NAME;
@@ -46,6 +48,7 @@ struct GiveUpCommand: public Command {
 	virtual std::string serialize () const;
 	virtual GiveUpCommand* deserialize (std::string command) throw (WrongCommandException);
 	virtual GiveUpCommand* clone() const { return new GiveUpCommand(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 struct OfferDrawCommand: public Command {
 	static const std::string CLASS_NAME;
@@ -53,6 +56,7 @@ struct OfferDrawCommand: public Command {
 	virtual std::string serialize () const;
 	virtual OfferDrawCommand* deserialize (std::string command) throw (WrongCommandException);
 	virtual OfferDrawCommand* clone() const { return new OfferDrawCommand(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 struct TerminationCommand: public Command {
 	static const std::string CLASS_NAME;
@@ -60,6 +64,7 @@ struct TerminationCommand: public Command {
 	virtual std::string serialize () const;
 	virtual TerminationCommand* deserialize (std::string command) throw (WrongCommandException);
 	virtual TerminationCommand* clone() const { return new TerminationCommand(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 // Фабрика
 class Factory
