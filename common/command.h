@@ -66,6 +66,14 @@ struct TerminationCommand: public Command {
 	virtual TerminationCommand* clone() const { return new TerminationCommand(*this); }
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
+struct HeartbeatCommand: public Command {
+	static const std::string CLASS_NAME;
+	static const std::string HEARTBEAT_COMMAND;
+	virtual std::string serialize () const;
+	virtual HeartbeatCommand* deserialize (std::string command) throw (WrongCommandException);
+	virtual HeartbeatCommand* clone() const { return new HeartbeatCommand(*this); }
+	virtual std::string getClassName () const { return CLASS_NAME; }
+};
 // Фабрика
 class Factory
 {
@@ -78,6 +86,7 @@ public:
 		delete ex3;
 		delete ex4;
 		delete ex5;
+		delete ex6;
 	}
 
 private:
@@ -90,4 +99,5 @@ private:
 	GiveUpCommand *ex3;
 	OfferDrawCommand *ex4;
 	TerminationCommand *ex5;
+	HeartbeatCommand *ex6;
 };
