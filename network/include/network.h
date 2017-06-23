@@ -1,33 +1,25 @@
 #pragma once
 #include "zmq.hpp"
 #include "printer.h"
-#include <exception>
+#include "my_exception.h"
 #include <string>
 
 namespace Network {
 	/*
 	* Здесь находятся все, что относится к работе с сетью
 	*/
-	class Exception: public std::exception {
-		std::string msg;
-	public:
-		Exception(const std::string _msg): msg(_msg) {}
-		virtual const char *what() const noexcept {
-			return msg.c_str();
-		}
-	};
 	// Два send подряд или два receive подряд
 	// Порядок должен быть строго по очереди
-	class WrongOrderException: public Exception {
-		using Network::Exception::Exception;
+	class WrongOrderException: Exception::Exception {
+		using Exception::Exception;
 	};
 	// Невозможно послать сообщение в данный момент. Может буфер переполнен, может сеть отвалилась
-	class CannotSendException: public Exception {
-		using Network::Exception::Exception;
+	class CannotSendException: Exception::Exception {
+		using Exception::Exception;
 	};
 	// Нет готовых сообщений, чтобы принять. Нужен в случае неблокирующего приема
-	class NoMessagesException: public Exception {
-		using Network::Exception::Exception;
+	class NoMessagesException: Exception::Exception {
+		using Exception::Exception;
 	};
 	/*
 	* Конечная точка это уникальный адрес
@@ -64,21 +56,21 @@ namespace Network {
 	public:
 		// Возвращает сокет, привязанный к точке
 		static Socket bind (const std::string &endpoint) 
-		throw 	(Exception);
+		throw 	(Exception::Exception);
 		Socket bind (const Endpoint &endpoint) 
-		throw (Exception);
+		throw (Exception::Exception);
 		// Возвращает сокет, подключенный к удаленной точке
 		static Socket connect (const std::string &endpoint)
-		throw 	(Exception);
+		throw 	(Exception::Exception);
 		// Деструктор
 		~Socket();
 		// вернет адрес, к которому привязан сокет
 		std::string addr() const 
-		throw 	(Exception);
+		throw 	(Exception::Exception);
 		// посылает строку на другой сокет
 		void send(const std::string msg) 
 		throw (
-			Exception,
+			Exception::Exception,
 			WrongOrderException,
 			CannotSendException,
 			Printer::AssertException
@@ -86,7 +78,7 @@ namespace Network {
 		// принимает строку от другого сокета
 		std::string recv(bool nonblock = true) 
 		throw (
-			Exception,
+			Exception::Exception,
 			WrongOrderException, 
 			NoMessagesException
 		);

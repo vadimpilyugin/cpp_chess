@@ -1,4 +1,4 @@
-#include "chess_connector.h"
+#include "real_chess_connector.h"
 #ifndef _WIN32
 #include <unistd.h>
 #else
@@ -12,7 +12,7 @@ int main () {
 	RealChessConnector server = RealChessConnector::bind ("127.0.0.1", "5555");
 	// Ждем подключений
 	bool new_message = false;
-	Command command;
+	Command *command;
 	while (!new_message) {
 		try {
 			command = server.receiveCommand ();
@@ -22,9 +22,9 @@ int main () {
 			sleep (1);
 		}
 	}
-	Printer::debug (command.serialize (), "Новое подключение");
+	Printer::debug (command -> serialize (), "Новое подключение");
 	// Посылаем привет от сервера
-	server.sendCommand (Command ("Hello from server"));
+	server.sendCommand (Move (Tile (3,14), Tile (100,100)));
 	Printer::debug ("Послали приветствие");
 	return 0;
 }
