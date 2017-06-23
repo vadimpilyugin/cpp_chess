@@ -1,6 +1,6 @@
 #include "piece.h"
 
-std::string toString (PieceType piece) noexcept {
+std::string toString (PieceType piece) NOEXCEPT {
 	switch (piece) {
 		case PieceType::Queen: return "Queen";
 		case PieceType::Rook: return "Rook";

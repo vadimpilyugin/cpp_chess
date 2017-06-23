@@ -131,7 +131,7 @@ HeartbeatCommand* HeartbeatCommand::deserialize (std::string command) throw (Wro
 	return this;
 }
 
-Factory::Factory ():
+CommandFactory::CommandFactory ():
 	ex1 (nullptr),
 	ex2 (nullptr),
 	ex3 (nullptr),
@@ -153,9 +153,9 @@ Factory::Factory ():
 	set (HeartbeatCommand::CLASS_NAME, ex6);
 }
 
-Command* Factory::get(std::string const& class_name) const throw (std::out_of_range) {
+Command* CommandFactory::get(std::string const& class_name) const throw (std::out_of_range) {
 	return mExemplars.at (class_name) -> clone ();
 }
-void Factory::set(std::string const& class_name, Command* exemplar) {
+void CommandFactory::set(std::string const& class_name, Command* exemplar) {
 	mExemplars [class_name] = exemplar;
 }
