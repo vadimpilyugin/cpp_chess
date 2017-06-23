@@ -1,11 +1,14 @@
-#include "color.h"
+#pragma once
+
+#include "chesscolor.h"
 #include "tile.h"
 #include "piece.h"
 #include "my_exception.h"
 #include <map>
 
 class WrongCommandException: public Exception::Exception {
-	using Exception::Exception;
+public:
+    WrongCommandException(const std::string _msg): Exception(_msg) {}
 };
 /*
 * Нужно для паттерна Фабрика
@@ -15,10 +18,12 @@ class Clonable
 public:
 	virtual Clonable* clone() const = 0;
 };
+
 struct Command: Clonable {
-	Color color;
+    ChessColor color;
 	static const std::string CLASS_NAME;
-	Command (Color color_ = Color::None) { color = color_; }
+    Command (ChessColor color_ = ChessColor::None) { color = color_; }
+    virtual ~Command(){}
 	virtual std::string serialize () const;
 	virtual Command* deserialize (std::string command) throw (
 		NoSuchColorException, 
@@ -42,6 +47,7 @@ struct Move: public Command {
 	virtual Move* clone() const { return new Move(*this); }
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
+
 struct GiveUpCommand: public Command {
 	static const std::string CLASS_NAME;
 	static const std::string GIVE_UP_COMMAND;
@@ -50,6 +56,7 @@ struct GiveUpCommand: public Command {
 	virtual GiveUpCommand* clone() const { return new GiveUpCommand(*this); }
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
+
 struct OfferDrawCommand: public Command {
 	static const std::string CLASS_NAME;
 	static const std::string OFFER_DRAW_COMMAND;
@@ -66,13 +73,14 @@ struct TerminationCommand: public Command {
 	virtual TerminationCommand* clone() const { return new TerminationCommand(*this); }
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
+
 // Фабрика
-class Factory
+class CommandFactory
 {
 public:
-	Factory ();
+    CommandFactory ();
 	Command* get(std::string const& class_name) const throw (std::out_of_range);
-	~Factory () {
+    ~CommandFactory () {
 		delete ex1;
 		delete ex2;
 		delete ex3;

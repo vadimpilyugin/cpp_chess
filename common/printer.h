@@ -1,5 +1,7 @@
 #define DEBUG 1
+
 #pragma once
+
 #include <string>
 #include <iostream>
 #include <exception>
@@ -13,11 +15,13 @@ namespace Printer {
 
   class AssertException: public Exception::Exception
   {
-    using Exception::Exception;
+  public:
+      AssertException(const std::string _msg): Exception(_msg) {}
   };
   class FatalException: public Exception::Exception
   {
-    using Exception::Exception;
+  public:
+       FatalException(const std::string _msg): Exception(_msg) {}
   };
 
 
