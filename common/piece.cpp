@@ -1,34 +1,31 @@
 #include "piece.h"
 
-typedef Piece::PieceType PieceType;
-typedef Piece::NoSuchPieceException NoSuchPieceException;
-
-std::string Piece::toString (PieceType piece) noexcept {
+std::string toString (PieceType piece) noexcept {
 	switch (piece) {
-		case Queen: return "Queen";
-		case Rook: return "Rook";
-		case Bishop: return "Bishop";
-		case Knight: return "Knight";
-		case Pawn: return "Pawn";
-		case King: return "King";
-		case None: return "None";
+		case PieceType::Queen: return "Queen";
+		case PieceType::Rook: return "Rook";
+		case PieceType::Bishop: return "Bishop";
+		case PieceType::Knight: return "Knight";
+		case PieceType::Pawn: return "Pawn";
+		case PieceType::King: return "King";
+		case PieceType::None: return "None";
 	}
 }
-PieceType Piece::toPiece (std::string piece) throw (NoSuchPieceException) {
+PieceType toPiece (std::string piece) throw (NoSuchPieceException) {
 	if (piece == "Queen")
-		return Queen;
+		return PieceType::Queen;
 	else if (piece == "Rook")
-		return Rook;
+		return PieceType::Rook;
 	else if (piece == "Bishop")
-		return Bishop;
+		return PieceType::Bishop;
 	else if (piece == "Knight")
-		return Knight;
+		return PieceType::Knight;
 	else if (piece == "Pawn")
-		return Pawn;
+		return PieceType::Pawn;
 	else if (piece == "King")
-		return King;
+		return PieceType::King;
 	else if (piece == "None")
-		return None;
+		return PieceType::None;
 	else
 		throw NoSuchPieceException (piece);
 }

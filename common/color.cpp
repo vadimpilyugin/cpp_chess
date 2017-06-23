@@ -1,19 +1,19 @@
 #include "color.h"
 
-std::string Color::toString (Color color) noexcept {
+std::string toString (Color color) noexcept {
 	switch (color) {
-		case Black: return "Black";
-		case White: return "White";
-		case None: return "None";
+		case Color::Black: return "Black";
+		case Color::White: return "White";
+		case Color::None: return "None";
 	}
 }
-Color::Color Color::toColor (std::string color) throw (NoSuchColorException) {
+Color toColor (std::string color) throw (NoSuchColorException) {
 	if (color == "Black")
-		return Black;
+		return Color::Black;
 	else if (color == "White")
-		return White;
+		return Color::White;
 	else if (color == "None")
-		return None;
+		return Color::None;
 	else
 		throw NoSuchColorException (color);
 }

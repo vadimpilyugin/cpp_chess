@@ -2,8 +2,7 @@
 #include "printer.h"
 #include "serialize.h"
 
-using namespace Command;
-const std::string Command::Command::CLASS_NAME = std::string("Command");
+const std::string Command::CLASS_NAME = std::string("Command");
 const std::string Move::CLASS_NAME = std::string("Move");
 const std::string GiveUpCommand::CLASS_NAME = std::string("GiveUpCommand");
 const std::string OfferDrawCommand::CLASS_NAME = std::string("OfferDrawCommand");
@@ -13,26 +12,26 @@ const std::string GiveUpCommand::GIVE_UP_COMMAND = std::string("igiveup");
 const std::string OfferDrawCommand::OFFER_DRAW_COMMAND = std::string ("draw_offer");
 const std::string TerminationCommand::TERMINATION_COMMAND = std::string ("termination");
 
-std::string Command::Command::serialize () const {
+std::string Command::serialize () const {
 	SerializedObject result;
 	// добавляем имя класса
 	result.add (CLASS_NAME);
 	// добавляем цвет к сериализованному объекту
-	result.add (Color::toString (color));
+	result.add (toString (color));
 	return result.toString ();
 }
-Command::Command *Command::Command::deserialize (std::string command)
+Command *Command::deserialize (std::string command)
 	throw (
-		Color::NoSuchColorException, 
+		NoSuchColorException, 
 		WrongCommandException,
-		Piece::NoSuchPieceException
+		NoSuchPieceException
 	)
 {
 	try {
 		SerializedObject result (command);
-		color = Color::toColor (result.get ());
+		color = toColor (result.get ());
 	}
-	catch (Color::NoSuchColorException &exc) {
+	catch (NoSuchColorException &exc) {
 		Printer::error (exc.what(), "Command::deserialize");
 		throw;
 	}
@@ -47,10 +46,10 @@ std::string Move::serialize () const {
 	result.add (std::to_string (to.x));
 	result.add (std::to_string (to.y));
 	result.add (std::to_string (isConvertion ? 1 : 0));
-	result.add (Piece::toString (convertPiece));
+	result.add (toString (convertPiece));
 	return result.toString();
 }
-Move *Move::deserialize (std::string command) throw (Piece::NoSuchPieceException, WrongCommandException) {
+Move *Move::deserialize (std::string command) throw (NoSuchPieceException, WrongCommandException) {
 	SerializedObject result (command);
 	try {
 		from.x = std::stoi (result.get ());
@@ -58,13 +57,13 @@ Move *Move::deserialize (std::string command) throw (Piece::NoSuchPieceException
 		to.x = std::stoi (result.get ());
 		to.y = std::stoi (result.get ());
 		isConvertion = std::stoi (result.get ()) ? true : false;
-		convertPiece = Piece::toPiece (result.get ());
+		convertPiece = toPiece (result.get ());
 	}
 	catch (std::invalid_argument &exc) {
 		Printer::error (command, "Move::deserialize");
 		throw WrongCommandException (command);
 	}
-	catch (Piece::NoSuchPieceException &exc) {
+	catch (NoSuchPieceException &exc) {
 		Printer::error (command, "Move::deserialize");
 		throw;
 	}
@@ -116,7 +115,7 @@ TerminationCommand* TerminationCommand::deserialize (std::string command) throw 
 	return this;
 }
 
-Command::Factory::Factory ():
+Factory::Factory ():
 	ex1 (nullptr),
 	ex2 (nullptr),
 	ex3 (nullptr),
@@ -135,7 +134,7 @@ Command::Factory::Factory ():
 	set (TerminationCommand::CLASS_NAME, ex5);
 }
 
-Command::Command* Factory::get(std::string const& class_name) const throw (std::out_of_range) {
+Command* Factory::get(std::string const& class_name) const throw (std::out_of_range) {
 	return mExemplars.at (class_name) -> clone ();
 }
 void Factory::set(std::string const& class_name, Command* exemplar) {

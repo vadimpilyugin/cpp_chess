@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <exception>
+#include "my_exception.h"
 
 namespace Printer {
 
@@ -10,21 +11,11 @@ namespace Printer {
   * Исключение, бросаемое в fatal или assert
   */ 
 
-  class Exception: public std::exception
-  {
-    std::string exc_msg;
-  public:
-    Exception(std::string _msg = std::string()): exc_msg(_msg) {}
-    virtual const char *what() const noexcept {
-      return exc_msg.c_str();
-    }
-  };
-
-  class AssertException: public Exception
+  class AssertException: public Exception::Exception
   {
     using Exception::Exception;
   };
-  class FatalException: public Exception
+  class FatalException: public Exception::Exception
   {
     using Exception::Exception;
   };
