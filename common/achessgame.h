@@ -19,6 +19,7 @@ class AChessGame
 public:
     virtual void attachObserver(IChessObserver* observer);
     virtual void detachObserver(IChessObserver* observer);
+    virtual void notifyObservers();
 
     virtual void doCommand(Command *command)=0;
     virtual vector<TiledPiece> getConvertionPieces(Player player)=0;
