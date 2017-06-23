@@ -19,9 +19,9 @@ namespace Command {
 	struct Command: Clonable {
 		Color::Color color;
 		static const std::string CLASS_NAME;
-		Command (Color::Color color_ = Color::None): color (color_) {}
+		Command (Color::Color color_ = Color::None) { color = color_; }
 		virtual std::string serialize () const;
-		virtual void deserialize (std::string command) throw (
+		virtual Command* deserialize (std::string command) throw (
 			Color::NoSuchColorException, 
 			WrongCommandException,
 			Piece::NoSuchPieceException
@@ -36,54 +36,37 @@ namespace Command {
 		Piece::PieceType convertPiece;
 		static const std::string CLASS_NAME;
 		Move (Tile from_ = Tile (), Tile to_ = Tile (), bool isConvertion_ = false, Piece::PieceType convertPiece_ = Piece::PieceType::None): 
-			from (from_), to (to_), isConvertion (isConvertion_), convertPiece (convertPiece_) {}
+			from (from_), to (to_), isConvertion (isConvertion_) { convertPiece = convertPiece_; }
 		virtual std::string serialize () const;
-		virtual void deserialize (std::string command) throw (Piece::NoSuchPieceException, WrongCommandException);
+		virtual Move* deserialize (std::string command) throw (Piece::NoSuchPieceException, WrongCommandException);
 		virtual Move* clone() const { return new Move(*this); }
 	};
 	struct GiveUpCommand: public Command {
 		static const std::string CLASS_NAME;
 		static const std::string GIVE_UP_COMMAND;
 		virtual std::string serialize () const;
-		virtual void deserialize (std::string command) throw (WrongCommandException);
+		virtual GiveUpCommand* deserialize (std::string command) throw (WrongCommandException);
 		virtual GiveUpCommand* clone() const { return new GiveUpCommand(*this); }
 	};
 	struct OfferDrawCommand: public Command {
 		static const std::string CLASS_NAME;
 		static const std::string OFFER_DRAW_COMMAND;
 		virtual std::string serialize () const;
-		virtual void deserialize (std::string command) throw (WrongCommandException);
+		virtual OfferDrawCommand* deserialize (std::string command) throw (WrongCommandException);
 		virtual OfferDrawCommand* clone() const { return new OfferDrawCommand(*this); }
 	};
 	struct TerminationCommand: public Command {
 		static const std::string CLASS_NAME;
 		static const std::string TERMINATION_COMMAND;
 		virtual std::string serialize () const;
-		virtual void deserialize (std::string command) throw (WrongCommandException);
+		virtual TerminationCommand* deserialize (std::string command) throw (WrongCommandException);
 		virtual TerminationCommand* clone() const { return new TerminationCommand(*this); }
 	};
 	// Фабрика
 	class Factory
 	{
 	public:
-		Factory ():
-			ex1 (nullptr),
-			ex2 (nullptr),
-			ex3 (nullptr),
-			ex4 (nullptr),
-			ex5 (nullptr)
-		{
-			ex1 = new Command ();
-			ex2 = new Move ();
-			ex3 = new GiveUpCommand ();
-			ex4 = new OfferDrawCommand ();
-			ex5 = new TerminationCommand ();
-			set (Command::CLASS_NAME, ex1);
-			set (Move::CLASS_NAME, ex2);
-			set (GiveUpCommand::CLASS_NAME, ex3);
-			set (OfferDrawCommand::CLASS_NAME, ex4);
-			set (TerminationCommand::CLASS_NAME, ex5);
-		}
+		Factory ();
 		Command* get(std::string const& class_name) const throw (std::out_of_range);
 		~Factory () {
 			delete ex1;

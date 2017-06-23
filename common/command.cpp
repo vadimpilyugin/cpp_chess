@@ -21,7 +21,7 @@ std::string Command::Command::serialize () const {
 	result.add (Color::toString (color));
 	return result.toString ();
 }
-void Command::Command::deserialize (std::string command)
+Command::Command *Command::Command::deserialize (std::string command)
 	throw (
 		Color::NoSuchColorException, 
 		WrongCommandException,
@@ -36,6 +36,7 @@ void Command::Command::deserialize (std::string command)
 		Printer::error (exc.what(), "Command::deserialize");
 		throw;
 	}
+	return this;
 }
 
 std::string Move::serialize () const {
@@ -49,7 +50,7 @@ std::string Move::serialize () const {
 	result.add (Piece::toString (convertPiece));
 	return result.toString();
 }
-void Move::deserialize (std::string command) throw (Piece::NoSuchPieceException, WrongCommandException) {
+Move *Move::deserialize (std::string command) throw (Piece::NoSuchPieceException, WrongCommandException) {
 	SerializedObject result (command);
 	try {
 		from.x = std::stoi (result.get ());
@@ -67,6 +68,7 @@ void Move::deserialize (std::string command) throw (Piece::NoSuchPieceException,
 		Printer::error (command, "Move::deserialize");
 		throw;
 	}
+	return this;
 }
 
 std::string GiveUpCommand::serialize () const {
@@ -75,12 +77,13 @@ std::string GiveUpCommand::serialize () const {
 	result.add (GIVE_UP_COMMAND);
 	return result.toString();
 }
-void GiveUpCommand::deserialize (std::string command) throw (WrongCommandException) {
+GiveUpCommand* GiveUpCommand::deserialize (std::string command) throw (WrongCommandException) {
 	SerializedObject result (command);
 	if (result.get () != GIVE_UP_COMMAND) {
 		Printer::error (command, "GiveUpCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+	return this;
 }
 
 std::string OfferDrawCommand::serialize () const {
@@ -89,12 +92,13 @@ std::string OfferDrawCommand::serialize () const {
 	result.add (OFFER_DRAW_COMMAND);
 	return result.toString();
 }
-void OfferDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
+OfferDrawCommand* OfferDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
 	SerializedObject result (command);
 	if (result.get () != OFFER_DRAW_COMMAND) {
 		Printer::error (command, "OfferDrawCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+	return this;
 }
 
 std::string TerminationCommand::serialize () const {
@@ -103,12 +107,32 @@ std::string TerminationCommand::serialize () const {
 	result.add (TERMINATION_COMMAND);
 	return result.toString();
 }
-void TerminationCommand::deserialize (std::string command) throw (WrongCommandException) {
+TerminationCommand* TerminationCommand::deserialize (std::string command) throw (WrongCommandException) {
 	SerializedObject result (command);
 	if (result.get () != TERMINATION_COMMAND) {
 		Printer::error (command, "TerminationCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+	return this;
+}
+
+Command::Factory::Factory ():
+	ex1 (nullptr),
+	ex2 (nullptr),
+	ex3 (nullptr),
+	ex4 (nullptr),
+	ex5 (nullptr)
+{
+	ex1 = new Command ();
+	ex2 = new Move ();
+	ex3 = new GiveUpCommand ();
+	ex4 = new OfferDrawCommand ();
+	ex5 = new TerminationCommand ();
+	set (Command::CLASS_NAME, ex1);
+	set (Move::CLASS_NAME, ex2);
+	set (GiveUpCommand::CLASS_NAME, ex3);
+	set (OfferDrawCommand::CLASS_NAME, ex4);
+	set (TerminationCommand::CLASS_NAME, ex5);
 }
 
 Command::Command* Factory::get(std::string const& class_name) const throw (std::out_of_range) {

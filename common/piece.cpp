@@ -1,8 +1,9 @@
 #include "piece.h"
 
-using namespace Piece;
+typedef Piece::PieceType PieceType;
+typedef Piece::NoSuchPieceException NoSuchPieceException;
 
-std::string toString (Piece::PieceType piece) noexcept {
+std::string Piece::toString (PieceType piece) noexcept {
 	switch (piece) {
 		case Queen: return "Queen";
 		case Rook: return "Rook";
@@ -13,7 +14,7 @@ std::string toString (Piece::PieceType piece) noexcept {
 		case None: return "None";
 	}
 }
-PieceType toPiece (std::string piece) throw (NoSuchPieceException) {
+PieceType Piece::toPiece (std::string piece) throw (NoSuchPieceException) {
 	if (piece == "Queen")
 		return Queen;
 	else if (piece == "Rook")
