@@ -9,22 +9,33 @@
 
 int main () {
 	// Подключаемся к серверу
-	RealChessConnector client = RealChessConnector::connect ("127.0.0.1", "5555");
-	// Посылаем привет серверу
-	client.sendCommand (Move (Tile (666,666), Tile (13,13)));
-	Printer::debug ("Послали приветствие");
-	// Ждем подключений
-	bool new_message = false;
-	Command *command = nullptr;
-	while (!new_message) {
+	RealChessConnector *client = RealChessConnector::connect ("127.0.0.1", "5555");//RealChessConnector::connect ("194.87.96.23", "1234");
+	client -> sendCommand (Move (Tile (666,666), Tile (13,13)));
+	while (true) {
 		try {
-			command = client.receiveCommand ();
-			new_message = true;
+			Printer::error ("Has not connected");
+			while (!client -> hasConnected ()) {
+				sleep (1);
+			}
+			client -> receiveCommand ();
+			break;
 		}
 		catch (Network::NoMessagesException &exc) {
 			sleep (1);
 		}
 	}
-	Printer::debug (command -> serialize (), "Получили ответ");
+	delete client;
+	// while (n_messages < 5) {
+	// 	try {
+	// 		while (!(client -> hasConnected ()))
+	// 			sleep (1);
+	// 		
+	// 		Printer::debug ("Послали приветствие");
+	// 		
+	// 		n_messages ++;
+	// 	}
+
+	// }
+	// Printer::debug (command -> serialize (), "Получили ответ");
 	return 0;
 }

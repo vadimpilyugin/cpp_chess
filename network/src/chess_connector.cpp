@@ -1,19 +1,73 @@
 #include "real_chess_connector.h"
 #include "serialize.h"
 
+const std::string RealChessConnector::heartbeat_port = "19363";
+size_t RealChessConnector::connector_n = 0;
+
 // Это метод для старта сервера. После вызова клиенты могут начать подключаться
-RealChessConnector RealChessConnector::bind (std::string ip_addr, std::string port)
+RealChessConnector *RealChessConnector::bind (std::string ip_addr, std::string port)
 throw 	(Exception::Exception)
 {
-	Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-	return RealChessConnector (std::move (Network::Socket::bind (endpoint.str())));
+	// Создаем контекст для сокетов
+	Network::Context::createContext ();
+	// Создаем пару сокетов для передачи команд
+	Network::Socket command_sock = Network::Socket::bind ( 	Network::TCPEndpoint(ip_addr, port).str (), 
+															Network::Context::getContext ());
+	// Создаем пару сокетов для игры в картошку
+	Network::Socket heartbeat_sock = Network::Socket::bind (Network::TCPEndpoint(ip_addr, heartbeat_port).str(), 
+															Network::Context::getContext ());
+	// Когда стартует сервер, он ждет сообщений от клиентов и не начинает игру
+	return new RealChessConnector (std::move(command_sock), std::move(heartbeat_sock), false);
 }
 // Это метод для подключения к другому игроку
-RealChessConnector RealChessConnector::connect (std::string ip_addr, std::string port)
+RealChessConnector *RealChessConnector::connect (std::string ip_addr, std::string port)
 throw 	(Exception::Exception)
 {
-	Network::TCPEndpoint endpoint = Network::TCPEndpoint(ip_addr, port);
-	return RealChessConnector (std::move (Network::Socket::connect (endpoint.str())));
+	// Создаем контекст для сокетов
+	Network::Context::createContext ();
+	// Создаем пару сокетов для передачи команд
+	Network::Socket command_sock = Network::Socket::connect( Network::TCPEndpoint(ip_addr, port).str (), 
+															 Network::Context::getContext ());
+	// Создаем пару сокетов для игры в картошку
+	Network::Socket heartbeat_sock = Network::Socket::connect ( Network::TCPEndpoint(ip_addr, heartbeat_port).str(), 
+																Network::Context::getContext ());
+	// Когда стартует сервер, он ждет сообщений от клиентов и не начинает игру
+	return new RealChessConnector (std::move (command_sock), std::move (heartbeat_sock), true);
+}
+bool RealChessConnector::hasConnected () throw (
+	Network::WrongOrderException,
+	Exception::Exception
+)
+{
+	// Если горячая картошка у меня в руках, то я ее кидаю
+	// Состояние сети подтвердить не могу
+	if (hot_potato) {
+		heartbeat_sock.send (HeartbeatCommand ().serialize ());
+		hot_potato = false;
+		return false;
+	}
+	else {
+		try {
+			// Если ее у меня нет, то пытаюсь поймать
+			Command *command = receiveCommand (true);
+			// как поймал, так сразу кидаю
+			heartbeat_sock.send (command -> serialize ());
+			delete command;
+			// поймать удалось, соединение подтверждено
+			return true;
+		}
+		catch (Network::WrongOrderException &exc) {
+			// Ошибка в протоколе: кинули картошку дважды
+			Printer::error ("Дважды послали отклик", "RealChessConnector::hasConnected()");
+			throw;
+		}
+		catch (Network::NoMessagesException &exc)
+		{
+			// Самая частая ошибка: картошка еще не прилетела
+			Printer::note ("Отклик еще не пришел");
+			return false;
+		}
+	}
 }
 void RealChessConnector::sendCommand (const Command &command)
 throw (
@@ -25,7 +79,7 @@ throw (
 {
 	socket.send (command.serialize ());
 }
-Command *RealChessConnector::receiveCommand ()
+Command *RealChessConnector::receiveCommand (bool heartbeat)
 throw (
 	Exception::Exception,
 	Network::WrongOrderException, 
@@ -33,8 +87,12 @@ throw (
 )
 {
 	// Необходимо произвести один из типов команд
-	Factory factory;
-	std::string received_command = socket.recv ();
+	CommandFactory factory;
+	std::string received_command;
+	if (heartbeat)
+		received_command = heartbeat_sock.recv ();
+	else
+		received_command = socket.recv ();
 	SerializedObject result (received_command);
 	// Имя нужного класса команды
 	std::string class_name = result.get ();

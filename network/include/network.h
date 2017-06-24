@@ -47,6 +47,16 @@ namespace Network {
 			return std::string("tcp://") + ip_addr + std::string(":") + port_number;
 		}
 	};
+	// Класс, хранящий контекст для всех сокетов
+	class Context {
+	public:
+		static zmq::context_t *createContext () throw (Exception::Exception);
+		static void destroyContext ();
+		static zmq::context_t *getContext ();
+	private:
+		static zmq::context_t *context_p;
+	};
+
 	/*
 	* Единственное средство связи между игроками. Представляет собой
 	* одновременно и точку приема, и точку передачи. Прием и передача
@@ -55,12 +65,12 @@ namespace Network {
 	class Socket {
 	public:
 		// Возвращает сокет, привязанный к точке
-		static Socket bind (const std::string &endpoint) 
+		static Socket bind (const std::string &endpoint, zmq::context_t *context) 
 		throw 	(Exception::Exception);
-		Socket bind (const Endpoint &endpoint) 
+		Socket bind (const Endpoint &endpoint, zmq::context_t *context) 
 		throw (Exception::Exception);
 		// Возвращает сокет, подключенный к удаленной точке
-		static Socket connect (const std::string &endpoint)
+		static Socket connect (const std::string &endpoint, zmq::context_t *context)
 		throw 	(Exception::Exception);
 		// Деструктор
 		~Socket();
@@ -82,20 +92,18 @@ namespace Network {
 			WrongOrderException, 
 			NoMessagesException
 		);
+		// Закрывает сокет, аналогично деструктору
+		void close ();
 		Socket (Socket &&other) {
 			is_bound = other.is_bound;
-			context_p = other.context_p;
 			socket_p = other.socket_p;
-			other.context_p = nullptr;
 			other.socket_p = nullptr;
 			Printer::debug ("Сокет был передан в другие руки");
 		}
 	private:
-		Socket (zmq::context_t *context_ = nullptr, zmq::socket_t *socket_ = nullptr, const bool is_bound_ = false): 
-			context_p(context_),
+		Socket (zmq::socket_t *socket_ = nullptr, const bool is_bound_ = false): 
 			socket_p(socket_),
 			is_bound(is_bound_) {}
-		zmq::context_t *context_p;
 		zmq::socket_t *socket_p;
 		bool is_bound; // сокет привязан к точке(true) или подключается к ней(false)
 	};
