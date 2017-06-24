@@ -14,5 +14,6 @@
         <file>Images/queen_white.svg</file>
         <file>Images/rook_black.svg</file>
         <file>Images/rook_white.svg</file>
+        <file>Images/waiting.gif</file>
     </qresource>
 </RCC>
