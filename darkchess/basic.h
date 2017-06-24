@@ -3,7 +3,7 @@
 
 enum GameState {Going,WhiteVictory,BlackVictory,Draw};
 enum PieceType {Queen,Rook,Bishop,Knight,Pawn,King,None};
-enum Color {White,Black};
+enum ChessColor {White,Black};
 
 struct Tile{
 	int x;
@@ -12,7 +12,7 @@ struct Tile{
 
 struct Player{
 	std::string name;
-	Color color;
+	ChessColor color;
 };
 
 struct Move{
@@ -27,8 +27,7 @@ struct Move{
 
 struct Piece{
 	PieceType type;
-	Color color;
-	Tile place;
+	ChessColor color;
 	bool hasMoved;
 	Piece(){
 		hasMoved=false;
@@ -36,6 +35,8 @@ struct Piece{
 	}
 };
 
-
+struct TiledPiece: Piece{
+	Tile place;
+};
 
 	

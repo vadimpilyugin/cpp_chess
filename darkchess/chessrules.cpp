@@ -57,7 +57,7 @@ void ChessGame::initialize(){
 	turn=White;	
 }
 
-bool ChessGame::checkSingle(Tile start,int dx,int dy,Color color){
+bool ChessGame::checkSingle(Tile start,int dx,int dy,ChessColor color){
 	if (isOnBoard(start.x+dx,start.y+dy))
 		return ((board[start.x+dx-1][start.y+dy-1].type==None)||(pieces[board[start.x+dx-1][start.y+dy-1].piecenum].color!=color));
 	else
@@ -65,7 +65,7 @@ bool ChessGame::checkSingle(Tile start,int dx,int dy,Color color){
 }	
 
 bool ChessGame::checkCastling(int kingnum,bool isShort){
-	Color color=pieces[kingnum].color;
+	ChessColor color=pieces[kingnum].color;
 	if (pieces[kingnum].hasMoved==true)
 		return false;
 	int row=0;
@@ -83,7 +83,7 @@ bool ChessGame::checkCastling(int kingnum,bool isShort){
 		return false;
 }
 
-void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,Color color, bool isShort){
+void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,ChessColor color, bool isShort){
 	if (color==White){
 		rookfrom->y=1;
 		rookto->y=1;
@@ -110,7 +110,7 @@ void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Til
 	}
 }
 
-std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,Color color){
+std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,ChessColor color){
 	std::vector<Tile> result;
 	int x=start.x;
 	int y=start.y;
@@ -138,7 +138,7 @@ std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,Color color){
 void ChessGame::updatePieceVision(int num){
 	std::vector<Tile> result;
 	Tile place=pieces[num].place;
-	Color color=pieces[num].color;
+	ChessColor color=pieces[num].color;
 	int i;
 	std::vector<Tile>line;
 	switch(pieces[num].type){

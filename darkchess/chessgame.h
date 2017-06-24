@@ -6,29 +6,29 @@ class ChessGame/*:public IDarkChessGame */{
 		Tile_content** board;
 		Piece_dark* pieces;
 		GameState state;
-		Color turn;
+		ChessColor turn;
 	public:
 		ChessGame();
 		~ChessGame();
 		GameState getState();
-		Color getOrderPlayer();
+		ChessColor getOrderPlayer();
 		Piece getPieceAtTile(Tile tile);
 		bool doMove(Move move);
-		std::vector<Tile> getMoveTiles(Piece piece);
-		std::vector<Tile> getAttackTiles(Piece piece);
+		std::vector<Tile> getMoveTiles(TiledPiece piece);
+		std::vector<Tile> getAttackTiles(TiledPiece piece);
 		std::vector<Tile> getHiddenTiles(Player player);
 		std::vector<Piece> getConvertionPieces(Player player);
 //METHODS BELOW WILL BE PRIVATE CAUSE NOBODY ELSE WILL NEED THEM
    		void forcedMove(Tile from, Tile to);
-   		void doCastling(Piece king,bool isShort);
-		void checkVictory(Color color);
+   		void doCastling(TiledPiece king,bool isShort);
+		void checkVictory(ChessColor color);
 		void updateVision();
-		void rawOutput(Color color);
+		void rawOutput(ChessColor color);
 		void initialize();
-		bool checkSingle(Tile start,int dx,int dy,Color color);
-		std::vector<Tile> checkLine(Tile start,int dx,int dy,Color color);
+		bool checkSingle(Tile start,int dx,int dy,ChessColor color);
+		std::vector<Tile> checkLine(Tile start,int dx,int dy,ChessColor color);
 		bool checkCastling(int kingnum,bool isShort);
-		void prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,Color color, bool isShort);
+		void prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,ChessColor color, bool isShort);
 		void updatePieceVision(int num);
 };
 //READ ABOUT VIRTUAL FUNCTIONS

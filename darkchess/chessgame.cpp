@@ -26,7 +26,7 @@ ChessGame::~ChessGame(){
 GameState ChessGame::getState(){
 	return state;
 }
-void ChessGame::checkVictory(Color color){
+void ChessGame::checkVictory(ChessColor color){
 	int i;
 	bool victory=true;
 	for(i=0;i<TOTALPIECES;i++)
@@ -39,13 +39,13 @@ void ChessGame::checkVictory(Color color){
 			state=BlackVictory;
 	else;
 }
-Color ChessGame::getOrderPlayer(){
+ChessColor ChessGame::getOrderPlayer(){
 	return turn;
 }
 Piece ChessGame::getPieceAtTile(Tile tile){
 	return pieces[board[tile.x-1][tile.y-1].piecenum];
 }
-std::vector<Tile> ChessGame::getMoveTiles(Piece piece){
+std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece){
 	std::vector<Tile> result;
 	int i;
 	int x=piece.place.x;
@@ -56,7 +56,7 @@ std::vector<Tile> ChessGame::getMoveTiles(Piece piece){
 		result.push_back(pieces[board[x-1][y-1].piecenum].place);
 	return result;
 }
-std::vector<Tile> ChessGame::getAttackTiles(Piece piece){
+std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece){
 	std::vector<Tile> result;
 	int i;
 	int x=piece.place.x;
@@ -95,7 +95,7 @@ void ChessGame::updateVision(){
 }
 
 std::vector<Tile> ChessGame::getHiddenTiles(Player player){
-	Color color=player.color;
+	ChessColor color=player.color;
 	std::vector<Tile> result;
 	for (int i=0;i<SIZE;i++)
 		for (int j=0;j<SIZE;j++)
@@ -111,7 +111,7 @@ std::vector<Tile> ChessGame::getHiddenTiles(Player player){
 }
 
 std::vector<Piece> ChessGame::getConvertionPieces(Player player){
-	Color color=player.color;
+	ChessColor color=player.color;
 	std::vector<Piece> result;
 	int dy;
 	if (color==White)
@@ -137,7 +137,7 @@ void ChessGame::forcedMove(Tile from, Tile to){
 }
 
 
-void ChessGame::doCastling(Piece king,bool isShort){
+void ChessGame::doCastling(TiledPiece king,bool isShort){
 	Tile rookfrom, rookto,kingfrom,kingto;
 	prepareCastling(&rookfrom,&rookto,&kingfrom,&kingto,king.color,isShort);
 	forcedMove(rookfrom,rookto);
@@ -182,7 +182,7 @@ bool ChessGame::doMove(Move move){
 }
 			
 		
-void ChessGame::rawOutput(Color color){
+void ChessGame::rawOutput(ChessColor color){
 	char icon;
 	for (int j=SIZE-1;j>-1;j--){
 		for(int i=0;i<SIZE;i++){

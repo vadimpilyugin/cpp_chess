@@ -16,7 +16,7 @@ struct Tile_content: Tile{
 	}
 };
 
-struct Piece_dark: Piece{
+struct Piece_dark: TiledPiece{
 	std::vector<Tile> vision;
 };
 	
