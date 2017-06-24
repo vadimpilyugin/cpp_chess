@@ -32,6 +32,7 @@ struct Piece{
 	bool hasMoved;
 	Piece(){
 		hasMoved=false;
+		type=None;
 	}
 };
 
