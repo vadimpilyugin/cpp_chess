@@ -12,6 +12,6 @@ int main(int argc, char *argv[])
     std::string ipAddr="127.0.0.1";
     std::string port="5555";
     for(int i=0;i<10000;++i)bool df=false;
-    RealChessConnector client = RealChessConnector::bind(ipAddr, port);
+    RealChessConnector *client = RealChessConnector::bind(ipAddr, port);
     return a.exec();
 }

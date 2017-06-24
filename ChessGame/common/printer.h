@@ -4,7 +4,6 @@
 
 #include <string>
 #include <iostream>
-#include <exception>
 #include "my_exception.h"
 
 namespace Printer {

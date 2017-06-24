@@ -20,7 +20,3 @@ HEADERS += network.h \
     zmq.hpp \
     chess_connector.h \
     real_chess_connector.h
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
