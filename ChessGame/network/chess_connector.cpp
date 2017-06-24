@@ -35,7 +35,7 @@ throw 	(Exception::Exception)
     // Когда стартует сервер, он ждет сообщений от клиентов и не начинает игру
     return new RealChessConnector (std::move (command_sock), std::move (heartbeat_sock), true);
 }
-bool RealChessConnector::hasConnected () throw (
+bool RealChessConnector::pingOtherSide () throw (
     Network::WrongOrderException,
     Exception::Exception
 )
