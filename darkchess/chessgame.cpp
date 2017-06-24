@@ -43,7 +43,12 @@ ChessColor ChessGame::getOrderPlayer(){
 	return turn;
 }
 Piece ChessGame::getPieceAtTile(Tile tile){
-	return pieces[board[tile.x-1][tile.y-1].piecenum];
+	if (board[tile.x-1][tile.y-1].type==None){
+		Piece default_piece;
+		return default_piece;
+	}
+	else
+		return pieces[board[tile.x-1][tile.y-1].piecenum];
 }
 std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece){
 	std::vector<Tile> result;
