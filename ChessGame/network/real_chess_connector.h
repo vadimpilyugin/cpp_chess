@@ -118,8 +118,6 @@ private:
         socket (std::move (socket_)), hot_potato (hot_potato_),
         heartbeat_sock (std::move (heartbeat_sock_)), connection_state (false), first_time (true)
         {
-            if (hot_potato)
-                hasConnected ();
             connector_n ++;
         }
     bool connection_state;
