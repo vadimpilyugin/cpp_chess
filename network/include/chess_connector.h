@@ -20,4 +20,8 @@ public:
 		Network::WrongOrderException, 
 		Network::NoMessagesException
 	) = 0;
+	virtual bool hasConnected () throw (
+		Network::WrongOrderException,
+		Exception::Exception
+	) = 0;
 };

@@ -34,7 +34,7 @@ public:
 	// Метод для проверки соединения.
 	// NotYetConfirmException, если hot_potato == 0 и нет сообщений либо hot_potato == 1
 	// True, если hot_potato == 0 и получено сообщение
-	bool hasConnected () throw (
+	virtual bool hasConnected () throw (
 		Network::WrongOrderException,
 		Exception::Exception
 	);
