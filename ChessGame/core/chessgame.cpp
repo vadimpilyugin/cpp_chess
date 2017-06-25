@@ -20,6 +20,9 @@ ChessGame::~ChessGame(){
 GameState ChessGame::getState(){
 	return state;
 }
+Move ChessGame::getLastMove(){
+    return lastmove;
+}
 
 ChessColor ChessGame::getOrderPlayer(){
 	return turn;

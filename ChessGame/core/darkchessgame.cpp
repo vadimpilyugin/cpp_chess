@@ -157,6 +157,7 @@ bool DarkChessGame::doMove(Move move){
         checkVictory(ChessColor::Black);
         turn=ChessColor::White;
     }
+    lastmove=move;
     return true;
 }
 

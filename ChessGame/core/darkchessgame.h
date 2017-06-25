@@ -8,13 +8,14 @@ class DarkChessGame:public ChessGame{
         std::vector<Tile> getAttackTiles(TiledPiece piece);
         std::vector<Tile> getHiddenTiles(Player player);
         std::vector<TiledPiece> getConvertionPieces(Player player);
+        void initialize();
 //METHODS BELOW WILL BE PRIVATE CAUSE NOBODY ELSE WILL NEED THEM
+    private:
         void forcedMove(Tile from, Tile to);
         void doCastling(TiledPiece king,bool isShort);
         void checkVictory(ChessColor color);
         void updateVision();
         void rawOutput(ChessColor color);
-        void initialize();
         bool checkSingle(Tile start,int dx,int dy,ChessColor color);
         std::vector<Tile> checkLine(Tile start,int dx,int dy,ChessColor color);
         bool checkCastling(int kingnum,bool isShort);

@@ -19,6 +19,7 @@ class ChessGame:public ADarkChessGame{
 		GameState getState();
 		ChessColor getOrderPlayer();
         Piece getPieceAtTile(Tile tile);
+        Move getLastMove();
         virtual void doCommand(Command* command) = 0;
         std::vector<Tile> getMoveTiles(TiledPiece piece)=0;
         std::vector<Tile> getAttackTiles(TiledPiece piece)=0;
