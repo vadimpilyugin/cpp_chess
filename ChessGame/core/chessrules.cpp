@@ -65,7 +65,7 @@ bool ChessGame::checkSingle(Tile start,int dx,int dy,ChessColor color){
 }	
 
 bool ChessGame::checkCastling(int kingnum,bool isShort){
-    ChessColor color=pieces[kingnum].color;
+	ChessColor color=pieces[kingnum].color;
 	if (pieces[kingnum].hasMoved==true)
 		return false;
 	int row=0;
@@ -138,7 +138,7 @@ std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,ChessColor color
 void ChessGame::updatePieceVision(int num){
 	std::vector<Tile> result;
 	Tile place=pieces[num].place;
-    ChessColor color=pieces[num].color;
+	ChessColor color=pieces[num].color;
 	int i;
 	std::vector<Tile>line;
 	switch(pieces[num].type){

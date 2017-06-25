@@ -8,7 +8,7 @@
 * Имплементация интерфейса
 */
 
-class RealChessConnector: public QObject {
+class RealChessConnector: public QObject,public IChessConnector {
     Q_OBJECT
 public:
     // Это метод для старта сервера. После вызова клиенты могут начать подключаться

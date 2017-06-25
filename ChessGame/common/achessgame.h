@@ -12,7 +12,7 @@ class IChessObserver;
 using std::set;
 using std::vector;
 
-enum class GameState{Going,WhiteVictory,BlackVictory,Draw};
+enum class GameState{Going,WhiteVictory,BlackVictory,Draw,WhiteOfferDraw,BlackOfferDraw,WhiteGiveUp,BlackGiveUp};
 
 class AChessGame
 {

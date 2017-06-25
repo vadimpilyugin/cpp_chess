@@ -43,7 +43,12 @@ ChessColor ChessGame::getOrderPlayer(){
 	return turn;
 }
 Piece ChessGame::getPieceAtTile(Tile tile){
-	return pieces[board[tile.x-1][tile.y-1].piecenum];
+    if (board[tile.x-1][tile.y-1].type==PieceType::None){
+		Piece default_piece;
+		return default_piece;
+	}
+	else
+		return pieces[board[tile.x-1][tile.y-1].piecenum];
 }
 std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece){
 	std::vector<Tile> result;
@@ -95,7 +100,7 @@ void ChessGame::updateVision(){
 }
 
 std::vector<Tile> ChessGame::getHiddenTiles(Player player){
-    ChessColor color=player.color;
+	ChessColor color=player.color;
 	std::vector<Tile> result;
 	for (int i=0;i<SIZE;i++)
 		for (int j=0;j<SIZE;j++)
@@ -111,7 +116,7 @@ std::vector<Tile> ChessGame::getHiddenTiles(Player player){
 }
 
 std::vector<TiledPiece> ChessGame::getConvertionPieces(Player player){
-    ChessColor color=player.color;
+	ChessColor color=player.color;
     std::vector<TiledPiece> result;
 	int dy;
     if (color==ChessColor::White)
@@ -137,7 +142,7 @@ void ChessGame::forcedMove(Tile from, Tile to){
 }
 
 
-void ChessGame::doCastling(Piece king,bool isShort){
+void ChessGame::doCastling(TiledPiece king,bool isShort){
 	Tile rookfrom, rookto,kingfrom,kingto;
 	prepareCastling(&rookfrom,&rookto,&kingfrom,&kingto,king.color,isShort);
 	forcedMove(rookfrom,rookto);
