@@ -21,7 +21,8 @@ SOURCES += \
     darkchessboardwidget.cpp \
     gameconnectionwidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    gamerecvconnectionwidget.cpp
 
 HEADERS  += \
     aspectratiopixmaplabel.h \
@@ -31,12 +32,14 @@ HEADERS  += \
     gameconnectionwidget.h \
     ichessboardwidget.h \
     idarkchessboardwidget.h \
-    mainwindow.h
+    mainwindow.h \
+    gamerecvconnectionwidget.h
 
 FORMS += \
     chessgamewidget.ui \
     gameconnectionwidget.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    gamerecvconnectionwidget.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon

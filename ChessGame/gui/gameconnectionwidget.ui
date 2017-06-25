@@ -16,7 +16,7 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QWidget" name="widget" native="true">
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,1">
       <item row="1" column="1">
        <widget class="QLineEdit" name="ipLineEdit"/>
       </item>
@@ -26,7 +26,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>IP адресс</string>
+         <string>IP адрес</string>
         </property>
        </widget>
       </item>
@@ -49,7 +49,7 @@
          <string notr="true">QLabel { color : red; }</string>
         </property>
         <property name="text">
-         <string/>
+         <string>Connection is not completed!</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -72,7 +72,7 @@
    <item>
     <widget class="QPushButton" name="connectionButton">
      <property name="text">
-      <string>Подсоединится</string>
+      <string>Соединиться</string>
      </property>
     </widget>
    </item>
@@ -85,6 +85,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>userLineEdit</tabstop>
+  <tabstop>ipLineEdit</tabstop>
+  <tabstop>connectionButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

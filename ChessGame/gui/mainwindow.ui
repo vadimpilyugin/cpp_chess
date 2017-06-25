@@ -23,10 +23,10 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="stackedWidgetPage1" native="true">
+      <widget class="QWidget" name="mainPage">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="createGameButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
@@ -52,7 +52,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="connectGameButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
@@ -78,7 +78,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="exitButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
@@ -91,9 +91,6 @@
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="stackedWidgetPage2" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
       </widget>
      </widget>
     </item>
@@ -108,7 +105,7 @@
      <x>0</x>
      <y>0</y>
      <width>507</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

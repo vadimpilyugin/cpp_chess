@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "chess_connector.h"
+#include "player.h"
+#include "gameconnectionwidget.h"
+#include "gamerecvconnectionwidget.h"
+#include "chessgameview.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,7 +20,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void createGame();
+    void connectGame();
+
+    void gameConnectionCreated(IChessConnector* connector,Player player);
+    void gameConnectionCanceled();
+
 private:
+    GameConnectionWidget *gcw;
+    GameRecvConnectionWidget *grcw;
+    ChessGameView *cgv;
     Ui::MainWindow *ui;
 };
 

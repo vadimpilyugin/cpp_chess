@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GameRecvConnectionWidget</class>
+ <widget class="QWidget" name="GameRecvConnectionWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,1">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Имя</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="statusLabel">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel { color : red; }</string>
+        </property>
+        <property name="text">
+         <string>Connection is not completed!</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="userLineEdit"/>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="waitingLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Цвет</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border:0;</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>9</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QRadioButton" name="whiteButton">
+           <property name="text">
+            <string>Белые</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="blackButton">
+           <property name="text">
+            <string>Чёрные</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="connectionButton">
+     <property name="text">
+      <string>Ожидать соединение</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="cancelButton">
+     <property name="text">
+      <string>Отмена</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
