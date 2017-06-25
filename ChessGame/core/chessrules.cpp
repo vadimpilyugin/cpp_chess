@@ -55,6 +55,7 @@ void ChessGame::initialize(){
 		board[pieces[i].place.x-1][pieces[i].place.y-1].type=pieces[i].type;
 	}
     turn=ChessColor::White;
+    updateVision();
 }
 
 bool ChessGame::checkSingle(Tile start,int dx,int dy,ChessColor color){
