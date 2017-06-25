@@ -9,7 +9,7 @@
 
 int main () {
 	// Стартуем сервер
-	RealChessConnector *server = RealChessConnector::bind ("127.0.0.1", "5555");
+	RealChessConnector *server = RealChessConnector::bind ("127.0.0.1", "500");
 	// Ждем подключений
 	while (1) {
 		try {

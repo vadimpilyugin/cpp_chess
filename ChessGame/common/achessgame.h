@@ -23,6 +23,7 @@ public:
     virtual void attachObserver(IChessObserver* observer);
     virtual void detachObserver(IChessObserver* observer);
     virtual void notifyObservers();
+    virtual GameState getState();
 
     virtual void doCommand(Command *command)=0;
     virtual vector<TiledPiece> getConvertionPieces(Player player)=0;
@@ -30,10 +31,11 @@ public:
     virtual vector<Tile> getAttackTiles(TiledPiece piece)=0;
     virtual Piece getPieceAtTile(Tile tile)=0;
     virtual ChessColor getOrderPlayer()=0;
-    virtual GameState getState()=0;
+
 
 protected:
     set<IChessObserver*> observers;
+    GameState gameState;
 };
 
 #endif // ACHESSGAME_H

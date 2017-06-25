@@ -23,3 +23,7 @@ void AChessGame::notifyObservers()
     for (it; it != observers.end(); ++it)
         (*it)->update(this);
 }
+
+GameState AChessGame::getState() {
+    return gameState;
+}

@@ -1,6 +1,7 @@
+#pragma once
 #include "chessgame.h"
 
-class DarkChessGame:ChessGame{
+class DarkChessGame:public ChessGame{
     public:
         bool doMove(Move move);
         std::vector<Tile> getMoveTiles(TiledPiece piece);

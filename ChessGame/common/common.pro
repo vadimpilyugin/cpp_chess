@@ -15,7 +15,8 @@ SOURCES += \
     command.cpp \
     piece.cpp \
     serialize.cpp \
-    achessgame.cpp
+    achessgame.cpp \
+    adarkchessgame.cpp
 
 HEADERS += \
     chesscolor.h \

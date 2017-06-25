@@ -34,11 +34,6 @@ Piece ChessGame::getPieceAtTile(Tile tile){
 }
 
 			
-virtual void ChessGame::doCommand(Command* command)=0;
-virtual std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece)=0;
-virtual std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece)=0;
-virtual std::vector<Tile> ChessGame::getHiddenTiles(Player player)=0;
-virtual std::vector<TiledPiece> ChessGame::getConvertionPieces(Player player)=0;
 
 
 		
