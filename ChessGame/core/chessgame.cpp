@@ -8,6 +8,8 @@ ChessGame::ChessGame(){
 	for (int i=0;i<SIZE;i++)
 		board[i]=new Tile_content[SIZE];
 	pieces=new Piece_dark[TOTALPIECES];
+    Move nullmove;
+    lastmove=nullmove;
 }
 ChessGame::~ChessGame(){
 	for(int i=0;i<SIZE;i++)
@@ -33,10 +35,10 @@ Piece ChessGame::getPieceAtTile(Tile tile){
 
 			
 virtual void ChessGame::doCommand(Command* command)=0;
-virtual std::vector<Tile> getMoveTiles(TiledPiece piece)=0;
-virtual std::vector<Tile> getAttackTiles(TiledPiece piece)=0;
-virtual std::vector<Tile> getHiddenTiles(Player player)=0;
-virtual std::vector<TiledPiece> getConvertionPieces(Player player)=0;
+virtual std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece)=0;
+virtual std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece)=0;
+virtual std::vector<Tile> ChessGame::getHiddenTiles(Player player)=0;
+virtual std::vector<TiledPiece> ChessGame::getConvertionPieces(Player player)=0;
 
 
 		

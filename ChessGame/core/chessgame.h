@@ -10,6 +10,7 @@ class ChessGame:public ADarkChessGame{
 		Tile_content** board;
 		Piece_dark* pieces;
 		ChessColor turn;
+        Move lastmove;
     protected:
         GameState state;
 	public:
@@ -18,10 +19,10 @@ class ChessGame:public ADarkChessGame{
 		GameState getState();
 		ChessColor getOrderPlayer();
 		Piece getPieceAtTile(Tile tile);
-        virtual std::vector<Tile> getMoveTiles(TiledPiece piece);
-        virtual std::vector<Tile> getAttackTiles(TiledPiece piece);
-        virtual std::vector<Tile> getHiddenTiles(Player player);
-        virtual std::vector<TiledPiece> getConvertionPieces(Player player);
+        virtual std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece);
+        virtual std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece);
+        virtual std::vector<Tile> ChessGame::getHiddenTiles(Player player);
+        virtual std::vector<TiledPiece> ChessGame::getConvertionPieces(Player player);
         virtual void ChessGame::doCommand(Command* command);
 };
 
