@@ -1,4 +1,5 @@
-#include "chessgame.h"
+#include "darkchessgame.h"
+#include "darkchessrules.h"
 #include "stdio.h"
 
 #define DIAGNUM 4
@@ -22,7 +23,7 @@ bool isOnBoard(int x,int y){
 }
 
 
-void ChessGame::initialize(){
+void DarkChessGame::initialize(){
 	int i,j;
 	for (i=0;i<16;i++){
         pieces[i].color=ChessColor::White;
@@ -58,14 +59,14 @@ void ChessGame::initialize(){
     updateVision();
 }
 
-bool ChessGame::checkSingle(Tile start,int dx,int dy,ChessColor color){
+bool DarkChessGame::checkSingle(Tile start,int dx,int dy,ChessColor color){
 	if (isOnBoard(start.x+dx,start.y+dy))
         return ((board[start.x+dx-1][start.y+dy-1].type==PieceType::None)||(pieces[board[start.x+dx-1][start.y+dy-1].piecenum].color!=color));
 	else
 		return false;
 }	
 
-bool ChessGame::checkCastling(int kingnum,bool isShort){
+bool DarkChessGame::checkCastling(int kingnum,bool isShort){
 	ChessColor color=pieces[kingnum].color;
 	if (pieces[kingnum].hasMoved==true)
 		return false;
@@ -84,7 +85,7 @@ bool ChessGame::checkCastling(int kingnum,bool isShort){
 		return false;
 }
 
-void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,ChessColor color, bool isShort){
+void DarkChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Tile* kingto,ChessColor color, bool isShort){
     if (color==ChessColor::White){
 		rookfrom->y=1;
 		rookto->y=1;
@@ -111,7 +112,7 @@ void ChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom,Til
 	}
 }
 
-std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,ChessColor color){
+std::vector<Tile> DarkChessGame::checkLine(Tile start,int dx,int dy,ChessColor color){
 	std::vector<Tile> result;
 	int x=start.x;
 	int y=start.y;
@@ -136,7 +137,7 @@ std::vector<Tile> ChessGame::checkLine(Tile start,int dx,int dy,ChessColor color
 }
 
 			
-void ChessGame::updatePieceVision(int num){
+void DarkChessGame::updatePieceVision(int num){
 	std::vector<Tile> result;
 	Tile place=pieces[num].place;
 	ChessColor color=pieces[num].color;

@@ -15,12 +15,16 @@ INCLUDEPATH+=../network
 
 SOURCES += \
     chessgame.cpp \
-    chessrules.cpp
+    darkchessgame.cpp \
+    networkdarkchessgame.cpp \
+    darkchessrules.cpp
 
 HEADERS += \
     chessgame.h \
-    chessrules.h \
-    dark.h
+    dark.h \
+    darkchessgame.h \
+    networkdarkchessgame.h \
+    darkchessrules.h
 
 unix {
     target.path = /usr/lib
