@@ -2,7 +2,7 @@
 
 #include "stdlib.h"
 #include <vector>
-#include "chessgame.h"
+#include "darkchessgame.h"
 
 bool isOnBoard(int x,int y);
 

@@ -18,6 +18,11 @@ class ChessGame:public ADarkChessGame{
 		GameState getState();
 		ChessColor getOrderPlayer();
 		Piece getPieceAtTile(Tile tile);
+        virtual std::vector<Tile> getMoveTiles(TiledPiece piece);
+        virtual std::vector<Tile> getAttackTiles(TiledPiece piece);
+        virtual std::vector<Tile> getHiddenTiles(Player player);
+        virtual std::vector<TiledPiece> getConvertionPieces(Player player);
+        virtual void ChessGame::doCommand(Command* command);
 };
 
 
