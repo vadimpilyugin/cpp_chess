@@ -2,6 +2,7 @@
 #include "chess_connector.h"
 #include "my_exception.h"
 #include <QObject>
+#include <QTimer>
 
 /*
 * Имплементация интерфейса
@@ -42,14 +43,8 @@ public slots:
      * вызывают по таймеру раз в n секунд и он сбрасывает
      * флаг соединения, чтобы мелкие таймеры его снова установили
      */
-    void resetConnectionStatus () {
-        if (first_time) {
-            first_time = !first_time;
-            connection_state = true;
-        }
-        else {
-            connection_state = false;
-        }
+    void resetConnectionState () {
+        connection_state = false;
         // reset timer
     }
     /*
@@ -58,10 +53,11 @@ public slots:
      * в true. В этом случае считается, что весь большой
      * интервал времени соединение есть.
     */
-    void updateConnectionStatus () {
-        if (pingOtherSide()) {
-            connection_state = true;
-        }
+    void updateConnectionState () {
+        if(connection_state == false)
+            if (pingOtherSide()) {
+                connection_state = true;
+            }
         // reset timer
     }
     /*
@@ -90,6 +86,10 @@ public:
             Network::Context::destroyContext ();
     }
 private:
+    static const int big_interval = 1000; // 1 s
+    static const int small_interval = 10; // 10 ms
+    static const std::string heartbeat_port;
+    static const std::string hello;
     // Метод для проверки соединения.
     // False, если hot_potato == 0 и нет сообщений либо hot_potato == 1
     // True, если hot_potato == 0 и получено сообщение
@@ -109,17 +109,21 @@ private:
     * первый в игре. И так далее.
     */
     bool hot_potato;
-    static const std::string heartbeat_port;
-    static const std::string hello;
     static size_t connector_n;
     // У игры в картошку своя пара сокетов
     Network::Socket heartbeat_sock;
     RealChessConnector (Network::Socket &&socket_, Network::Socket &&heartbeat_sock_, bool hot_potato_):
         socket (std::move (socket_)), hot_potato (hot_potato_),
-        heartbeat_sock (std::move (heartbeat_sock_)), connection_state (false), first_time (true)
+        heartbeat_sock (std::move (heartbeat_sock_)), connection_state (false),
+        big_timer (nullptr), small_timer (nullptr)
         {
             connector_n ++;
+            big_timer.setInterval (big_interval);
+            small_timer.setInterval(small_interval);
+            QObject::connect(&big_timer, SIGNAL(timeout()), this, SLOT(resetConnectionState()));
+            QObject::connect(&small_timer, SIGNAL(timeout()), this, SLOT(updateConnectionState()));
         }
     bool connection_state;
-    bool first_time;
+    QTimer big_timer;
+    QTimer small_timer;
 };
