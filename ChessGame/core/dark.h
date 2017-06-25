@@ -1,8 +1,8 @@
 #pragma once
 
+#include "tile.h"
 #include "piece.h"
 #include <vector>
-
 #define SIZE 8
 #define TOTALPIECES 32
 
