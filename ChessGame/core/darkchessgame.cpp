@@ -113,6 +113,7 @@ void DarkChessGame::forcedMove(Tile from, Tile to){
     pieces[board[from.x-1][from.y-1].piecenum].place.y=to.y;
     pieces[board[from.x-1][from.y-1].piecenum].hasMoved=true;
     board[from.x-1][from.y-1].type=PieceType::None;
+    updateVision();
 }
 
 
@@ -130,8 +131,10 @@ bool DarkChessGame::doMove(Move move){
     Piece_dark moving=pieces[board[move.from.x-1][move.from.y-1].piecenum];
     if ((move.isConvertion) && (moving.type==PieceType::Pawn) &&
     ((moving.color==ChessColor::Black) && (move.from.y==1) ||
-    (moving.color==ChessColor::White) && (move.from.y==8)))
+    (moving.color==ChessColor::White) && (move.from.y==8))){
         pieces[board[move.from.x-1][move.from.y-1].piecenum].type=move.convertPiece;
+        updateVision();
+    }
     if (moving.type==PieceType::Pawn){
         if (((move.from.x!=move.to.x)&&(board[move.to.x-1][move.to.y-1].type==PieceType::None))||
         ((move.from.x==move.to.x)&&(board[move.to.x-1][move.to.y-1].type!=PieceType::None)))
