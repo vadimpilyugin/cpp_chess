@@ -188,7 +188,9 @@ void DarkChessGame::updatePieceVision(int num){
 			}
 			else;
 			for(int dx=-1;dx<2;dx+=2)
-				if (isOnBoard(place.x+dx,place.y+dy))
+                if ((isOnBoard(place.x+dx,place.y+dy))&&
+                                ((board[place.x+dx-1][place.y+dy-1].type==PieceType::None)||
+                                (pieces[board[place.x+dx-1][place.y+dy-1].piecenum].color!=pieces[board[place.x-1][place.y-1].piecenum].color)))
 					result.push_back(board[place.x+dx-1][place.y+dy-1]);
 				else;
 			break;
