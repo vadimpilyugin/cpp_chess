@@ -78,6 +78,7 @@ throw (
 )
 {
     socket.send (command.serialize ());
+    command_check_timer.start();
 }
 Command *RealChessConnector::receiveCommand ()
 throw (
@@ -90,6 +91,7 @@ throw (
     CommandFactory factory;
     std::string received_command;
     received_command = socket.recv ();
+    command_check_timer.stop();
     SerializedObject result (received_command);
     // Имя нужного класса команды
     std::string class_name = result.get ();

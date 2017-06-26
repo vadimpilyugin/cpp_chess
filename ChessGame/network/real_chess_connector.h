@@ -44,6 +44,10 @@ public slots:
      * флаг соединения, чтобы мелкие таймеры его снова установили
      */
     void resetConnectionState () {
+        if (connection_state == false) {
+            Command *command = new TerminationCommand();
+            emit receivedCommand(command);
+        }
         connection_state = false;
         // reset timer
     }
@@ -127,7 +131,8 @@ private:
             QObject::connect(&command_check_timer, SIGNAL(timeout()), this, SLOT(checkCommands()));
             big_timer.start();
             small_timer.start();
-            command_check_timer.start();
+            // Не стартовать до первого send или receive
+//            command_check_timer.start();
         }
     bool connection_state;
     QTimer big_timer;
