@@ -86,8 +86,9 @@ public:
             Network::Context::destroyContext ();
     }
 private:
-    static const int big_interval = 10000; // 1 s
-    static const int small_interval = 100; // 10 ms
+    static const int big_interval = 10000; // 10 s
+    static const int small_interval = 100; // 100 ms
+    static const int command_check_interval = 3000; // 3 s
     static const std::string heartbeat_port;
     static const std::string hello;
     // Метод для проверки соединения.
@@ -120,12 +121,16 @@ private:
             connector_n ++;
             big_timer.setInterval (big_interval);
             small_timer.setInterval(small_interval);
+            command_check_timer.setInterval(command_check_interval);
             QObject::connect(&big_timer, SIGNAL(timeout()), this, SLOT(resetConnectionState()));
             QObject::connect(&small_timer, SIGNAL(timeout()), this, SLOT(updateConnectionState()));
+            QObject::connect(&command_check_timer, SIGNAL(timeout()), this, SLOT(checkCommands()));
             big_timer.start();
             small_timer.start();
+            command_check_timer.start();
         }
     bool connection_state;
     QTimer big_timer;
     QTimer small_timer;
+    QTimer command_check_timer;
 };
