@@ -6,6 +6,8 @@
 
 QT       -= core gui
 
+QMAKE_CXXFLAGS += -std=c++11
+
 TARGET = common
 TEMPLATE = lib
 CONFIG += staticlib
