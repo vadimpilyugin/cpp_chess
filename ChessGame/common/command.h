@@ -103,6 +103,16 @@ struct GreetingCommand: public Command {
     virtual std::string getClassName () const { return CLASS_NAME; }
 };
 
+struct PassCommand: public Command {
+    static const std::string CLASS_NAME;
+    static const std::string PASS_COMMAND;
+    std::string playerName;
+    virtual std::string serialize () const;
+    virtual PassCommand* deserialize (std::string command) throw (WrongCommandException);
+    virtual PassCommand* clone() const { return new PassCommand(*this); }
+    virtual std::string getClassName () const { return CLASS_NAME; }
+};
+
 // Фабрика
 class CommandFactory
 {
@@ -115,6 +125,8 @@ public:
 		delete ex3;
 		delete ex4;
 		delete ex5;
+		delete ex6;
+		delete ex7;
 	}
 
 private:
@@ -127,4 +139,6 @@ private:
 	GiveUpCommand *ex3;
 	OfferDrawCommand *ex4;
 	TerminationCommand *ex5;
+	GreetingCommand *ex6;
+	PassCommand *ex7;
 };

@@ -10,6 +10,7 @@ const std::string AcceptDrawCommand::CLASS_NAME = std::string("AcceptDrawCommand
 const std::string RefuseDrawCommand::CLASS_NAME = std::string("RefuseDrawCommand");
 const std::string TerminationCommand::CLASS_NAME = std::string("TerminationCommand");
 const std::string GreetingCommand::CLASS_NAME = std::string("GreetingCommand");
+const std::string PassCommand::CLASS_NAME = std::string("PassCommand");
 
 const std::string GiveUpCommand::GIVE_UP_COMMAND = std::string("igiveup");
 const std::string OfferDrawCommand::OFFER_DRAW_COMMAND = std::string ("draw_offer");
@@ -17,6 +18,7 @@ const std::string AcceptDrawCommand::ACCEPT_DRAW_COMMAND = std::string ("draw_ac
 const std::string RefuseDrawCommand::REFUSE_DRAW_COMMAND = std::string ("draw_refuse");
 const std::string TerminationCommand::TERMINATION_COMMAND = std::string ("termination");
 const std::string GreetingCommand::GREETING_COMMAND = std::string ("greeting");
+const std::string PassCommand::PASS_COMMAND = std::string ("pass");
 
 std::string Command::serialize () const {
 	SerializedObject result;
@@ -167,24 +169,44 @@ GreetingCommand* GreetingCommand::deserialize (std::string command) throw (Wrong
     playerName=result.get();
     return this;
 }
+std::string PassCommand::serialize () const {
+    SerializedObject result;
+    result.add (CLASS_NAME);
+    result.add (PASS_COMMAND);
+    return result.toString();
+}
+PassCommand* PassCommand::deserialize (std::string command) throw (WrongCommandException) {
+    SerializedObject result (command);
+    if (result.get () != PASS_COMMAND) {
+        Printer::error (command, "Greeting::deserialize");
+        throw WrongCommandException (command);
+    }
+    return this;
+}
 
 CommandFactory::CommandFactory ():
 	ex1 (nullptr),
 	ex2 (nullptr),
 	ex3 (nullptr),
 	ex4 (nullptr),
-	ex5 (nullptr)
+	ex5 (nullptr),
+	ex6 (nullptr),
+	ex7 (nullptr)
 {
 	ex1 = new Command ();
 	ex2 = new Move ();
 	ex3 = new GiveUpCommand ();
 	ex4 = new OfferDrawCommand ();
 	ex5 = new TerminationCommand ();
+	ex6 = new GreetingCommand ();
+	ex7 = new PassCommand ();
 	set (Command::CLASS_NAME, ex1);
 	set (Move::CLASS_NAME, ex2);
 	set (GiveUpCommand::CLASS_NAME, ex3);
 	set (OfferDrawCommand::CLASS_NAME, ex4);
 	set (TerminationCommand::CLASS_NAME, ex5);
+	set (GreetingCommand::CLASS_NAME, ex6);
+	set (PassCommand::CLASS_NAME, ex7);
 }
 
 Command* CommandFactory::get(std::string const& class_name) const throw (std::out_of_range) {
