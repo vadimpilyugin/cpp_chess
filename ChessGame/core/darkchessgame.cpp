@@ -2,6 +2,15 @@
 
 bool isInVector(std::vector<Tile> range,Tile tile){
     bool result=false;
+    // FIXME(13)
+    /*
+    for (auto tileInRange: range) {
+        if (tileInRange.x == tile.x && tileInRange.y == tile.y){
+            result = true;
+            break;
+        }
+    }
+    */
     for (int i=0;i<range.size();i++)
         if ((tile.x==range[i].x)&&(tile.y==range[i].y)){
             result=true;
@@ -9,7 +18,7 @@ bool isInVector(std::vector<Tile> range,Tile tile){
         }
     return result;
 }
-
+// Победа определяется как отсутствие в массиве pieces короля определенного цвета
 void DarkChessGame::checkVictory(ChessColor color){
     int i;
     bool victory=true;
@@ -28,6 +37,16 @@ std::vector<Tile> DarkChessGame::getMoveTiles(TiledPiece piece){
     int i;
     int x=piece.place.x;
     int y=piece.place.y;
+    // FIXME(11): заменить цикл на более читабельный
+    /*
+    int pieceIndex = board[x-1][y-1].piecenum;
+    PieceType thisPieceType = pieces[pieceIndex].type;
+
+    for(auto visionTile: pieces[pieceIndex].vision) {
+        if (board[visionTile.x-1][visionTile.y-1].type==PieceType::None &&
+            (thisPieceType!=PieceType::Pawn || visionTile.x == x))
+            result.push_back(visionTile);
+    }*/
     for (i=0;i<pieces[board[x-1][y-1].piecenum].vision.size();i++)
         if ((board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
             [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type==PieceType::None)&&
@@ -40,6 +59,16 @@ std::vector<Tile> DarkChessGame::getAttackTiles(TiledPiece piece){
     int i;
     int x=piece.place.x;
     int y=piece.place.y;
+    // FIXME(12): то же самое
+    /*
+    int pieceIndex = board[x-1][y-1].piecenum;
+    PieceType thisPieceType = pieces[pieceIndex].type;
+    for(auto visionTile: pieces[pieceIndex].vision) {
+        if (board[visionTile.x-1][visionTile.y-1].type!=PieceType::None &&
+            (thisPieceType != PieceType::Pawn || visionTile.x != x)
+            result.push_back(visionTile);
+    }
+    */
     for (i=0;i<pieces[board[x-1][y-1].piecenum].vision.size();i++)
         if ((board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
             [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type!=PieceType::None)&&
@@ -66,6 +95,15 @@ void DarkChessGame::updateVision(){
                 else
                     board[x-1][y-1].seenByWhite=true;
             }
+            // FIXME(13): читабельность++
+            /*
+            for(auto visionTile: pieces[i+dc].vision) {
+                if (dc)
+                    board[visionTile.x-1][visionTile.y-1].seenByBlack=true;
+                else
+                    board[visionTile.x-1][visionTile.y-1].seenByWhite=true;
+            }
+            */
             for (j=0;j<pieces[i+dc].vision.size();j++)
                 if (dc)
                     board[pieces[i+dc].vision[j].x-1][pieces[i+dc].vision[j].y-1].seenByBlack=true;

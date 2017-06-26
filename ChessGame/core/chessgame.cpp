@@ -17,7 +17,7 @@ ChessGame::~ChessGame(){
 	delete[] board;
 	delete[] pieces;
 }
-GameState ChessGame::getState(){
+GameState ChessGame::getState(){ // FIXME(8): убрать метод
 	return state;
 }
 Move ChessGame::getLastMove(){
@@ -33,7 +33,7 @@ Piece ChessGame::getPieceAtTile(Tile tile){
 		return default_piece;
 	}
 	else
-		return pieces[board[tile.x-1][tile.y-1].piecenum];
+        return pieces[board[tile.x-1][tile.y-1].piecenum];
 }
 
 			

@@ -4,10 +4,12 @@
 class DarkChessGame:public ChessGame{
     public:
         bool doMove(Move move);
+        // FIXME(10): они должны быть объявлены виртуальными
         std::vector<Tile> getMoveTiles(TiledPiece piece);
         std::vector<Tile> getAttackTiles(TiledPiece piece);
         std::vector<Tile> getHiddenTiles(Player player);
         std::vector<TiledPiece> getConvertionPieces(Player player);
+        //
         void initialize();
 //METHODS BELOW WILL BE PRIVATE CAUSE NOBODY ELSE WILL NEED THEM
     private:
