@@ -122,6 +122,8 @@ private:
             small_timer.setInterval(small_interval);
             QObject::connect(&big_timer, SIGNAL(timeout()), this, SLOT(resetConnectionState()));
             QObject::connect(&small_timer, SIGNAL(timeout()), this, SLOT(updateConnectionState()));
+            big_timer.start();
+            small_timer.start();
         }
     bool connection_state;
     QTimer big_timer;

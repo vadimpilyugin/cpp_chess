@@ -11,6 +11,6 @@ public:
     NetworkDarkChessGame(IChessConnector * connector_,Player localPlayer_ );
     Player getLocalPlayer();
     Player getRemotePlayer();
-    void doCommand(Command *command);
+    void doCommand(Command *command); // FIXME(14): virtual void doCommand
 
 };
