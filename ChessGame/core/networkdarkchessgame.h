@@ -1,5 +1,6 @@
 #pragma once
 #include "darkchessgame.h"
+#include "chess_connector.h"
 
 class NetworkDarkChessGame:public DarkChessGame{
 private:

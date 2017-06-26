@@ -6,15 +6,15 @@ NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player l
     localPlayer=localPlayer_;
 }
 
-NetworkDarkChessGame::getLocalPlayer(){
+Player NetworkDarkChessGame::getLocalPlayer(){
     return localPlayer;
 }
 
-NetworkDarkChessGame::getRemotePlayer(){
+Player NetworkDarkChessGame::getRemotePlayer(){
     return remotePlayer;
 }
 
-NetworkDarkChessGame::doCommand(Command * command){
+void NetworkDarkChessGame::doCommand(Command * command){
     std::string name=command->getClassName();
     bool isitlocal=false;
     bool problems=false;
@@ -25,30 +25,31 @@ NetworkDarkChessGame::doCommand(Command * command){
         sendercolor=localPlayer.color;
     else
         sendercolor=remotePlayer.color;
-    if (compare(name,"GiveUpCommand")==0){
+    if (name.compare("GiveUpCommand")==0){
         if (sendercolor==ChessColor::Black)
             gameState=GameState::BlackGiveUp;
         else
             gameState=GameState::WhiteGiveUp;
     }
-    else if (compare(name,"OfferDrawCommand")==0){
+    else if (name.compare("OfferDrawCommand")==0){
         if (sendercolor==ChessColor::Black)
             gameState=GameState::BlackOfferDraw;
         else
             gameState=GameState::WhiteOfferDraw;
     }
-    else if (compare(name,"GreetingCommand")==0){
+    else if (name.compare("GreetingCommand")==0){
         remotePlayer.name=dynamic_cast<GreetingCommand*>(command)->playerName;
     }
-    else if (compare(name,"TerminationCommand")==0){
+    else if (name.compare("TerminationCommand")==0){
         gameState=GameState::Termination;
     }
-    else if (compare(name,"Move")==0){
+    else if (name.compare("Move")==0){
         if (!doMove(*(dynamic_cast<Move*>(command))))
             problems=true;
     }
-    if ((!problems)&&(isitlocal))
-        connector->sendCommand(*command);
+    notifyObservers();
+    //if ((!problems)&&(isitlocal))
+    //    connector->sendCommand(*command);
 
 }
 

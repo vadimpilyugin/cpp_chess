@@ -7,10 +7,12 @@ const std::string Move::CLASS_NAME = std::string("Move");
 const std::string GiveUpCommand::CLASS_NAME = std::string("GiveUpCommand");
 const std::string OfferDrawCommand::CLASS_NAME = std::string("OfferDrawCommand");
 const std::string TerminationCommand::CLASS_NAME = std::string("TerminationCommand");
+const std::string GreetingCommand::CLASS_NAME = std::string("GreetingCommand");
 
 const std::string GiveUpCommand::GIVE_UP_COMMAND = std::string("igiveup");
 const std::string OfferDrawCommand::OFFER_DRAW_COMMAND = std::string ("draw_offer");
 const std::string TerminationCommand::TERMINATION_COMMAND = std::string ("termination");
+const std::string GreetingCommand::GREETING_COMMAND = std::string ("greeting");
 
 std::string Command::serialize () const {
 	SerializedObject result;
@@ -113,6 +115,23 @@ TerminationCommand* TerminationCommand::deserialize (std::string command) throw 
 		throw WrongCommandException (command);
 	}
 	return this;
+}
+
+std::string GreetingCommand::serialize () const {
+    SerializedObject result;
+    result.add (CLASS_NAME);
+    result.add (GREETING_COMMAND);
+    result.add(playerName);
+    return result.toString();
+}
+GreetingCommand* GreetingCommand::deserialize (std::string command) throw (WrongCommandException) {
+    SerializedObject result (command);
+    if (result.get () != GREETING_COMMAND) {
+        Printer::error (command, "Greeting::deserialize");
+        throw WrongCommandException (command);
+    }
+    playerName=result.get();
+    return this;
 }
 
 CommandFactory::CommandFactory ():

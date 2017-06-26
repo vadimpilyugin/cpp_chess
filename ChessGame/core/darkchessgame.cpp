@@ -23,7 +23,7 @@ void DarkChessGame::checkVictory(ChessColor color){
             state=GameState::BlackVictory;
     else;
 }
-std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece){
+std::vector<Tile> DarkChessGame::getMoveTiles(TiledPiece piece){
     std::vector<Tile> result;
     int i;
     int x=piece.place.x;
@@ -35,7 +35,7 @@ std::vector<Tile> ChessGame::getMoveTiles(TiledPiece piece){
         result.push_back(pieces[board[x-1][y-1].piecenum].vision[i]);
     return result;
 }
-std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece){
+std::vector<Tile> DarkChessGame::getAttackTiles(TiledPiece piece){
     std::vector<Tile> result;
     int i;
     int x=piece.place.x;

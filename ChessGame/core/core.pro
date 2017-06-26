@@ -13,20 +13,20 @@ CONFIG += staticlib
 INCLUDEPATH+=../common
 INCLUDEPATH+=../network
 
-SOURCES += \
-    chessgame.cpp \
-    darkchessgame.cpp \
-    networkdarkchessgame.cpp \
-    darkchessrules.cpp
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
 
 HEADERS += \
     chessgame.h \
     dark.h \
     darkchessgame.h \
-    networkdarkchessgame.h \
-    darkchessrules.h
+    darkchessrules.h \
+    networkdarkchessgame.h
 
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+SOURCES += \
+    chessgame.cpp \
+    darkchessgame.cpp \
+    darkchessrules.cpp \
+    networkdarkchessgame.cpp

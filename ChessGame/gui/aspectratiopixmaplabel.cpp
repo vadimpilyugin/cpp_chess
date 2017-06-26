@@ -27,7 +27,7 @@ QSize AspectRatioPixmapLabel::sizeHint() const
 
 QPixmap AspectRatioPixmapLabel::scaledPixmap() const
 {
-    return pix.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    return pix.isNull() ? pix : pix.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 void AspectRatioPixmapLabel::hideImage(){

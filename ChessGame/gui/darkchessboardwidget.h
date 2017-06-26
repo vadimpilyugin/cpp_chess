@@ -23,6 +23,7 @@ class DarkChessBoardWidget : public QWidget,public IDarkChessBoardWidget
     Q_OBJECT
 public:
     explicit DarkChessBoardWidget(QWidget *parent = 0);
+
     virtual void setPieceAtTile(Piece piece,Tile tile);
     virtual void setPieceAtTile(TiledPiece piece);
     virtual Piece getPieceAtTile(Tile tile);
@@ -68,6 +69,7 @@ private:
     TiledPiece _convertPiece;
     BoardDirection _direction;
     ChessBoardPallete _palette;
+    int _widthHeight=550,_legendHeight=10,_legendWidth=10;
 
 protected:
     void mousePressEvent(QMouseEvent *event);

@@ -8,7 +8,8 @@ class DarkChessBoardView : public DarkChessBoardWidget,public IChessObserver
 {
     Q_OBJECT
 public:
-    DarkChessBoardView(QWidget* parent=0);
+    DarkChessBoardView(AChessGame *game=0, QWidget* parent=0);
+    virtual ~DarkChessBoardView();
 
     virtual void update(AChessGame* game);
 
