@@ -52,8 +52,8 @@ void NetworkDarkChessGame::doCommand(Command * command){
             problems=true;
     }
     notifyObservers();
-    //if ((!problems)&&(isitlocal))
-    //    connector->sendCommand(*command);
+    if ((!problems)&&(isitlocal))
+        connector->sendCommand(*command);
 
 }
 
