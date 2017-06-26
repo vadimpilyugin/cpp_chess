@@ -42,8 +42,9 @@ std::vector<Tile> ChessGame::getAttackTiles(TiledPiece piece){
     int x=piece.place.x;
     int y=piece.place.y;
     for (i=0;i<pieces[board[x-1][y-1].piecenum].vision.size();i++)
-        if (board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
-            [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type!=PieceType::None)
+        if ((board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
+            [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type!=PieceType::None)&&
+            ((pieces[board[x-1][y-1].piecenum].type!=Pawn)||(pieces[board[x-1][y-1].piecenum].vision[i].x!=x)))
         result.push_back(pieces[board[x-1][y-1].piecenum].vision[i]);
     return result;
 }
