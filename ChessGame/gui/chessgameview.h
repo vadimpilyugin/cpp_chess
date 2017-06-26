@@ -5,6 +5,7 @@
 #include "ichessobserver.h"
 #include "adarkchessgame.h"
 #include "darkchessboardview.h"
+#include "networkdarkchessgame.h"
 
 namespace Ui {
 class ChessGameWidget;
@@ -22,13 +23,24 @@ public:
     virtual void setChessGameModel(AChessGame* game=0);
     virtual AChessGame *getChessGameModel();
 
-    virtual void setActivePlayer(Player player);
-    virtual Player getActivePlayer();
+    virtual void setActivePlayer(ChessColor player);
+    virtual ChessColor getActivePlayer();
+
+    virtual void setPlayers(Player player1,Player player2);
+
+signals:
+    void gameEnded();
+
+private slots:
+    void offerDrawButtonReleased();
+    void giveUpButtonReleased();
 
 private:
+    void initPlayersFromNDCG(NetworkDarkChessGame *ndcg);
     DarkChessBoardView *_cbw;
     AChessGame *_acg;
-    Player _activePlayer;
+    Player _player1,_player2;
+    ChessColor _activePlayer;
     Ui::ChessGameWidget *ui;
 };
 

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "networkdarkchessgame.h"
 
 #include "chessgameview.h"
 
@@ -49,7 +50,12 @@ void MainWindow::connectGame()
 
 void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player)
 {
-
+    NetworkDarkChessGame *ndcg=new NetworkDarkChessGame(connector,player);
+    ndcg->initialize();
+    ChessGameView *cgv=new ChessGameView(ndcg);
+    ui->stackedWidget->addWidget(cgv);
+    ui->stackedWidget->setCurrentWidget(cgv);
+    ndcg->notifyObservers();
 }
 
 void MainWindow::gameConnectionCanceled()

@@ -16,15 +16,15 @@ public:
     virtual void setChessGameModel(AChessGame* game=0);
     virtual AChessGame* getChessGameModel();
 
-    virtual void setActivePlayer(Player player);
-    virtual Player getActivePlayer();
+    virtual void setActivePlayer(ChessColor player);
+    virtual ChessColor getActivePlayer();
 
 public slots:
     void hightlightMoves(Piece piece,Tile tile);
     void sendMoveCommand(Piece piece,Tile from,Tile to);
     void sendConvertCommand(TiledPiece piece,TiledPiece to);
 private:
-    Player _activePlayer;
+    ChessColor _activePlayer;
     AChessGame* _cg;
 };
 

@@ -15,5 +15,7 @@
         <file>Images/rook_black.svg</file>
         <file>Images/rook_white.svg</file>
         <file>Images/waiting.gif</file>
+        <file>Images/giveup.png</file>
+        <file>Images/draw.png</file>
     </qresource>
 </RCC>

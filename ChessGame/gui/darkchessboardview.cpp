@@ -33,15 +33,18 @@ void DarkChessBoardView::update(AChessGame *game)
         }
     }
 
+    Player pl;pl.color=_activePlayer;
+
     ADarkChessGame *dcg=dynamic_cast<ADarkChessGame*>(game);
     if(dcg){
-        vector<Tile> tiles=dcg->getHiddenTiles(_activePlayer);
+
+        vector<Tile> tiles=dcg->getHiddenTiles(pl);
         for(int i=0;i<tiles.size();++i){
             this->hideTile(tiles[i]);
         }
     }
 
-    vector<TiledPiece> convertionPieces=game->getConvertionPieces(_activePlayer);
+    vector<TiledPiece> convertionPieces=game->getConvertionPieces(pl);
     if(convertionPieces.size())
         this->convertPiece(convertionPieces[0]);
 }
@@ -58,14 +61,15 @@ AChessGame *DarkChessBoardView::getChessGameModel()
     return _cg;
 }
 
-void DarkChessBoardView::setActivePlayer(Player player)
+void DarkChessBoardView::setActivePlayer(ChessColor player)
 {
     _activePlayer=player;
-    if(_activePlayer.color==ChessColor::White)setDirection(BoardDirection::TopRight);
+    if(_activePlayer==ChessColor::White)setDirection(BoardDirection::TopRight);
     else setDirection(BoardDirection::BottomLeft);
+    update(_cg);
 }
 
-Player DarkChessBoardView::getActivePlayer()
+ChessColor DarkChessBoardView::getActivePlayer()
 {
     return _activePlayer;
 }
@@ -96,10 +100,11 @@ void DarkChessBoardView::sendMoveCommand(Piece piece, Tile from, Tile to)
     move->from=from;
     move->to=to;
     move->isConvertion=false;
-    move->playerColor=_activePlayer.color;
+    move->playerColor=_activePlayer;
     move->convertPiece=PieceType::None;
     _cg->doCommand(move);
     delete move;
+    //setActivePlayer(_activePlayer==ChessColor::White ? ChessColor::Black : ChessColor::White);
 }
 
 void DarkChessBoardView::sendConvertCommand(TiledPiece piece, TiledPiece to)
@@ -108,7 +113,7 @@ void DarkChessBoardView::sendConvertCommand(TiledPiece piece, TiledPiece to)
     move->from=piece.place;
     move->to=to.place;
     move->isConvertion=true;
-    move->playerColor=_activePlayer.color;
+    move->playerColor=_activePlayer;
     move->convertPiece=to.type;
     _cg->doCommand(move);
     delete move;

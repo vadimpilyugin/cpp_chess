@@ -3,6 +3,9 @@
 #include "chessgameview.h"
 #include "darkchessboardview.h"
 #include "networkdarkchessgame.h"
+#include "real_chess_connector.h"
+
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
@@ -10,13 +13,20 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.showMaximized();
 
-    NetworkDarkChessGame *cg=new NetworkDarkChessGame(0,{ChessColor::White,"dfkjfkj"});
-    cg->initialize();
-
-    ChessGameView *cgv=new ChessGameView(cg);
-    cgv->setActivePlayer({ChessColor::White,"dkfjf"});
-    cgv->show();
-    cg->notifyObservers();
+    QMessageBox mb(0);
+    mb.setWindowTitle("Предложение ничьи");
+    mb.setText("Ваш соперник предложил. Желаете принять предложение?");
+    mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    mb.setDefaultButton(QMessageBox::Ok);
+    int ret = mb.exec();
+    switch(ret){
+    case QMessageBox::Ok:
+        ret=100;
+        break;
+    case QMessageBox::Cancel:
+        ret=200;
+        break;
+    }
 
     return a.exec();
 }
