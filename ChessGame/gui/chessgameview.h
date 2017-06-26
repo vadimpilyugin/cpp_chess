@@ -6,6 +6,7 @@
 #include "adarkchessgame.h"
 #include "darkchessboardview.h"
 #include "networkdarkchessgame.h"
+#include "darkchesslog.h"
 
 namespace Ui {
 class ChessGameWidget;
@@ -39,6 +40,7 @@ private:
     void initPlayersFromNDCG(NetworkDarkChessGame *ndcg);
     DarkChessBoardView *_cbw;
     AChessGame *_acg;
+    DarkChessLog _log;
     Player _player1,_player2;
     ChessColor _activePlayer;
     Ui::ChessGameWidget *ui;

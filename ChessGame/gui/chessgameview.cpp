@@ -35,6 +35,8 @@ ChessGameView::~ChessGameView()
 void ChessGameView::update(AChessGame *game){
     if(game==0)game=_acg;
     if(game!=0){
+        _log.addMove(game->getLastMove());
+        ui->logLabel->setText(_log.logToString(_activePlayer).c_str());
         NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg);
         if(ndcg)initPlayersFromNDCG(ndcg);
         GameState state=game->getState();

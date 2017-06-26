@@ -3,3 +3,4 @@ common/bin/*
 darkchess/*.o
 build-ChessGame*
 ChessGame/ChessGame.pro.user
+*autosave

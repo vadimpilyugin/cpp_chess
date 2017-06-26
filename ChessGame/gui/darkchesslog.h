@@ -7,22 +7,20 @@
 class DarkChessLog:public IChessLog
 {
 public:
-    DarkChessLog(ADarkChessGame *cg);
+    DarkChessLog(){}
     virtual ~DarkChessLog();
 
 private:
-    ADarkChessGame *_cg;
     std::vector<std::string> _whiteMoves,_blackMoves;
     Move _lastMove;
-
-    // IChessObserver interface
-public:
-    void update(AChessGame *game);
-
     // IChessLog interface
 public:
     std::string logToString();
     std::string logToString(ChessColor player);
+
+    // IChessLog interface
+public:
+    void addMove(Move move);
 };
 
 #endif // CHESSLOG_H
