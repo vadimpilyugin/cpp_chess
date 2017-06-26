@@ -86,8 +86,8 @@ public:
             Network::Context::destroyContext ();
     }
 private:
-    static const int big_interval = 1000; // 1 s
-    static const int small_interval = 10; // 10 ms
+    static const int big_interval = 10000; // 1 s
+    static const int small_interval = 100; // 10 ms
     static const std::string heartbeat_port;
     static const std::string hello;
     // Метод для проверки соединения.
