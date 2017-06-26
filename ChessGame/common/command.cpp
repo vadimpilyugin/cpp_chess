@@ -6,11 +6,15 @@ const std::string Command::CLASS_NAME = std::string("Command");
 const std::string Move::CLASS_NAME = std::string("Move");
 const std::string GiveUpCommand::CLASS_NAME = std::string("GiveUpCommand");
 const std::string OfferDrawCommand::CLASS_NAME = std::string("OfferDrawCommand");
+const std::string AcceptDrawCommand::CLASS_NAME = std::string("AcceptDrawCommand");
+const std::string RefuseDrawCommand::CLASS_NAME = std::string("RefuseDrawCommand");
 const std::string TerminationCommand::CLASS_NAME = std::string("TerminationCommand");
 const std::string GreetingCommand::CLASS_NAME = std::string("GreetingCommand");
 
 const std::string GiveUpCommand::GIVE_UP_COMMAND = std::string("igiveup");
 const std::string OfferDrawCommand::OFFER_DRAW_COMMAND = std::string ("draw_offer");
+const std::string AcceptDrawCommand::ACCEPT_DRAW_COMMAND = std::string ("draw_accept");
+const std::string RefuseDrawCommand::REFUSE_DRAW_COMMAND = std::string ("draw_refuse");
 const std::string TerminationCommand::TERMINATION_COMMAND = std::string ("termination");
 const std::string GreetingCommand::GREETING_COMMAND = std::string ("greeting");
 
@@ -100,6 +104,36 @@ OfferDrawCommand* OfferDrawCommand::deserialize (std::string command) throw (Wro
 		throw WrongCommandException (command);
 	}
 	return this;
+}
+
+std::string AcceptDrawCommand::serialize () const {
+    SerializedObject result;
+    result.add (CLASS_NAME);
+    result.add (ACCEPT_DRAW_COMMAND);
+    return result.toString();
+}
+AcceptDrawCommand* AcceptDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
+    SerializedObject result (command);
+    if (result.get () != ACCEPT_DRAW_COMMAND) {
+        Printer::error (command, "AcceptDrawCommand::deserialize");
+        throw WrongCommandException (command);
+    }
+    return this;
+}
+
+std::string RefuseDrawCommand::serialize () const {
+    SerializedObject result;
+    result.add (CLASS_NAME);
+    result.add (REFUSE_DRAW_COMMAND);
+    return result.toString();
+}
+RefuseDrawCommand* RefuseDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
+    SerializedObject result (command);
+    if (result.get () != REFUSE_DRAW_COMMAND) {
+        Printer::error (command, "RefuseDrawCommand::deserialize");
+        throw WrongCommandException (command);
+    }
+    return this;
 }
 
 std::string TerminationCommand::serialize () const {

@@ -23,14 +23,17 @@ public:
 public slots:
     void createGame();
     void connectGame();
+    void gameEnded();
 
     void gameConnectionCreated(IChessConnector* connector,Player player);
     void gameConnectionCanceled();
 
 private:
-    GameConnectionWidget *gcw;
-    GameRecvConnectionWidget *grcw;
-    ChessGameView *cgv;
+    GameConnectionWidget *_gcw;
+    GameRecvConnectionWidget *_grcw;
+    ChessGameView *_cgv;
+
+
     Ui::MainWindow *ui;
 };
 

@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+QMAKE_CXXFLAGS += -std=c++11
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = gui
@@ -23,7 +25,8 @@ SOURCES += \
     gameconnectionwidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    gamerecvconnectionwidget.cpp
+    gamerecvconnectionwidget.cpp \
+    darkchesslog.cpp
 
 HEADERS  += \
     aspectratiopixmaplabel.h \
@@ -34,7 +37,9 @@ HEADERS  += \
     ichessboardwidget.h \
     idarkchessboardwidget.h \
     mainwindow.h \
-    gamerecvconnectionwidget.h
+    gamerecvconnectionwidget.h \
+    ichesslog.h \
+    darkchesslog.h
 
 FORMS += \
     chessgamewidget.ui \

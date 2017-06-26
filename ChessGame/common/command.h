@@ -65,6 +65,25 @@ struct OfferDrawCommand: public Command {
 	virtual OfferDrawCommand* clone() const { return new OfferDrawCommand(*this); }
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
+
+struct AcceptDrawCommand: public Command {
+    static const std::string CLASS_NAME;
+    static const std::string ACCEPT_DRAW_COMMAND;
+    virtual std::string serialize () const;
+    virtual AcceptDrawCommand* deserialize (std::string command) throw (WrongCommandException);
+    virtual AcceptDrawCommand* clone() const { return new AcceptDrawCommand(*this); }
+    virtual std::string getClassName () const { return CLASS_NAME; }
+};
+
+struct RefuseDrawCommand: public Command {
+    static const std::string CLASS_NAME;
+    static const std::string REFUSE_DRAW_COMMAND;
+    virtual std::string serialize () const;
+    virtual RefuseDrawCommand* deserialize (std::string command) throw (WrongCommandException);
+    virtual RefuseDrawCommand* clone() const { return new RefuseDrawCommand(*this); }
+    virtual std::string getClassName () const { return CLASS_NAME; }
+};
+
 struct TerminationCommand: public Command {
 	static const std::string CLASS_NAME;
 	static const std::string TERMINATION_COMMAND;

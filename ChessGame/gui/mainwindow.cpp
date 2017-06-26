@@ -12,19 +12,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBar->hide();
     ui->mainToolBar->hide();
 
-    gcw=new GameConnectionWidget();
-    grcw=new GameRecvConnectionWidget();
-    ui->stackedWidget->addWidget(gcw);
-    ui->stackedWidget->addWidget(grcw);
+    setWindowTitle("Dark chess");
+
+    _gcw=new GameConnectionWidget();
+    _grcw=new GameRecvConnectionWidget();
+    ui->stackedWidget->addWidget(_gcw);
+    ui->stackedWidget->addWidget(_grcw);
 
     QObject::connect(ui->connectGameButton,&QPushButton::released,this,&MainWindow::connectGame);
     QObject::connect(ui->createGameButton,&QPushButton::released,this,&MainWindow::createGame);
 
-    QObject::connect(gcw,&GameConnectionWidget::connectionCreated,this,&MainWindow::gameConnectionCreated);
-    QObject::connect(grcw,&GameRecvConnectionWidget::connectionCreated,this,&MainWindow::gameConnectionCreated);
+    QObject::connect(_gcw,&GameConnectionWidget::connectionCreated,this,&MainWindow::gameConnectionCreated);
+    QObject::connect(_grcw,&GameRecvConnectionWidget::connectionCreated,this,&MainWindow::gameConnectionCreated);
 
-    QObject::connect(gcw,&GameConnectionWidget::connectionCanceled,this,&MainWindow::gameConnectionCanceled);
-    QObject::connect(grcw,&GameRecvConnectionWidget::connectionCanceled,this,&MainWindow::gameConnectionCanceled);
+    QObject::connect(_gcw,&GameConnectionWidget::connectionCanceled,this,&MainWindow::gameConnectionCanceled);
+    QObject::connect(_grcw,&GameRecvConnectionWidget::connectionCanceled,this,&MainWindow::gameConnectionCanceled);
 
     QObject::connect(ui->exitButton,&QPushButton::released,this,&QMainWindow::close);
 
@@ -38,23 +40,32 @@ MainWindow::~MainWindow()
 
 void MainWindow::createGame()
 {
-    grcw->clearInput();
-    ui->stackedWidget->setCurrentWidget(grcw);
+    _grcw->clearInput();
+    ui->stackedWidget->setCurrentWidget(_grcw);
 }
 
 void MainWindow::connectGame()
 {
-    gcw->clearInput();
-    ui->stackedWidget->setCurrentWidget(gcw);
+    _gcw->clearInput();
+    ui->stackedWidget->setCurrentWidget(_gcw);
+}
+
+void MainWindow::gameEnded()
+{
+    AChessGame * acg=_cgv->getChessGameModel();
+    ui->stackedWidget->removeWidget(_cgv);
+    delete _cgv;
+    _cgv=0;
+    ui->stackedWidget->setCurrentWidget(ui->mainPage);
 }
 
 void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player)
 {
     NetworkDarkChessGame *ndcg=new NetworkDarkChessGame(connector,player);
     ndcg->initialize();
-    ChessGameView *cgv=new ChessGameView(ndcg);
-    ui->stackedWidget->addWidget(cgv);
-    ui->stackedWidget->setCurrentWidget(cgv);
+    _cgv=new ChessGameView(ndcg);
+    ui->stackedWidget->addWidget(_cgv);
+    ui->stackedWidget->setCurrentWidget(_cgv);
     ndcg->notifyObservers();
 }
 

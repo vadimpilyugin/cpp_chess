@@ -31,6 +31,7 @@ public:
     virtual vector<Tile> getAttackTiles(TiledPiece piece)=0;
     virtual Piece getPieceAtTile(Tile tile)=0;
     virtual ChessColor getOrderPlayer()=0;
+    virtual Move getLastMove()=0;
 
 
 protected:
