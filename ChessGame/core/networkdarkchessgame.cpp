@@ -1,9 +1,13 @@
 #include "networkdarkchessgame.h"
-
+#include "real_chess_connector.h"
 
 NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_){
     connector=connector_;
     localPlayer=localPlayer_;
+    if(connector!=0){
+        RealChessConnector *rcc=dynamic_cast<RealChessConnector*>(connector);
+        QObject::connect(rcc,&RealChessConnector::receivedCommand,this,&NetworkDarkChessGame::slotDoCommand);
+    }
 }
 
 Player NetworkDarkChessGame::getLocalPlayer(){

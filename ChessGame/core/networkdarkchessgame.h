@@ -16,6 +16,8 @@ public:
     void doCommand(Command *command); // FIXME(14): virtual void doCommand
 
 public slots:
-    void slotDoCommand(Command* command){doCommand(command);}
+    void slotDoCommand(Command* command){
+        doCommand(command);
+    }
 
 };
