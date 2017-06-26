@@ -21,10 +21,10 @@ class ChessGame:public ADarkChessGame{
         Piece getPieceAtTile(Tile tile);
         Move getLastMove();
         virtual void doCommand(Command* command) = 0;
-        std::vector<Tile> getMoveTiles(TiledPiece piece)=0;
-        std::vector<Tile> getAttackTiles(TiledPiece piece)=0;
-        std::vector<Tile> getHiddenTiles(Player player)=0;
-        std::vector<TiledPiece> getConvertionPieces(Player player)=0;
+        virtual std::vector<Tile> getMoveTiles(TiledPiece piece)=0;
+        virtual std::vector<Tile> getAttackTiles(TiledPiece piece)=0;
+        virtual std::vector<Tile> getHiddenTiles(Player player)=0;
+        virtual std::vector<TiledPiece> getConvertionPieces(Player player)=0;
 
 };
 
