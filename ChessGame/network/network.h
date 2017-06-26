@@ -12,7 +12,7 @@ namespace Network {
     // Порядок должен быть строго по очереди
     class WrongOrderException: public Exception::Exception {
     public:
-        WrongOrderException(const std::string _msg): Exception::Exception(_msg) {}
+        WrongOrderException(const std::string _msg): Exception(_msg) {}
     };
     // Невозможно послать сообщение в данный момент. Может буфер переполнен, может сеть отвалилась
     class CannotSendException: public Exception::Exception {
@@ -29,14 +29,14 @@ namespace Network {
     */
     struct Endpoint {
         // сериализация
-        virtual std::string str() const noexcept { return std::string(); }
+        virtual std::string str() const NOEXCEPT { return std::string(); }
         // виртуальный деструктор
         virtual ~Endpoint() {}
     };
     struct IPCEndpoint: public Endpoint {
         std::string pathname;
         IPCEndpoint(const std::string pathname_ = std::string("*")): pathname(pathname_) {}
-        virtual std::string str() const noexcept {
+        virtual std::string str() const NOEXCEPT {
             return std::string("ipc://") + pathname;
         }
     };
@@ -46,7 +46,7 @@ namespace Network {
         TCPEndpoint(const std::string ip_addr_ = std::string("*"), const std::string port_number_ = std::string("*")):
             port_number(port_number_),
             ip_addr(ip_addr_) {}
-        virtual std::string str() const noexcept {
+        virtual std::string str() const NOEXCEPT {
             return std::string("tcp://") + ip_addr + std::string(":") + port_number;
         }
     };

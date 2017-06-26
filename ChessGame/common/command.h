@@ -74,6 +74,16 @@ struct TerminationCommand: public Command {
 	virtual std::string getClassName () const { return CLASS_NAME; }
 };
 
+struct GreetingCommand: public Command {
+    static const std::string CLASS_NAME;
+    static const std::string GREETING_COMMAND;
+    std::string playerName;
+    virtual std::string serialize () const;
+    virtual GreetingCommand* deserialize (std::string command) throw (WrongCommandException);
+    virtual GreetingCommand* clone() const { return new GreetingCommand(*this); }
+    virtual std::string getClassName () const { return CLASS_NAME; }
+};
+
 // Фабрика
 class CommandFactory
 {

@@ -10,27 +10,28 @@ TARGET = common
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += \
-    chesscolor.cpp \
-    command.cpp \
-    piece.cpp \
-    serialize.cpp \
-    achessgame.cpp \
-    adarkchessgame.cpp
-
-HEADERS += \
-    chesscolor.h \
-    command.h \
-    my_exception.h \
-    piece.h \
-    printer.h \
-    serialize.h \
-    tile.h \
-    achessgame.h \
-    adarkchessgame.h \
-    ichessobserver.h \
-    player.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+HEADERS += \
+    achessgame.h \
+    adarkchessgame.h \
+    chesscolor.h \
+    command.h \
+    ichessobserver.h \
+    my_exception.h \
+    piece.h \
+    player.h \
+    printer.h \
+    serialize.h \
+    tile.h
+
+SOURCES += \
+    achessgame.cpp \
+    adarkchessgame.cpp \
+    chesscolor.cpp \
+    command.cpp \
+    piece.cpp \
+    serialize.cpp

@@ -12,28 +12,40 @@ ChessGameView::ChessGameView(ADarkChessGame *game, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _cbw=new DarkChessBoardView(this);
+    _cbw=new DarkChessBoardView(game,this);
     ui->horizontalLayout->addWidget(_cbw);
-    Tile tile;
-
-    if(game!=0){
-        for(int i=0;i<rowCount;++i){
-            for(int j=0;j<colCount;++j){
-                tile.x=j;
-                tile.y=i;
-                _cbw->setPieceAtTile(game->getPieceAtTile(tile),tile);
-            }
-        }
-    }
+    if(game)game->attachObserver(this);
 }
 
 ChessGameView::~ChessGameView()
 {
     delete ui;
+    //if
 }
 
 
 void ChessGameView::update(AChessGame *game){
     if(game!=0){
     }
+}
+
+void ChessGameView::setChessGameModel(AChessGame *game)
+{
+
+}
+
+AChessGame *ChessGameView::getChessGameModel()
+{
+
+}
+
+void ChessGameView::setActivePlayer(Player player)
+{
+    _activePlayer=player;
+    _cbw->setActivePlayer(_activePlayer);
+}
+
+Player ChessGameView::getActivePlayer()
+{
+    return _activePlayer;
 }

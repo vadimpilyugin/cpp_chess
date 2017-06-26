@@ -5,11 +5,18 @@
 const size_t rowCount=8;
 const size_t colCount=8;
 
-DarkChessBoardView::DarkChessBoardView(QWidget* parent):DarkChessBoardWidget(parent),_cg(0)
+DarkChessBoardView::DarkChessBoardView(AChessGame *game,QWidget* parent):DarkChessBoardWidget(parent),_cg(game)
 {
     QObject::connect(this,&DarkChessBoardWidget::pieceHover,this,&DarkChessBoardView::hightlightMoves);
     QObject::connect(this,&DarkChessBoardWidget::pieceMoved,this,&DarkChessBoardView::sendMoveCommand);
     QObject::connect(this,&DarkChessBoardWidget::pieceConverted,this,&DarkChessBoardView::sendConvertCommand);
+
+    if(_cg!=0) _cg->attachObserver(this);
+}
+
+DarkChessBoardView::~DarkChessBoardView()
+{
+    if(_cg!=0) _cg->detachObserver(this);
 }
 
 void DarkChessBoardView::update(AChessGame *game)
@@ -41,6 +48,7 @@ void DarkChessBoardView::update(AChessGame *game)
 
 void DarkChessBoardView::setChessGameModel(AChessGame *game)
 {
+    if(_cg) _cg->detachObserver(this);
     _cg=game;
     update(_cg);
 }

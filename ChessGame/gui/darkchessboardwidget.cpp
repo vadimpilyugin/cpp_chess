@@ -62,13 +62,14 @@ void translateCoord(int x,int y,BoardDirection from,BoardDirection to,int &toX,i
         toX=colCount-x-1;
 }
 
-DarkChessBoardWidget::DarkChessBoardWidget(QWidget *parent) : QWidget(parent),_direction(BoardDirection::TopRight)
+DarkChessBoardWidget::DarkChessBoardWidget(QWidget *parent) : QWidget(parent),_direction(BoardDirection::TopRight),
+    _widthHeight(550),_legendHeight(10),_legendWidth(10)
 {
     QSizePolicy p(sizePolicy());
     p.setHeightForWidth(true);
     setSizePolicy(p);
 
-    this->setFixedSize(550,550);
+    this->setFixedSize(_widthHeight,_widthHeight);
 
     setAcceptDrops(true);
 
@@ -78,10 +79,10 @@ DarkChessBoardWidget::DarkChessBoardWidget(QWidget *parent) : QWidget(parent),_d
     layout->setSpacing(0);
     layout->setContentsMargins(0,0,0,0);
     initLegend();
-    layout->setColumnMinimumWidth(0,20);
-    layout->setColumnMinimumWidth(colCount+1,20);
-    layout->setRowMinimumHeight(0,20);
-    layout->setRowMinimumHeight(rowCount+1,20);
+    //layout->setColumnMinimumWidth(0,legendHeight);
+    //layout->setColumnMinimumWidth(colCount+1,legendHeight);
+    //layout->setRowMinimumHeight(0,20);
+    //layout->setRowMinimumHeight(rowCount+1,20);
 
     initTiles();
     initChooseWidget();
@@ -95,6 +96,10 @@ void DarkChessBoardWidget::initLegend(){
     }
     _legendLabels.clear();
 
+    QSizePolicy fixedPolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSize letterSize((_widthHeight-2*_legendWidth)/colCount,_legendHeight);
+    QSize numSize((_widthHeight-2*_legendHeight)/rowCount,_legendWidth);
+
     for(size_t i=0;i<rowCount;++i){
         char letter[]="A";letter[0]+=i;
         char num[]="1";num[0]+=i;
@@ -103,9 +108,11 @@ void DarkChessBoardWidget::initLegend(){
         QLabel *lblNum1=new QLabel(num);
         QLabel *lblNum2=new QLabel(num);
         lblLetter1->setAlignment(Qt::AlignCenter);
+        lblLetter1->setAlignment(Qt::AlignHCenter);
         lblLetter2->setAlignment(Qt::AlignCenter);
         lblNum1->setAlignment(Qt::AlignCenter);
         lblNum2->setAlignment(Qt::AlignCenter);
+
 
         _legendLabels.push_back(lblLetter1);
         _legendLabels.push_back(lblLetter2);
@@ -137,6 +144,9 @@ void DarkChessBoardWidget::initTiles(){
 
     QGridLayout* gridLayout=qobject_cast<QGridLayout*>(layout());
 
+    QSizePolicy fixedPolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSize pieceSize((_widthHeight-2*_legendWidth)/colCount,(_widthHeight-2*_legendHeight)/rowCount);
+
     Piece nonePiece;
     nonePiece.type=PieceType::None;
     nonePiece.color=ChessColor::Black;
@@ -149,7 +159,9 @@ void DarkChessBoardWidget::initTiles(){
         for(int j=0;j<colCount;++j){
             AspectRatioPixmapLabel *tile=new AspectRatioPixmapLabel();
             tile->installEventFilter(this);
-            //tile->setMouseTracking(true);
+            tile->setSizePolicy(fixedPolicy);
+            tile->resize(pieceSize);
+            tile->setMouseTracking(true);
             QColor clr=((i+j)%2==0) ? _palette.blackTileColor : _palette.whiteTileColor;
             QString style=QString("QLabel { background-color : rgb(%1,%2,%3); }").arg(clr.red()).arg(clr.green()).arg(clr.blue());
             tile->setStyleSheet(style);
@@ -388,8 +400,8 @@ void DarkChessBoardWidget::mousePressEvent(QMouseEvent *event){
         int xcoord,ycoord;
         translateCoord(col-1,row-1,BoardDirection::BottomRight,_direction,xcoord,ycoord);
 
-        if(xcoord*colCount+ycoord<_pieces.size())return;
-        Piece piece=_pieces[xcoord*colCount+ycoord];
+        if(ycoord*colCount+xcoord>_pieces.size())return;
+        Piece piece=_pieces[ycoord*colCount+xcoord];
         if(piece.type!=PieceType::None && !child->isHidden()){
             QPixmap pixmap = *child->pixmap();
             QDrag *drag = new QDrag(this);
@@ -427,10 +439,10 @@ void DarkChessBoardWidget::dropEvent(QDropEvent *event)
             piece.color=toColor(strData[1].toStdString());
 
             Tile from;
-            from.x=strData[2].toInt();
-            from.y=strData[3].toInt();
+            from.x=strData[2].toInt()+1;
+            from.y=strData[3].toInt()+1;
 
-            Tile to={xcoord,ycoord};
+            Tile to={xcoord+1,ycoord+1};
 
             emit this->pieceMoved(piece,from,to);
         }
@@ -447,11 +459,11 @@ void DarkChessBoardWidget::mouseMoveEvent(QMouseEvent *event){
     int row,col,temp1,temp2;
     gridLayout->getItemPosition(gridLayout->indexOf(child),&row,&col,&temp1,&temp2);
     if(row<1 || row>rowCount || col<1 || col>colCount)return;
-    translateCoord(col-1,row-1,BoardDirection::BottomRight,_direction,col,row);
 
-    Piece piece=_pieces[col*colCount+row];
-    Tile tile={col,row};
-    if(piece.type!=PieceType::None)
+    translateCoord(col-1,row-1,BoardDirection::BottomRight,_direction,col,row);
+    Piece piece=_pieces[row*colCount+col];
+    Tile tile={col+1,row+1};
+    if(piece.type!=PieceType::None && _hideFlag[row*colCount+col]==false)
         emit this->pieceHover(piece,tile);
 }
 
