@@ -88,6 +88,7 @@ void ChessGameView::update(AChessGame *game){
                 command=new RefuseDrawCommand();
                 break;
             }
+            command->playerColor=_activePlayer;
             if(_acg)_acg->doCommand(command);
             delete command;
         }else if(state==GameState::Termination){
@@ -140,16 +141,20 @@ void ChessGameView::setPlayers(Player player1, Player player2)
 
 void ChessGameView::offerDrawButtonReleased()
 {
-    OfferDrawCommand odc;
-    odc.playerColor=_activePlayer;
-    if(_acg)_acg->doCommand(&odc);
+    if(_acg && _activePlayer==_acg->getOrderPlayer()){
+        OfferDrawCommand odc;
+        odc.playerColor=_activePlayer;
+        _acg->doCommand(&odc);
+    }
 }
 
 void ChessGameView::giveUpButtonReleased()
 {
-    GiveUpCommand guc;
-    guc.playerColor=_activePlayer;
-    if(_acg)_acg->doCommand(&guc);
+    if(_acg && _activePlayer==_acg->getOrderPlayer()){
+        GiveUpCommand guc;
+        guc.playerColor=_activePlayer;
+        _acg->doCommand(&guc);
+    }
 }
 
 void ChessGameView::initPlayersFromNDCG(NetworkDarkChessGame *ndcg)

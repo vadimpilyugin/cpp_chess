@@ -142,6 +142,15 @@ std::vector<TiledPiece> DarkChessGame::getConvertionPieces(Player player){
     return result;
 }
 
+void DarkChessGame::changeTurn(){
+    if (turn==ChessColor::White){
+        turn=ChessColor::Black;
+    }
+    else{
+        turn=ChessColor::White;
+    }
+}
+
 
 void DarkChessGame::forcedMove(Tile from, Tile to){
     if (board[to.x-1][to.y-1].type!=PieceType::None)

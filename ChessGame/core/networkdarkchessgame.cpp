@@ -46,12 +46,22 @@ void NetworkDarkChessGame::doCommand(Command * command){
             state=GameState::BlackGiveUp;
         else
             state=GameState::WhiteGiveUp;
+        changeTurn();
     }
     else if (name.compare("OfferDrawCommand")==0){
         if (sendercolor==ChessColor::Black)
             state=GameState::BlackOfferDraw;
         else
             state=GameState::WhiteOfferDraw;
+        changeTurn();
+    }
+    else if (name.compare("AcceptDrawCommand")==0){
+        state=GameState::Draw;
+        changeTurn();
+    }
+    else if (name.compare("RefuseDrawCommand")==0){
+        state=GameState::Going;
+        changeTurn();
     }
     else if (name.compare("GreetingCommand")==0){
         remotePlayer.name=dynamic_cast<GreetingCommand*>(command)->playerName;

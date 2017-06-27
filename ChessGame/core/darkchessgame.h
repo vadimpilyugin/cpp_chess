@@ -12,6 +12,9 @@ class DarkChessGame:public ChessGame{
         //
         void initialize();
 //METHODS BELOW WILL BE PRIVATE CAUSE NOBODY ELSE WILL NEED THEM
+    protected:
+        void changeTurn();
+
     private:
         void forcedMove(Tile from, Tile to);
         void doCastling(TiledPiece king,bool isShort);
