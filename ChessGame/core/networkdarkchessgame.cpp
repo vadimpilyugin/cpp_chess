@@ -2,7 +2,8 @@
 #include "real_chess_connector.h"
 #include "printer.h"
 
-NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_):isGreetingFinished(false),amIServer(false){
+NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_):isGreetingFinished(false),amIServer(false),
+blockConvertion(false){
     connector=connector_;
     localPlayer=localPlayer_;
     amIServer=localPlayer_.color!=ChessColor::None;
@@ -62,12 +63,19 @@ void NetworkDarkChessGame::doCommand(Command * command){
     else if (name.compare("Move")==0){
         if (!doMove(*(dynamic_cast<Move*>(command))))
             problems=true;
+        if(getConvertionPieces(localPlayer).size()>0)blockConvertion=true;
     }
     else if (name.compare("PassCommand")==0){
-        problems=false;
+        problems=true;
+        if(blockConvertion){
+            blockConvertion=false;
+            problems=false;
+        }
     }
-    if(!problems)
+
+    if(!problems && !blockConvertion)
         notifyObservers();
+
     if ((!problems)&&(isitlocal))
         connector->sendCommand(*command);
 
