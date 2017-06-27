@@ -127,6 +127,8 @@ public:
 		delete ex5;
 		delete ex6;
 		delete ex7;
+        delete ex8;
+        delete ex9;
 	}
 
 private:
@@ -138,7 +140,9 @@ private:
 	Move *ex2;
 	GiveUpCommand *ex3;
 	OfferDrawCommand *ex4;
-	TerminationCommand *ex5;
-	GreetingCommand *ex6;
-	PassCommand *ex7;
+    AcceptDrawCommand *ex5;
+    RefuseDrawCommand *ex6;
+    TerminationCommand *ex7;
+    GreetingCommand *ex8;
+    PassCommand *ex9;
 };

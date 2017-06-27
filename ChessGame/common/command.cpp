@@ -212,22 +212,29 @@ CommandFactory::CommandFactory ():
 	ex4 (nullptr),
 	ex5 (nullptr),
 	ex6 (nullptr),
-	ex7 (nullptr)
+    ex7 (nullptr),
+    ex8 (nullptr),
+    ex9 (nullptr)
 {
 	ex1 = new Command ();
 	ex2 = new Move ();
 	ex3 = new GiveUpCommand ();
 	ex4 = new OfferDrawCommand ();
-	ex5 = new TerminationCommand ();
-	ex6 = new GreetingCommand ();
-	ex7 = new PassCommand ();
+    ex5 =new AcceptDrawCommand();
+    ex6 =new RefuseDrawCommand();
+    ex7 = new TerminationCommand ();
+    ex8 = new GreetingCommand ();
+    ex9 = new PassCommand ();
 	set (Command::CLASS_NAME, ex1);
 	set (Move::CLASS_NAME, ex2);
 	set (GiveUpCommand::CLASS_NAME, ex3);
 	set (OfferDrawCommand::CLASS_NAME, ex4);
-	set (TerminationCommand::CLASS_NAME, ex5);
-	set (GreetingCommand::CLASS_NAME, ex6);
-	set (PassCommand::CLASS_NAME, ex7);
+    set (AcceptDrawCommand::CLASS_NAME, ex5);
+    set (RefuseDrawCommand::CLASS_NAME, ex6);
+    set (TerminationCommand::CLASS_NAME, ex7);
+    set (GreetingCommand::CLASS_NAME, ex8);
+    set (PassCommand::CLASS_NAME, ex9);
+
 }
 
 Command* CommandFactory::get(std::string const& class_name) const throw (std::out_of_range) {

@@ -98,7 +98,7 @@ void ChessGameView::update(AChessGame *game){
             }
             command->playerColor=_activePlayer;
             if(_acg)_acg->doCommand(command);
-            delete command;
+            //delete command;
         }else if(state==GameState::Termination){
             QMessageBox mb(this);
             mb.setWindowTitle("Аварийная ситуация");
