@@ -106,7 +106,6 @@ struct GreetingCommand: public Command {
 struct PassCommand: public Command {
     static const std::string CLASS_NAME;
     static const std::string PASS_COMMAND;
-    std::string playerName;
     virtual std::string serialize () const;
     virtual PassCommand* deserialize (std::string command) throw (WrongCommandException);
     virtual PassCommand* clone() const { return new PassCommand(*this); }

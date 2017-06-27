@@ -1,12 +1,21 @@
 #include "networkdarkchessgame.h"
 #include "real_chess_connector.h"
 
-NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_){
+NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_):isGreetingFinished(false),amIServer(false){
     connector=connector_;
     localPlayer=localPlayer_;
+    amIServer=localPlayer_.color!=ChessColor::None;
     if(connector!=0){
         RealChessConnector *rcc=dynamic_cast<RealChessConnector*>(connector);
         QObject::connect(rcc,&RealChessConnector::receivedCommand,this,&NetworkDarkChessGame::slotDoCommand);
+        if(!amIServer){
+            GreetingCommand gc;
+            gc.playerColor=localPlayer.color;
+            gc.playerName=localPlayer.name;
+            rcc->sendCommand(gc);
+        }else{
+            remotePlayer.color=(localPlayer.color==ChessColor::Black) ? ChessColor::White : ChessColor::Black;
+        }
     }
 }
 
@@ -55,5 +64,32 @@ void NetworkDarkChessGame::doCommand(Command * command){
     if ((!problems)&&(isitlocal))
         connector->sendCommand(*command);
 
+}
+
+void NetworkDarkChessGame::slotDoCommand(Command *command){
+    if(!isGreetingFinished){
+        GreetingCommand * gc=dynamic_cast<GreetingCommand*>(command);
+        if(gc!=0){
+            remotePlayer.name=gc->playerName;
+            if(amIServer){
+                gc->playerColor=localPlayer.color;
+                gc->playerName=localPlayer.name;
+                connector->sendCommand(*gc);
+                delete gc;
+                if(localPlayer.color==ChessColor::Black)
+                    isGreetingFinished=true;
+            }else{
+                remotePlayer.color=gc->playerColor;
+                localPlayer.color=(gc->playerColor==ChessColor::White) ? ChessColor::Black : ChessColor::White;
+                if(localPlayer.color!=ChessColor::White){
+                    PassCommand pc;
+                    connector->sendCommand(pc);
+                }
+                isGreetingFinished=true;
+            }
+        }else if(amIServer)isGreetingFinished=true;
+    }else{
+        doCommand(command);
+    }
 }
 

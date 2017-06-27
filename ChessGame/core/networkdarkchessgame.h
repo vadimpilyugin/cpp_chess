@@ -9,6 +9,8 @@ private:
     IChessConnector * connector;
     Player localPlayer;
     Player remotePlayer;
+    bool isGreetingFinished;
+    bool amIServer;
 public:
     NetworkDarkChessGame(IChessConnector * connector_,Player localPlayer_ );
     Player getLocalPlayer();
@@ -16,8 +18,6 @@ public:
     void doCommand(Command *command); // FIXME(14): virtual void doCommand
 
 public slots:
-    void slotDoCommand(Command* command){
-        doCommand(command);
-    }
+    void slotDoCommand(Command* command);
 
 };
