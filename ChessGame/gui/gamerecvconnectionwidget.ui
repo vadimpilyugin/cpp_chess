@@ -19,6 +19,11 @@
      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,1">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Имя</string>
         </property>
@@ -44,7 +49,13 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="userLineEdit"/>
+       <widget class="QLineEdit" name="userLineEdit">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0" colspan="2">
        <widget class="QLabel" name="waitingLabel">
@@ -58,6 +69,11 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Цвет</string>
         </property>
@@ -95,6 +111,11 @@
          </property>
          <item>
           <widget class="QRadioButton" name="whiteButton">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Белые</string>
            </property>
@@ -105,6 +126,11 @@
          </item>
          <item>
           <widget class="QRadioButton" name="blackButton">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Чёрные</string>
            </property>
@@ -118,6 +144,11 @@
    </item>
    <item>
     <widget class="QPushButton" name="connectionButton">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Ожидать соединение</string>
      </property>
@@ -125,6 +156,11 @@
    </item>
    <item>
     <widget class="QPushButton" name="cancelButton">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Отмена</string>
      </property>
