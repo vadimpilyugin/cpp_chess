@@ -47,6 +47,7 @@ void DarkChessBoardView::update(AChessGame *game)
     vector<TiledPiece> convertionPieces=game->getConvertionPieces(pl);
     if(convertionPieces.size())
         this->convertPiece(convertionPieces[0]);
+    else this->hideConvert();
 }
 
 void DarkChessBoardView::setChessGameModel(AChessGame *game)
@@ -66,7 +67,7 @@ void DarkChessBoardView::setActivePlayer(ChessColor player)
     _activePlayer=player;
     if(_activePlayer==ChessColor::White)setDirection(BoardDirection::TopRight);
     else setDirection(BoardDirection::BottomLeft);
-    update(_cg);
+    //ADD ACTIVE PLAY CONVERSION WITHOUTH UPDATE
 }
 
 ChessColor DarkChessBoardView::getActivePlayer()

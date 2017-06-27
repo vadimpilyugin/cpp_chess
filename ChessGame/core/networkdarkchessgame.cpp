@@ -62,9 +62,18 @@ void NetworkDarkChessGame::doCommand(Command * command){
         if (!doMove(*(dynamic_cast<Move*>(command))))
             problems=true;
     }
-    notifyObservers();
+    else if (name.compare("PassCommand")==0){
+        problems=false;
+    }
+    if(!problems)
+        notifyObservers();
     if ((!problems)&&(isitlocal))
         connector->sendCommand(*command);
+
+    if(!problems && getConvertionPieces(remotePlayer).size()>0){
+        PassCommand pc;pc.playerColor=localPlayer.color;
+        connector->sendCommand(pc);
+    }
 
 }
 
