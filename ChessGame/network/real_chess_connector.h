@@ -46,6 +46,7 @@ public slots:
     void resetConnectionState () {
         if (connection_state == false) {
             Command *command = new TerminationCommand();
+            Printer::error("Connection lost");
             emit receivedCommand(command);
         }
         connection_state = false;
@@ -117,7 +118,7 @@ private:
     static size_t connector_n;
     // У игры в картошку своя пара сокетов
     Network::Socket heartbeat_sock;
-    RealChessConnector (Network::Socket &&socket_, Network::Socket &&heartbeat_sock_, bool hot_potato_):
+    RealChessConnector (Network::Socket &&socket_, Network::Socket &&heartbeat_sock_, bool hot_potato_, bool isServer):
         socket (std::move (socket_)), hot_potato (hot_potato_),
         heartbeat_sock (std::move (heartbeat_sock_)), connection_state (false),
         big_timer (nullptr), small_timer (nullptr)
@@ -132,7 +133,9 @@ private:
             big_timer.start();
             small_timer.start();
             // Не стартовать до первого send или receive
-//            command_check_timer.start();
+            // Сервер должен сразу начать слушать
+            if (isServer)
+                command_check_timer.start();
         }
     bool connection_state;
     QTimer big_timer;

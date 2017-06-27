@@ -18,7 +18,7 @@ throw 	(Exception::Exception)
     Network::Socket heartbeat_sock = Network::Socket::bind (Network::TCPEndpoint(ip_addr, heartbeat_port).str(),
                                                             Network::Context::getContext ());
     // Когда стартует сервер, он ждет сообщений от клиентов и не начинает игру
-    return new RealChessConnector (std::move(command_sock), std::move(heartbeat_sock), false);
+    return new RealChessConnector (std::move(command_sock), std::move(heartbeat_sock), false, true);
 }
 // Это метод для подключения к другому игроку
 RealChessConnector *RealChessConnector::connect (std::string ip_addr, std::string port)
@@ -33,7 +33,7 @@ throw 	(Exception::Exception)
     Network::Socket heartbeat_sock = Network::Socket::connect ( Network::TCPEndpoint(ip_addr, heartbeat_port).str(),
                                                                 Network::Context::getContext ());
     // Когда стартует сервер, он ждет сообщений от клиентов и не начинает игру
-    return new RealChessConnector (std::move (command_sock), std::move (heartbeat_sock), true);
+    return new RealChessConnector (std::move (command_sock), std::move (heartbeat_sock), true, false);
 }
 bool RealChessConnector::pingOtherSide () throw (
     Network::WrongOrderException,
