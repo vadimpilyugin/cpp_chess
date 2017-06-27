@@ -11,6 +11,7 @@ private:
     Player remotePlayer;
     bool isGreetingFinished;
     bool amIServer;
+    bool blockConvertion;
 public:
     NetworkDarkChessGame(IChessConnector * connector_,Player localPlayer_ );
     Player getLocalPlayer();
