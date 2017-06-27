@@ -55,6 +55,7 @@ std::string Move::serialize () const {
 	result.add (std::to_string (to.y));
 	result.add (std::to_string (isConvertion ? 1 : 0));
 	result.add (toString (convertPiece));
+    result.add (toString (playerColor));
 	return result.toString();
 }
 Move *Move::deserialize (std::string command) throw (NoSuchPieceException, WrongCommandException) {
@@ -66,6 +67,7 @@ Move *Move::deserialize (std::string command) throw (NoSuchPieceException, Wrong
 		to.y = std::stoi (result.get ());
 		isConvertion = std::stoi (result.get ()) ? true : false;
 		convertPiece = toPiece (result.get ());
+        playerColor = toColor (result.get ());
 	}
 	catch (std::invalid_argument &exc) {
 		Printer::error (command, "Move::deserialize");
@@ -82,6 +84,7 @@ std::string GiveUpCommand::serialize () const {
 	SerializedObject result;
 	result.add (CLASS_NAME);
 	result.add (GIVE_UP_COMMAND);
+    result.add (toString (playerColor));
 	return result.toString();
 }
 GiveUpCommand* GiveUpCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -90,6 +93,7 @@ GiveUpCommand* GiveUpCommand::deserialize (std::string command) throw (WrongComm
 		Printer::error (command, "GiveUpCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+    playerColor = toColor (result.get ());
 	return this;
 }
 
@@ -97,6 +101,7 @@ std::string OfferDrawCommand::serialize () const {
 	SerializedObject result;
 	result.add (CLASS_NAME);
 	result.add (OFFER_DRAW_COMMAND);
+    result.add (toString (playerColor));
 	return result.toString();
 }
 OfferDrawCommand* OfferDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -105,6 +110,7 @@ OfferDrawCommand* OfferDrawCommand::deserialize (std::string command) throw (Wro
 		Printer::error (command, "OfferDrawCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+    playerColor = toColor (result.get ());
 	return this;
 }
 
@@ -112,6 +118,7 @@ std::string AcceptDrawCommand::serialize () const {
     SerializedObject result;
     result.add (CLASS_NAME);
     result.add (ACCEPT_DRAW_COMMAND);
+    result.add (toString (playerColor));
     return result.toString();
 }
 AcceptDrawCommand* AcceptDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -120,6 +127,7 @@ AcceptDrawCommand* AcceptDrawCommand::deserialize (std::string command) throw (W
         Printer::error (command, "AcceptDrawCommand::deserialize");
         throw WrongCommandException (command);
     }
+    playerColor = toColor (result.get ());
     return this;
 }
 
@@ -127,6 +135,7 @@ std::string RefuseDrawCommand::serialize () const {
     SerializedObject result;
     result.add (CLASS_NAME);
     result.add (REFUSE_DRAW_COMMAND);
+    result.add (toString (playerColor));
     return result.toString();
 }
 RefuseDrawCommand* RefuseDrawCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -135,6 +144,7 @@ RefuseDrawCommand* RefuseDrawCommand::deserialize (std::string command) throw (W
         Printer::error (command, "RefuseDrawCommand::deserialize");
         throw WrongCommandException (command);
     }
+    playerColor = toColor (result.get ());
     return this;
 }
 
@@ -142,6 +152,7 @@ std::string TerminationCommand::serialize () const {
 	SerializedObject result;
 	result.add (CLASS_NAME);
 	result.add (TERMINATION_COMMAND);
+    result.add (toString (playerColor));
 	return result.toString();
 }
 TerminationCommand* TerminationCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -150,6 +161,7 @@ TerminationCommand* TerminationCommand::deserialize (std::string command) throw 
 		Printer::error (command, "TerminationCommand::deserialize");
 		throw WrongCommandException (command);
 	}
+    playerColor = toColor (result.get ());
 	return this;
 }
 
@@ -158,6 +170,7 @@ std::string GreetingCommand::serialize () const {
     result.add (CLASS_NAME);
     result.add (GREETING_COMMAND);
     result.add(playerName);
+    result.add (toString (playerColor));
     return result.toString();
 }
 GreetingCommand* GreetingCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -167,12 +180,14 @@ GreetingCommand* GreetingCommand::deserialize (std::string command) throw (Wrong
         throw WrongCommandException (command);
     }
     playerName=result.get();
+    playerColor = toColor (result.get ());
     return this;
 }
 std::string PassCommand::serialize () const {
     SerializedObject result;
     result.add (CLASS_NAME);
     result.add (PASS_COMMAND);
+    result.add (toString (playerColor));
     return result.toString();
 }
 PassCommand* PassCommand::deserialize (std::string command) throw (WrongCommandException) {
@@ -181,6 +196,7 @@ PassCommand* PassCommand::deserialize (std::string command) throw (WrongCommandE
         Printer::error (command, "Greeting::deserialize");
         throw WrongCommandException (command);
     }
+    playerColor = toColor (result.get ());
     return this;
 }
 
