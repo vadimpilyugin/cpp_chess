@@ -14,8 +14,9 @@ using std::vector;
 class ChessBoardPallete{
 public:
     ChessBoardPallete():blackTileColor(QColor(153,76,0)),whiteTileColor(QColor(255,255,255)),
-        moveTileColor(QColor(255,255,51)),attackTileColor(QColor(255,51,51)),hideTileColor(QColor(0,0,0)){}
-    QColor blackTileColor,whiteTileColor,moveTileColor,attackTileColor,hideTileColor;
+        moveTileColor(QColor(255,255,51)),attackTileColor(QColor(255,51,51)),hideTileColor(QColor(0,0,0)),
+        hideTileBlackColor(102,50,0), hideTileWhiteColor(216,216,216){}
+    QColor blackTileColor,whiteTileColor,moveTileColor,attackTileColor,hideTileColor, hideTileWhiteColor, hideTileBlackColor;
 };
 
 class DarkChessBoardWidget : public QWidget,public IDarkChessBoardWidget
@@ -60,6 +61,7 @@ private:
     void initLegend();
     void initTiles();
     size_t getTileIndex(Tile tile);
+    QColor tileColor(int i, int j);
 
     QWidget *_chooseWidget;
     vector<AspectRatioPixmapLabel*> _tiles;

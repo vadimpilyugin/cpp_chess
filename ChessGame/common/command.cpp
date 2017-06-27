@@ -231,7 +231,13 @@ CommandFactory::CommandFactory ():
 }
 
 Command* CommandFactory::get(std::string const& class_name) const throw (std::out_of_range) {
-	return mExemplars.at (class_name) -> clone ();
+    try {
+        return mExemplars.at (class_name) -> clone ();
+    }
+    catch (std::out_of_range &exc) {
+        Printer::error (std::string("No such command: ") + class_name);
+        return nullptr;
+    }
 }
 void CommandFactory::set(std::string const& class_name, Command* exemplar) {
 	mExemplars [class_name] = exemplar;

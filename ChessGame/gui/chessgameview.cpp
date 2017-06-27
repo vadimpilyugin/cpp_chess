@@ -60,7 +60,7 @@ void ChessGameView::update(AChessGame *game){
             QMessageBox mb(this);
             mb.setWindowTitle("Победа");
             mb.setText("Ваш соперник сдался");
-            mb.setInformativeText("Поздравляю бравый рыцарь, соперник затрепетал перед вашим величие, обмачил штанишки и сдался!");
+            mb.setInformativeText("Поздравляю бравый рыцарь, соперник затрепетал перед вашим величие, обмочил штанишки и сдался!");
             mb.exec();
             emit gameEnded();
         }else if((state==GameState::BlackVictory && _activePlayer==ChessColor::Black) ||
@@ -76,7 +76,7 @@ void ChessGameView::update(AChessGame *game){
             Command *command;
             QMessageBox mb(this);
             mb.setWindowTitle("Предложение ничьи");
-            mb.setText("Ваш соперник предложил. Желаете принять предложение?");
+            mb.setText("Ваш соперник предложил ничью. Желаете принять предложение?");
             mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
             mb.setDefaultButton(QMessageBox::Ok);
             int ret = mb.exec();
@@ -92,7 +92,7 @@ void ChessGameView::update(AChessGame *game){
             delete command;
         }else if(state==GameState::Termination){
             QMessageBox mb(this);
-            mb.setWindowTitle("Аварийна ситуация");
+            mb.setWindowTitle("Аварийная ситуация");
             mb.setText("Игра аварийно завершилась");
             mb.exec();
             emit gameEnded();

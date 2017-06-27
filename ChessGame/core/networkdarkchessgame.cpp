@@ -8,6 +8,7 @@ NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player l
     amIServer=localPlayer_.color!=ChessColor::None;
     if(connector!=0){
         RealChessConnector *rcc=dynamic_cast<RealChessConnector*>(connector);
+        Printer::passert(rcc != nullptr, "Wrong connector");
         QObject::connect(rcc,&RealChessConnector::receivedCommand,this,&NetworkDarkChessGame::slotDoCommand);
         if(!amIServer){
             GreetingCommand gc;

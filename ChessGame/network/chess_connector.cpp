@@ -96,5 +96,9 @@ throw (
     // Имя нужного класса команды
     std::string class_name = result.get ();
     // Произвести объект заданного класса, заполнить данными из полученной по сети информации
-    return factory.get (class_name) -> deserialize (result.toString ());
+    Command *command = factory.get (class_name);
+    if (command != nullptr)
+        return command -> deserialize (result.toString ());
+    else
+        return new Command ();
 }

@@ -17,9 +17,6 @@ ChessGame::~ChessGame(){
 	delete[] board;
 	delete[] pieces;
 }
-GameState ChessGame::getState(){ // FIXME(8): убрать метод
-	return state;
-}
 Move ChessGame::getLastMove(){
     return lastmove;
 }

@@ -136,6 +136,10 @@ void DarkChessBoardWidget::initLegend(){
     }
 }
 
+QColor DarkChessBoardWidget::tileColor(int i, int j) {
+    return ((i+j)%2==0) ? _palette.blackTileColor : _palette.whiteTileColor;
+}
+
 void DarkChessBoardWidget::initTiles(){
     _tiles.clear();
     _pieces.clear();
@@ -162,7 +166,7 @@ void DarkChessBoardWidget::initTiles(){
             tile->setSizePolicy(fixedPolicy);
             tile->resize(pieceSize);
             tile->setMouseTracking(true);
-            QColor clr=((i+j)%2==0) ? _palette.blackTileColor : _palette.whiteTileColor;
+            QColor clr=tileColor(i,j);
             QString style=QString("QLabel { background-color : rgb(%1,%2,%3); }").arg(clr.red()).arg(clr.green()).arg(clr.blue());
             tile->setStyleSheet(style);
             tile->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -244,7 +248,7 @@ void DarkChessBoardWidget::removeHighlightAtTile(Tile tile){
     _hightlightFlag[tileIndex]=0;
     if(!_hideFlag[tileIndex]){
         AspectRatioPixmapLabel* lbl= _tiles[tileIndex];
-        QColor clr=((tile.x+tile.y)%2==0) ? _palette.blackTileColor : _palette.whiteTileColor;
+        QColor clr=tileColor(tile.x, tile.y);
         QString style=QString("QLabel { background-color : rgb(%1,%2,%3); }").arg(clr.red()).arg(clr.green()).arg(clr.blue());
         lbl->setStyleSheet(style);
     }
@@ -265,7 +269,12 @@ void DarkChessBoardWidget::hideTile(Tile tile)
     size_t tileIndex=getTileIndex(tile);
     _hideFlag[tileIndex]=true;
     AspectRatioPixmapLabel* lbl= _tiles[tileIndex];
-    QColor clr=_palette.hideTileColor;
+    QColor clr;
+    QColor prev_color=tileColor(tile.x, tile.y);
+    if (prev_color == _palette.whiteTileColor)
+        clr = _palette.hideTileWhiteColor;
+    else
+        clr = _palette.hideTileBlackColor;
     QString style=QString("QLabel { background-color : rgb(%1,%2,%3); }").arg(clr.red()).arg(clr.green()).arg(clr.blue());
     lbl->setStyleSheet(style);
     lbl->hideImage();

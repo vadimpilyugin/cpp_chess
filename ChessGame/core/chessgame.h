@@ -11,12 +11,9 @@ class ChessGame:public ADarkChessGame{
 		Piece_dark* pieces;
 		ChessColor turn;
         Move lastmove;
-    protected:
-        GameState state;  // FIXME(1): это явно лишнее, так как в AChessGame уже есть gameState
 	public:
 		ChessGame();
-		~ChessGame();
-        GameState getState(); // FIXME(2): то же самое, в AChessGame уже есть getState
+        ~ChessGame();
 		ChessColor getOrderPlayer();
         Piece getPieceAtTile(Tile tile);
         Move getLastMove();

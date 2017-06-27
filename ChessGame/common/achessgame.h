@@ -36,7 +36,7 @@ public:
 
 protected:
     set<IChessObserver*> observers;
-    GameState gameState;
+    GameState state;
 };
 
 #endif // ACHESSGAME_H

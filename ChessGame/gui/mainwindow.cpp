@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBar->hide();
     ui->mainToolBar->hide();
 
-    setWindowTitle("Dark chess");
+    setWindowTitle("Шахматы 1.0");
 
     _gcw=new GameConnectionWidget();
     _grcw=new GameRecvConnectionWidget();
