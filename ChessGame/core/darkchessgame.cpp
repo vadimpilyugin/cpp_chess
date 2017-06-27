@@ -127,18 +127,18 @@ std::vector<Tile> DarkChessGame::getHiddenTiles(Player player){
                 else;
     return result;
 }
-
+// возвращает фигуры на клетках, которые будут превращаться
 std::vector<TiledPiece> DarkChessGame::getConvertionPieces(Player player){
-    ChessColor color=player.color;
+    // нужно проверить первую либо последнюю линию на наличие пешек
     std::vector<TiledPiece> result;
-    int dy;
-    if (color==ChessColor::White)
-        dy=SIZE-1;
-    else
-        dy=0;
-    for (int i=0;i<SIZE;i++)
-        if ((board[i][0+dy].type==PieceType::Pawn)&&(pieces[board[i][0+dy].piecenum].color==color))
-            result.push_back(pieces[board[i][0+dy].piecenum]);
+    // белые должны дойти до 8 линии, черные - до 1
+    int line = player.color == ChessColor::White ? SIZE-1 : 0;
+    for (int i = 0; i < SIZE; i++) {
+        Tile_content tile_with_piece = board[i][line];
+        // проверяем клетки на наличие пешек
+        if (tile_with_piece.type == PieceType::Pawn && pieces[tile_with_piece.piecenum].color == player.color)
+            result.push_back(pieces[board[i][line].piecenum]);
+    }
     return result;
 }
 
