@@ -173,6 +173,7 @@ bool DarkChessGame::doMove(Move move){
     (moving.color==ChessColor::White) && (move.from.y==8))){
         pieces[board[move.from.x-1][move.from.y-1].piecenum].type=move.convertPiece;
         updateVision();
+        return true;
     }
     if (moving.type==PieceType::Pawn){
         if (((move.from.x!=move.to.x)&&(board[move.to.x-1][move.to.y-1].type==PieceType::None))||

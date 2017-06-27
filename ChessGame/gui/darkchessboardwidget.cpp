@@ -321,8 +321,14 @@ void DarkChessBoardWidget::convertPiece(TiledPiece cp)
         else if(pieceType=="B")pt=PieceType::Bishop;
         pb->setIcon(QIcon(getPixmapForPiece(pt,cp.color)));
         pb->setIconSize(QSize(buttonSize,buttonSize));
+
     }
     _chooseWidget->show();
+}
+
+void DarkChessBoardWidget::hideConvert()
+{
+    _chooseWidget->hide();
 }
 
 void DarkChessBoardWidget::initChooseWidget()
@@ -487,7 +493,6 @@ bool DarkChessBoardWidget::eventFilter(QObject *target, QEvent *event)
 void DarkChessBoardWidget::pieceChoosed()
 {
     QPushButton *pb=qobject_cast<QPushButton*>(QObject::sender());
-    _chooseWidget->hide();
     if(pb){
         PieceType pt;
         QString pieceType=pb->property("PieceType").value<QString>();

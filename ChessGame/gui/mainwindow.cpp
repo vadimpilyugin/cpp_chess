@@ -67,7 +67,6 @@ void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player
     QObject::connect(_cgv,&ChessGameView::gameEnded,this,&MainWindow::gameEnded);
     ui->stackedWidget->addWidget(_cgv);
     ui->stackedWidget->setCurrentWidget(_cgv);
-    ndcg->notifyObservers();
 }
 
 void MainWindow::gameConnectionCanceled()

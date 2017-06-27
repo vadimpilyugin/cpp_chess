@@ -40,6 +40,7 @@ public:
     virtual void hideAllTiles();
 
     virtual void convertPiece(TiledPiece cp);
+    virtual void hideConvert();
 
     void initChooseWidget();
     void setDirection(BoardDirection direct);
