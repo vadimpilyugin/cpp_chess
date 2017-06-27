@@ -93,7 +93,7 @@ public:
 private:
     static const int big_interval = 10000; // 10 s
     static const int small_interval = 100; // 100 ms
-    static const int command_check_interval = 3000; // 3 s
+    static const int command_check_interval = 500; // 500 ms
     static const std::string heartbeat_port;
     static const std::string hello;
     // Метод для проверки соединения.
