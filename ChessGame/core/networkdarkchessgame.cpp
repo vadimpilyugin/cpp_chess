@@ -76,8 +76,10 @@ void NetworkDarkChessGame::slotDoCommand(Command *command){
                 gc->playerName=localPlayer.name;
                 connector->sendCommand(*gc);
                 delete gc;
-                if(localPlayer.color==ChessColor::Black)
+                if(localPlayer.color==ChessColor::Black){
                     isGreetingFinished=true;
+                    notifyObservers();
+                }
             }else{
                 remotePlayer.color=gc->playerColor;
                 localPlayer.color=(gc->playerColor==ChessColor::White) ? ChessColor::Black : ChessColor::White;
@@ -86,8 +88,12 @@ void NetworkDarkChessGame::slotDoCommand(Command *command){
                     connector->sendCommand(pc);
                 }
                 isGreetingFinished=true;
+                notifyObservers();
             }
-        }else if(amIServer)isGreetingFinished=true;
+        }else if(amIServer){
+            isGreetingFinished=true;
+            notifyObservers();
+        }
     }else{
         doCommand(command);
     }

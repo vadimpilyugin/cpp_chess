@@ -51,7 +51,7 @@ std::string DarkChessLog::logToString(ChessColor player)
 
 void DarkChessLog::addMove(Move move)
 {
-    if(!(move.to.x==move.from.x && move.to.y==move.from.y)){
+    if(!(move.to.x==move.from.x && move.to.y==move.from.y) && !(move==_lastMove)){
         std::string note=colIndexToNotation(move.from.x)+rowIndexToNotation(move.from.y)+"-";
         note+=colIndexToNotation(move.to.x)+rowIndexToNotation(move.to.y);
         if(move.playerColor==ChessColor::White)_whiteMoves.push_back(note);

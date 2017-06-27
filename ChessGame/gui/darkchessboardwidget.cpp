@@ -463,8 +463,17 @@ void DarkChessBoardWidget::mouseMoveEvent(QMouseEvent *event){
     translateCoord(col-1,row-1,BoardDirection::BottomRight,_direction,col,row);
     Piece piece=_pieces[row*colCount+col];
     Tile tile={col+1,row+1};
-    if(piece.type!=PieceType::None && _hideFlag[row*colCount+col]==false)
-        emit this->pieceHover(piece,tile);
+    if(piece.type!=PieceType::None && _hideFlag[row*colCount+col]==false){
+        if(_lastHighlighted.color!=piece.color || _lastHighlighted.type!=piece.type ||
+                _lastHighlighted.place.x!=tile.x || _lastHighlighted.place.y!=tile.y){
+            emit this->pieceHover(piece,tile);
+            _lastHighlighted.color=piece.color;
+            _lastHighlighted.type=piece.type;
+            _lastHighlighted.place=tile;
+        }
+    }else{
+        _lastHighlighted.place.x=-1;
+    }
 }
 
 bool DarkChessBoardWidget::eventFilter(QObject *target, QEvent *event)

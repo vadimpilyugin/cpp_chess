@@ -46,12 +46,17 @@ Command *Command::deserialize (std::string command)
 	return this;
 }
 
+bool Move::operator==(const Move &m2)const{
+    return from==m2.from && to==m2.to && convertPiece==m2.convertPiece &&
+            isConvertion==m2.isConvertion && playerColor==m2.playerColor;
+}
+
 std::string Move::serialize () const {
-	SerializedObject result;
-	result.add (CLASS_NAME);
-	result.add (std::to_string (from.x));
-	result.add (std::to_string (from.y));
-	result.add (std::to_string (to.x));
+    SerializedObject result;
+    result.add (CLASS_NAME);
+    result.add (std::to_string (from.x));
+    result.add (std::to_string (from.y));
+    result.add (std::to_string (to.x));
 	result.add (std::to_string (to.y));
 	result.add (std::to_string (isConvertion ? 1 : 0));
 	result.add (toString (convertPiece));
@@ -231,3 +236,5 @@ Command* CommandFactory::get(std::string const& class_name) const throw (std::ou
 void CommandFactory::set(std::string const& class_name, Command* exemplar) {
 	mExemplars [class_name] = exemplar;
 }
+
+

@@ -42,6 +42,7 @@ struct Move: public Command {
 	static const std::string CLASS_NAME;
 	Move (Tile from_ = Tile (), Tile to_ = Tile (), bool isConvertion_ = false, PieceType convertPiece_ = PieceType::None): 
 		from (from_), to (to_), isConvertion (isConvertion_) { convertPiece = convertPiece_; }
+    bool operator==(const Move &m2) const;
 	virtual std::string serialize () const;
 	virtual Move* deserialize (std::string command) throw (NoSuchPieceException, WrongCommandException);
 	virtual Move* clone() const { return new Move(*this); }

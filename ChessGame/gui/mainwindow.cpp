@@ -54,7 +54,7 @@ void MainWindow::gameEnded()
 {
     AChessGame * acg=_cgv->getChessGameModel();
     ui->stackedWidget->removeWidget(_cgv);
-    delete _cgv;
+    _cgv->deleteLater();
     _cgv=0;
     ui->stackedWidget->setCurrentWidget(ui->mainPage);
 }
@@ -64,6 +64,7 @@ void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player
     NetworkDarkChessGame *ndcg=new NetworkDarkChessGame(connector,player);
     ndcg->initialize();
     _cgv=new ChessGameView(ndcg);
+    QObject::connect(_cgv,&ChessGameView::gameEnded,this,&MainWindow::gameEnded);
     ui->stackedWidget->addWidget(_cgv);
     ui->stackedWidget->setCurrentWidget(_cgv);
     ndcg->notifyObservers();

@@ -70,6 +70,7 @@ private:
     BoardDirection _direction;
     ChessBoardPallete _palette;
     int _widthHeight=550,_legendHeight=10,_legendWidth=10;
+    TiledPiece _lastHighlighted;
 
 protected:
     void mousePressEvent(QMouseEvent *event);
