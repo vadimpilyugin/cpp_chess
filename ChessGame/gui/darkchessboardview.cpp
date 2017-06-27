@@ -88,10 +88,10 @@ void DarkChessBoardView::hightlightMoves(Piece piece, Tile tile)
         for(int i=0;i<attackTiles.size();++i){
             this->highlightAttackTile(attackTiles[i]);
         }
-        std::vector<Tile> moveTiles=_cg->getMoveTiles(tiledPiece);
-        for(int i=0;i<moveTiles.size();++i){
-            this->highlightMoveTile(moveTiles[i]);
-        }
+//        std::vector<Tile> moveTiles=_cg->getMoveTiles(tiledPiece);
+//        for(int i=0;i<moveTiles.size();++i){
+//            this->highlightMoveTile(moveTiles[i]);
+//        }
     }
 }
 
