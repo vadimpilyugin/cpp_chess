@@ -1,5 +1,6 @@
 #include "networkdarkchessgame.h"
 #include "real_chess_connector.h"
+#include "printer.h"
 
 NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_):isGreetingFinished(false),amIServer(false){
     connector=connector_;
@@ -40,21 +41,22 @@ void NetworkDarkChessGame::doCommand(Command * command){
         sendercolor=remotePlayer.color;
     if (name.compare("GiveUpCommand")==0){
         if (sendercolor==ChessColor::Black)
-            gameState=GameState::BlackGiveUp;
+            state=GameState::BlackGiveUp;
         else
-            gameState=GameState::WhiteGiveUp;
+            state=GameState::WhiteGiveUp;
     }
     else if (name.compare("OfferDrawCommand")==0){
         if (sendercolor==ChessColor::Black)
-            gameState=GameState::BlackOfferDraw;
+            state=GameState::BlackOfferDraw;
         else
-            gameState=GameState::WhiteOfferDraw;
+            state=GameState::WhiteOfferDraw;
     }
     else if (name.compare("GreetingCommand")==0){
         remotePlayer.name=dynamic_cast<GreetingCommand*>(command)->playerName;
     }
     else if (name.compare("TerminationCommand")==0){
-        gameState=GameState::Termination;
+        Printer::debug("Terminating engine");
+        state=GameState::Termination;
     }
     else if (name.compare("Move")==0){
         if (!doMove(*(dynamic_cast<Move*>(command))))
