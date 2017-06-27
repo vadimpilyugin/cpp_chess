@@ -63,6 +63,14 @@ void ChessGameView::update(AChessGame *game){
             mb.setInformativeText("Поздравляю бравый рыцарь, соперник затрепетал перед вашим величие, обмочил штанишки и сдался!");
             mb.exec();
             emit gameEnded();
+        }else if( (_activePlayer==ChessColor::Black && state==GameState::BlackGiveUp) ||
+                  (_activePlayer==ChessColor::White && state==GameState::WhiteGiveUp)){
+            QMessageBox mb(this);
+            mb.setWindowTitle("Поражение");
+            mb.setText("Вы сдались");
+            mb.setInformativeText("Важно не то, проигрываем ли мы в игре, важно, как мы проигрываем и как мы благодаря этому изменимся, что нового вынесем для себя, как сможем применить это в других играх. Странным образом поражение оборачивается победой");
+            mb.exec();
+            emit gameEnded();
         }else if((state==GameState::BlackVictory && _activePlayer==ChessColor::Black) ||
                  (state==GameState::WhiteVictory && _activePlayer==ChessColor::White)){
               QMessageBox mb(this);
