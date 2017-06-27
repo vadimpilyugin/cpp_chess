@@ -78,7 +78,7 @@ ChessColor DarkChessBoardView::getActivePlayer()
 void DarkChessBoardView::hightlightMoves(Piece piece, Tile tile)
 {
     this->removeAllHighlights();
-    if(_cg!=0){
+    if(_cg!=0 && piece.type != PieceType::None){
         TiledPiece tiledPiece;
         tiledPiece.color=piece.color;
         tiledPiece.hasMoved=piece.hasMoved;

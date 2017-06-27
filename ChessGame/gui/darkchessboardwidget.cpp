@@ -486,7 +486,12 @@ void DarkChessBoardWidget::mouseMoveEvent(QMouseEvent *event){
             _lastHighlighted.type=piece.type;
             _lastHighlighted.place=tile;
         }
-    }else{
+    }
+    else if (piece.type == PieceType::None) {
+        // убираем желтые клетки
+        emit this->pieceHover(piece,tile);
+    }
+    else{
         _lastHighlighted.place.x=-1;
     }
 }
