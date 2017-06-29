@@ -111,12 +111,13 @@ void DarkChessGame::updateVision(){
                     board[pieces[i+dc].vision[j].x-1][pieces[i+dc].vision[j].y-1].seenByWhite=true;
         }
 }
-
+//Возвращает клетки, не видимые данным игроком
 std::vector<Tile> DarkChessGame::getHiddenTiles(Player player){
     ChessColor color=player.color;
     std::vector<Tile> result;
     for (int i=0;i<SIZE;i++)
         for (int j=0;j<SIZE;j++)
+            //пробежим по доске и проверим, видима ли каждая конкретная клетка
             if (color==ChessColor::White)
                 if (!board[i][j].seenByWhite)
                     result.push_back(board[i][j]);
@@ -141,7 +142,7 @@ std::vector<TiledPiece> DarkChessGame::getConvertionPieces(Player player){
     }
     return result;
 }
-
+//Передает ход другому игроку
 void DarkChessGame::changeTurn(){
     if (turn==ChessColor::White){
         turn=ChessColor::Black;
@@ -151,7 +152,7 @@ void DarkChessGame::changeTurn(){
     }
 }
 
-
+//Просто переставляет фигуру с поля from на поле to, игнорируя возможные разногласия с правилами
 void DarkChessGame::forcedMove(Tile from, Tile to){
     if (board[to.x-1][to.y-1].type!=PieceType::None)
         pieces[board[to.x-1][to.y-1].piecenum].type=PieceType::None;
@@ -164,7 +165,7 @@ void DarkChessGame::forcedMove(Tile from, Tile to){
     updateVision();
 }
 
-
+// Осуществляет рокировку
 void DarkChessGame::doCastling(TiledPiece king,bool isShort){
     Tile rookfrom, rookto,kingfrom,kingto;
     prepareCastling(&rookfrom,&rookto,&kingfrom,&kingto,king.color,isShort);
@@ -172,11 +173,13 @@ void DarkChessGame::doCastling(TiledPiece king,bool isShort){
     forcedMove(kingfrom,kingto);
 }
 
-
+// Проверяет, возможен ли ход, и если да, осуществляет его
 bool DarkChessGame::doMove(Move move){
+    // Проверяем, есть ли фигура на данной клетке
     if (board[move.from.x-1][move.from.y-1].type==PieceType::None)
         return false;
     Piece_dark moving=pieces[board[move.from.x-1][move.from.y-1].piecenum];
+    //Проверяем, является ли ход превращением пешки, проверяем его корректность и осуществляем превращение
     if ((move.isConvertion) && (moving.type==PieceType::Pawn) &&
     ((moving.color==ChessColor::Black) && (move.from.y==1) ||
     (moving.color==ChessColor::White) && (move.from.y==8))){
@@ -185,23 +188,30 @@ bool DarkChessGame::doMove(Move move){
         updateVision();
         return true;
     }
+    //В отличие от остальных фигур, у пешки поле видимости не всегда совпадает с полем возможных ходов,
+    //поэтому здесь необходима дополнительная проверка
     if (moving.type==PieceType::Pawn){
         if (((move.from.x!=move.to.x)&&(board[move.to.x-1][move.to.y-1].type==PieceType::None))||
         ((move.from.x==move.to.x)&&(board[move.to.x-1][move.to.y-1].type!=PieceType::None)))
             return false;
     }
+    //Проверим, лежит ли поле, куда мы хотим попасть, в поле видимости фигуры
     if ((turn==moving.color)&&(isInVector(moving.vision,move.to))){
+        //Проверим, является ли ход рокировкой, короткой или длинной
         if ((moving.type==PieceType::King) && ((move.to.x-move.from.x)==2)){
             doCastling(moving,true);
         }
         else if ((moving.type==PieceType::King) && ((move.to.x-move.from.x)==-2)){
             doCastling(moving,false);
         }
+        //Если ход корректен, но не рокировка, значит, это просто перестановка фигуры на другое место
         else
             forcedMove(move.from,move.to);
     }
+    //Если проверка на корректность не пройдена, возвратим false
     else
         return false;
+    //Проверим, не выиграл ли ходящий в результате этого хода
     if (turn==ChessColor::White){
         checkVictory(ChessColor::White);
         turn=ChessColor::Black;
@@ -210,6 +220,7 @@ bool DarkChessGame::doMove(Move move){
         checkVictory(ChessColor::Black);
         turn=ChessColor::White;
     }
+    //Сохраним ход
     lastmove=move;
     return true;
 }

@@ -4,8 +4,8 @@
 #include "piece.h"
 #include <vector>
 
-#define SIZE 8
-#define TOTALPIECES 32
+extern const int SIZE;
+extern const int TOTALPIECES;
 
 
 struct Tile_content: Tile{
