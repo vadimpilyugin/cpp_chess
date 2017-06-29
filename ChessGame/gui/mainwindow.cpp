@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),_cg(0)
 {
     ui->setupUi(this);
     ui->menuBar->hide();
@@ -40,23 +40,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::createGame()
 {
+    delete _cg;_cg=0;
     _grcw->clearInput();
     ui->stackedWidget->setCurrentWidget(_grcw);
 }
 
 void MainWindow::connectGame()
 {
+    delete _cg;_cg=0;
     _gcw->clearInput();
     ui->stackedWidget->setCurrentWidget(_gcw);
 }
 
 void MainWindow::gameEnded()
 {
-    AChessGame * acg=_cgv->getChessGameModel();
+    _cg=_cgv->getChessGameModel();
     ui->stackedWidget->removeWidget(_cgv);
-    _cgv->deleteLater();
-    _cgv=0;
     ui->stackedWidget->setCurrentWidget(ui->mainPage);
+    _cgv->deleteLater();
+    dynamic_cast<NetworkDarkChessGame*>(_cg)->stop();
 }
 
 void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player)

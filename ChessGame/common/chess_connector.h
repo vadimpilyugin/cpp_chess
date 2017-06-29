@@ -8,6 +8,7 @@
 
 class IChessConnector {
 public:
+    virtual ~IChessConnector(){}
     virtual void sendCommand (const Command &command)
     throw (
         Exception::Exception,

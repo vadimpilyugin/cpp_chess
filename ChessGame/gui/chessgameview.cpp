@@ -37,9 +37,9 @@ ChessGameView::ChessGameView(ADarkChessGame *game, QWidget *parent) :
 }
 
 ChessGameView::~ChessGameView()
-{
-    delete ui;
+{    
     if(_acg!=0) _acg->detachObserver(this);
+    delete ui;
 }
 
 
@@ -66,52 +66,52 @@ void ChessGameView::update(AChessGame *game){
         GameState state=game->getState();
         if((state==GameState::BlackVictory && _activePlayer==ChessColor::White) ||
                (state==GameState::WhiteVictory && _activePlayer==ChessColor::Black)){
-            QMessageBox mb(this);
-            mb.setWindowTitle("Печалько");
-            mb.setText("Вы проиграли((");
-            mb.setInformativeText("Важно не то, проигрываем ли мы в игре, важно, как мы проигрываем и как мы благодаря этому изменимся, что нового вынесем для себя, как сможем применить это в других играх. Странным образом поражение оборачивается победой");
-            mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Печалько");
+            mb->setText("Вы проиграли((");
+            mb->setInformativeText("Важно не то, проигрываем ли мы в игре, важно, как мы проигрываем и как мы благодаря этому изменимся, что нового вынесем для себя, как сможем применить это в других играх. Странным образом поражение оборачивается победой");
+            mb->exec();
             emit gameEnded();
         }else if(state==GameState::Draw){
-            QMessageBox mb(this);
-            mb.setWindowTitle("Ничья");
-            mb.setText("Вы сыграли в ничью");
-            mb.setInformativeText("Он так любил делать ничьи, что его прозвали шахпатистом");
-            mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Ничья");
+            mb->setText("Вы сыграли в ничью");
+            mb->setInformativeText("Он так любил делать ничьи, что его прозвали шахпатистом");
+            mb->exec();
             emit gameEnded();
         }else if( (_activePlayer==ChessColor::Black && state==GameState::WhiteGiveUp) ||
                   (_activePlayer==ChessColor::White && state==GameState::BlackGiveUp)){
-            QMessageBox mb(this);
-            mb.setWindowTitle("Победа");
-            mb.setText("Ваш соперник сдался");
-            mb.setInformativeText("Поздравляю бравый рыцарь, соперник затрепетал перед вашим величие, обмочил штанишки и сдался!");
-            mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Победа");
+            mb->setText("Ваш соперник сдался");
+            mb->setInformativeText("Поздравляю бравый рыцарь, соперник затрепетал перед вашим величие, обмочил штанишки и сдался!");
+            mb->exec();
             emit gameEnded();
         }else if( (_activePlayer==ChessColor::Black && state==GameState::BlackGiveUp) ||
                   (_activePlayer==ChessColor::White && state==GameState::WhiteGiveUp)){
-            QMessageBox mb(this);
-            mb.setWindowTitle("Поражение");
-            mb.setText("Вы сдались");
-            mb.setInformativeText("Важно не то, проигрываем ли мы в игре, важно, как мы проигрываем и как мы благодаря этому изменимся, что нового вынесем для себя, как сможем применить это в других играх. Странным образом поражение оборачивается победой");
-            mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Поражение");
+            mb->setText("Вы сдались");
+            mb->setInformativeText("Важно не то, проигрываем ли мы в игре, важно, как мы проигрываем и как мы благодаря этому изменимся, что нового вынесем для себя, как сможем применить это в других играх. Странным образом поражение оборачивается победой");
+            mb->exec();
             emit gameEnded();
         }else if((state==GameState::BlackVictory && _activePlayer==ChessColor::Black) ||
                  (state==GameState::WhiteVictory && _activePlayer==ChessColor::White)){
-              QMessageBox mb(this);
-              mb.setWindowTitle("Победа");
-              mb.setText("Вы победили соперника");
-              mb.setInformativeText("Не проигрывает не тот, кто знает все варианты победы, а тот, кто знает все варианты поражения");
-              mb.exec();
+              QMessageBox *mb=new QMessageBox(this);
+              mb->setWindowTitle("Победа");
+              mb->setText("Вы победили соперника");
+              mb->setInformativeText("Не проигрывает не тот, кто знает все варианты победы, а тот, кто знает все варианты поражения");
+              mb->exec();
               emit gameEnded();
         }else if((state==GameState::BlackOfferDraw && _activePlayer==ChessColor::White) ||
             (state==GameState::WhiteOfferDraw && _activePlayer==ChessColor::Black)){
             Command *command;
-            QMessageBox mb(this);
-            mb.setWindowTitle("Предложение ничьи");
-            mb.setText("Ваш соперник предложил ничью. Желаете принять предложение?");
-            mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-            mb.setDefaultButton(QMessageBox::Ok);
-            int ret = mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Предложение ничьи");
+            mb->setText("Ваш соперник предложил ничью. Желаете принять предложение?");
+            mb->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+            mb->setDefaultButton(QMessageBox::Ok);
+            int ret = mb->exec();
             switch(ret){
             case QMessageBox::Ok:
                 command=new AcceptDrawCommand();
@@ -124,10 +124,10 @@ void ChessGameView::update(AChessGame *game){
             if(_acg)_acg->doCommand(command);
             //delete command;
         }else if(state==GameState::Termination){
-            QMessageBox mb(this);
-            mb.setWindowTitle("Аварийная ситуация");
-            mb.setText("Игра аварийно завершилась");
-            mb.exec();
+            QMessageBox *mb=new QMessageBox(this);
+            mb->setWindowTitle("Аварийная ситуация");
+            mb->setText("Игра аварийно завершилась");
+            mb->exec();
             emit gameEnded();
         }
     }

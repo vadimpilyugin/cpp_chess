@@ -29,7 +29,8 @@ HEADERS += \
     printer.h \
     serialize.h \
     tile.h \
-    dark.h
+    dark.h \
+    chess_connector.h
 
 SOURCES += \
     achessgame.cpp \

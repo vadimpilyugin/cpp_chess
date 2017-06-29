@@ -32,6 +32,7 @@ private:
     GameConnectionWidget *_gcw;
     GameRecvConnectionWidget *_grcw;
     ChessGameView *_cgv;
+    AChessGame *_cg;
 
 
     Ui::MainWindow *ui;

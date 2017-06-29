@@ -5,6 +5,7 @@
 #include "tile.h"
 class IChessBoardController{
 public:
+    virtual ~IChessBoardController(){}
 public slots:
     //Послать команду хода фигурой
     virtual void sendMoveCommand(ChessColor player,Piece piece,Tile from,Tile to)=0;

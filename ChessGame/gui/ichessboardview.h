@@ -9,6 +9,7 @@
 
 class IChessBoardView:public IChessObserver{
 public:
+    virtual ~IChessBoardView(){}
     //Установить модель для представление
     virtual void setChessGameModel(ADarkChessGame* game=0)=0;
     //Возвращает модель представления
