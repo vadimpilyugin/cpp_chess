@@ -163,18 +163,18 @@ void ChessGameView::setPlayers(Player player1, Player player2)
 void ChessGameView::offerDrawButtonReleased()
 {
     if(_acg && _activePlayer==_acg->getOrderPlayer()){
-        OfferDrawCommand odc;
-        odc.playerColor=_activePlayer;
-        _acg->doCommand(&odc);
+        OfferDrawCommand *odc=new OfferDrawCommand();
+        odc->playerColor=_activePlayer;
+        _acg->doCommand(odc);
     }
 }
 
 void ChessGameView::giveUpButtonReleased()
 {
     if(_acg && _activePlayer==_acg->getOrderPlayer()){
-        GiveUpCommand guc;
-        guc.playerColor=_activePlayer;
-        _acg->doCommand(&guc);
+        GiveUpCommand *guc=new GiveUpCommand();
+        guc->playerColor=_activePlayer;
+        _acg->doCommand(guc);
     }
 }
 

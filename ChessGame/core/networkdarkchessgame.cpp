@@ -83,9 +83,6 @@ void NetworkDarkChessGame::doCommand(Command * command){
         }
     }
 
-    if(!problems && !blockConvertion)
-        notifyObservers();
-
     if ((!problems)&&(isitlocal))
         connector->sendCommand(*command);
 
@@ -93,6 +90,9 @@ void NetworkDarkChessGame::doCommand(Command * command){
         PassCommand pc;pc.playerColor=localPlayer.color;
         connector->sendCommand(pc);
     }
+
+    if(!problems && !blockConvertion)
+        notifyObservers();
 
     delete command;
 }
