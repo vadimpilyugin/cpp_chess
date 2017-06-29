@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),_cg(0)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->menuBar->hide();
@@ -40,30 +40,28 @@ MainWindow::~MainWindow()
 
 void MainWindow::createGame()
 {
-    delete _cg;_cg=0;
     _grcw->clearInput();
     ui->stackedWidget->setCurrentWidget(_grcw);
 }
 
 void MainWindow::connectGame()
 {
-    delete _cg;_cg=0;
     _gcw->clearInput();
     ui->stackedWidget->setCurrentWidget(_gcw);
 }
 
 void MainWindow::gameEnded()
 {
-    _cg=_cgv->getChessGameModel();
     ui->stackedWidget->removeWidget(_cgv);
     ui->stackedWidget->setCurrentWidget(ui->mainPage);
     _cgv->deleteLater();
-    dynamic_cast<NetworkDarkChessGame*>(_cg)->stop();
+    _cg.reset();
 }
 
 void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player)
 {
-    NetworkDarkChessGame *ndcg=new NetworkDarkChessGame(connector,player);
+    std::shared_ptr<NetworkDarkChessGame> ndcg(new NetworkDarkChessGame(connector,player));
+    _cg=ndcg;
     _cgv=new ChessGameView(ndcg);
     QObject::connect(_cgv,&ChessGameView::gameEnded,this,&MainWindow::gameEnded);
     ui->stackedWidget->addWidget(_cgv);

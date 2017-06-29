@@ -17,10 +17,6 @@ public:
     Player getLocalPlayer();
     Player getRemotePlayer();
     virtual void doCommand(Command *command);
-    void stop(){
-        if(connector!=0)delete connector;
-        connector=0;
-    }
 
     ~NetworkDarkChessGame() {
         if(connector!=0)delete connector;

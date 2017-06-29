@@ -7,30 +7,27 @@
 const size_t rowCount=8;
 const size_t colCount=8;
 
-ChessGameView::ChessGameView(ADarkChessGame *game, QWidget *parent) :
+ChessGameView::ChessGameView(std::shared_ptr<ADarkChessGame> game, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChessGameWidget),_acg(0)
 {
     ui->setupUi(this);
 
-    DarkChessBoardView *dcbv=new DarkChessBoardView(game,this);
+    DarkChessBoardView *dcbv=new DarkChessBoardView(game.get(),this);
 
     ui->horizontalLayout->addWidget(dcbv);
 
     _cbw=dcbv;
 
-    _cbc=new ChessBoardController(dynamic_cast<AChessGame*>(game),this);
+    _cbc=new ChessBoardController(dynamic_cast<AChessGame*>(game.get()),this);
 
-    QObject *bla=dynamic_cast<QObject*>(_cbw);
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(pieceMovedByPlayer(ChessColor,Piece,Tile,Tile)),dynamic_cast<QObject*>(_cbc), SLOT(sendMoveCommand(ChessColor,Piece,Tile,Tile)));
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(piecePromotedByPlayer(ChessColor,TiledPiece,TiledPiece)),dynamic_cast<QObject*>(_cbc), SLOT(sendPromoteCommand(ChessColor,TiledPiece,TiledPiece)));
 
-    if(game){
-        _acg=game;
-        _acg->attachObserver(this);
-        NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg);
-        if(ndcg)initPlayersFromNDCG(ndcg);
-    }
+    _acg=game;
+    _acg->attachObserver(this);
+    NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg.get());
+    if(ndcg)initPlayersFromNDCG(ndcg);
 
     QObject::connect(ui->giveupButton,&QPushButton::released,this,&ChessGameView::giveUpButtonReleased);
     QObject::connect(ui->offerDrawButton,&QPushButton::released,this,&ChessGameView::offerDrawButtonReleased);
@@ -44,11 +41,11 @@ ChessGameView::~ChessGameView()
 
 
 void ChessGameView::update(AChessGame *game){
-    if(game==0)game=_acg;
+    if(game==0)game=_acg.get();
     if(game!=0){
         _log.addMove(game->getLastMove());
         ui->logLabel->setText(_log.logToString(_activePlayer).c_str());
-        NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg);
+        NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg.get());
         if(ndcg)initPlayersFromNDCG(ndcg);
 
         if(_activePlayer!=ndcg->getOrderPlayer()){
@@ -136,17 +133,17 @@ void ChessGameView::update(AChessGame *game){
 void ChessGameView::setChessGameModel(AChessGame *game)
 {
     if(_acg)_acg->detachObserver(this);
-    _acg=game;
+    _acg.reset(game);
     if(_acg){
         _acg->attachObserver(this);
-        update(_acg);
+        update(_acg.get());
     }
 
 }
 
 AChessGame *ChessGameView::getChessGameModel()
 {
-    return _acg;
+    return _acg.get();
 }
 
 void ChessGameView::setActivePlayer(ChessColor player)

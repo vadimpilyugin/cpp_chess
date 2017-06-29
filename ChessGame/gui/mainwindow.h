@@ -7,6 +7,7 @@
 #include "gameconnectionwidget.h"
 #include "gamerecvconnectionwidget.h"
 #include "chessgameview.h"
+#include <memory>
 
 namespace Ui {
 class MainWindow;
@@ -32,7 +33,7 @@ private:
     GameConnectionWidget *_gcw;
     GameRecvConnectionWidget *_grcw;
     ChessGameView *_cgv;
-    AChessGame *_cg;
+    std::shared_ptr<AChessGame>_cg;
 
 
     Ui::MainWindow *ui;
