@@ -20,7 +20,6 @@ class DarkChessGame:public ChessGame{
         void doCastling(TiledPiece king,bool isShort);
         void checkVictory(ChessColor color);
         void updateVision();
-        void rawOutput(ChessColor color);
         bool checkSingle(Tile start,int dx,int dy,ChessColor color);
         std::vector<Tile> checkLine(Tile start,int dx,int dy,ChessColor color);
         bool checkCastling(int kingnum,bool isShort);
