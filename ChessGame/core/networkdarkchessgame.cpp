@@ -20,6 +20,7 @@ blockConvertion(false){
             remotePlayer.color=(localPlayer.color==ChessColor::Black) ? ChessColor::White : ChessColor::Black;
         }
     }
+    initialize();
 }
 
 Player NetworkDarkChessGame::getLocalPlayer(){

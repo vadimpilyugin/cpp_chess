@@ -62,7 +62,6 @@ void MainWindow::gameEnded()
 void MainWindow::gameConnectionCreated(IChessConnector *connector, Player player)
 {
     NetworkDarkChessGame *ndcg=new NetworkDarkChessGame(connector,player);
-    ndcg->initialize();
     _cgv=new ChessGameView(ndcg);
     QObject::connect(_cgv,&ChessGameView::gameEnded,this,&MainWindow::gameEnded);
     ui->stackedWidget->addWidget(_cgv);

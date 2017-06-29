@@ -8,13 +8,8 @@
 
 class ADarkChessGame:public AChessGame{
 public:
-    virtual vector<Tile> getHiddenTiles(Player player)=0;
+    virtual vector<Tile> getHiddenTiles(Player player)=0; // FIXME(1): убрать объявление
 
-//    virtual vector<TiledPiece> getConvertionPieces(Player player);
-//    virtual vector<Tile> getMoveTiles(TiledPiece piece);
-//    virtual vector<Tile> getAttackTiles(TiledPiece piece);
-//    virtual Piece getPieceAtTile(Tile tile);
-//    virtual ChessColor getOrderPlayer();
 };
 
 #endif // ADARKCHESSGAME_H

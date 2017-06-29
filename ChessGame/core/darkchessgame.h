@@ -3,18 +3,18 @@
 
 class DarkChessGame:public ChessGame{
     public:
-        bool doMove(Move move);
-        // FIXME(10): они должны быть объявлены виртуальными
-        std::vector<Tile> getMoveTiles(TiledPiece piece);
-        std::vector<Tile> getAttackTiles(TiledPiece piece);
-        std::vector<Tile> getHiddenTiles(Player player);
-        std::vector<TiledPiece> getConvertionPieces(Player player);
-        //
-        void initialize();
-    protected:
-        void changeTurn();
 
-    private:
+        virtual std::vector<Tile> getMoveTiles(TiledPiece piece); // FIXME: перенести в ADCG.h
+        virtual std::vector<Tile> getAttackTiles(TiledPiece piece); // FIXME: перенести в ADCG.h
+        virtual std::vector<Tile> getHiddenTiles(Player player); // FIXME: перенести в ADCG.h
+        virtual std::vector<TiledPiece> getConvertionPieces(Player player); // FIXME: перенести в ADCG.h
+
+    protected:
+    void initialize(); // FIXME: перенести в ADCG.h
+        bool doMove(Move move); // FIXME: перенести в ADCG.h
+        void changeTurn(); // FIXME: перенести в ADCG.h
+
+    private:  // FIXME: перенести в ADCG.h
         void forcedMove(Tile from, Tile to);
         void doCastling(TiledPiece king,bool isShort);
         void checkVictory(ChessColor color);
