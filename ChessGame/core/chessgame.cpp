@@ -1,7 +1,7 @@
 #include "chessgame.h"
 
-int SIZE=8;
-int TOTALPIECES=32;
+const int SIZE=8;
+const int TOTALPIECES=32;
 
 ChessGame::ChessGame(){
     state=GameState::Going;

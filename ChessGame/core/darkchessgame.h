@@ -11,7 +11,6 @@ class DarkChessGame:public ChessGame{
         std::vector<TiledPiece> getConvertionPieces(Player player);
         //
         void initialize();
-//METHODS BELOW WILL BE PRIVATE CAUSE NOBODY ELSE WILL NEED THEM
     protected:
         void changeTurn();
 
