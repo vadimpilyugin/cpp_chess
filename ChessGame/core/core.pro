@@ -22,14 +22,7 @@ unix {
 }
 
 HEADERS += \
-    chessgame.h \
-    dark.h \
-    darkchessgame.h \
-    darkchessrules.h \
     networkdarkchessgame.h
 
 SOURCES += \
-    chessgame.cpp \
-    darkchessgame.cpp \
-    darkchessrules.cpp \
     networkdarkchessgame.cpp

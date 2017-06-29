@@ -28,7 +28,8 @@ HEADERS += \
     player.h \
     printer.h \
     serialize.h \
-    tile.h
+    tile.h \
+    dark.h
 
 SOURCES += \
     achessgame.cpp \

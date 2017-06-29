@@ -1,9 +1,9 @@
 #pragma once
-#include "darkchessgame.h"
+#include "adarkchessgame.h"
 #include "chess_connector.h"
 #include <QObject>
 
-class NetworkDarkChessGame:public QObject,public DarkChessGame{
+class NetworkDarkChessGame:public QObject,public ADarkChessGame{
     Q_OBJECT
 private:
     IChessConnector * connector;
@@ -16,7 +16,7 @@ public:
     NetworkDarkChessGame(IChessConnector * connector_,Player localPlayer_ );
     Player getLocalPlayer();
     Player getRemotePlayer();
-    void doCommand(Command *command); // FIXME(14): virtual void doCommand
+    virtual void doCommand(Command *command);
     ~NetworkDarkChessGame() {
         delete connector;
     }
