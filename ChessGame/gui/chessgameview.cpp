@@ -24,8 +24,6 @@ ChessGameView::ChessGameView(ADarkChessGame *game, QWidget *parent) :
     QObject *bla=dynamic_cast<QObject*>(_cbw);
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(pieceMovedByPlayer(ChessColor,Piece,Tile,Tile)),dynamic_cast<QObject*>(_cbc), SLOT(sendMoveCommand(ChessColor,Piece,Tile,Tile)));
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(piecePromotedByPlayer(ChessColor,TiledPiece,TiledPiece)),dynamic_cast<QObject*>(_cbc), SLOT(sendPromoteCommand(ChessColor,TiledPiece,TiledPiece)));
-    //QObject::connect(_cbw,&IChessBoardView::pieceMovedByPlayer,_cbc,&IChessBoardController::sendMoveCommand);
-    //QObject::connect(_cbw,&IChessBoardView::piecePromotedByPlayer,_cbc,&IChessBoardController::sendPromoteCommand);
 
     if(game){
         _acg=game;
@@ -52,6 +50,19 @@ void ChessGameView::update(AChessGame *game){
         ui->logLabel->setText(_log.logToString(_activePlayer).c_str());
         NetworkDarkChessGame *ndcg=dynamic_cast<NetworkDarkChessGame*>(_acg);
         if(ndcg)initPlayersFromNDCG(ndcg);
+
+        if(_activePlayer!=ndcg->getOrderPlayer()){
+            ui->giveupButton->setEnabled(false);
+            ui->offerDrawButton->setEnabled(false);
+            ui->playerNameLabel->setStyleSheet("font-weight:bold;color:rgb(0,0,0);");
+            ui->opponentNameLabel->setStyleSheet("font-weight:bold;color:rgb(0,0,170);");
+        }else{
+            ui->giveupButton->setEnabled(true);
+            ui->offerDrawButton->setEnabled(true);
+            ui->playerNameLabel->setStyleSheet("font-weight:bold;color:rgb(0,0,170);");
+            ui->opponentNameLabel->setStyleSheet("font-weight:bold;color:rgb(0,0,0);");
+        }
+
         GameState state=game->getState();
         if((state==GameState::BlackVictory && _activePlayer==ChessColor::White) ||
                (state==GameState::WhiteVictory && _activePlayer==ChessColor::Black)){

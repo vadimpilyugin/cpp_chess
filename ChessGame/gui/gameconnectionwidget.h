@@ -18,11 +18,12 @@ public:
     explicit GameConnectionWidget(QWidget *parent = 0);
     ~GameConnectionWidget();
 
+    void clearInput();
+
+private:
     void goToWaitingMode();
     void goToErrorMode();
     void goToInputMode();
-
-    void clearInput();
 
 private slots:
     void ipAddressChanged(const QString& ip);

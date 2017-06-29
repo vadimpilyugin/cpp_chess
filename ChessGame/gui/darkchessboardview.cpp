@@ -23,6 +23,7 @@ void DarkChessBoardView::update(AChessGame *game)
 {
     if(game==0)game=_dcg;
     if(game==0)return;
+    setUpdatesEnabled(false);
 
     for(int i=0;i<colCount;++i){
         for(int j=0;j<rowCount;++j){
@@ -43,6 +44,8 @@ void DarkChessBoardView::update(AChessGame *game)
             this->hideTile(tiles[i]);
         }
     }
+
+    setUpdatesEnabled(true);
 
     vector<TiledPiece> convertionPieces=game->getConvertionPieces(pl);
     if(convertionPieces.size())

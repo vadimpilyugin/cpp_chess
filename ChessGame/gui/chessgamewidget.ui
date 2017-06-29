@@ -81,14 +81,19 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-weight: bold</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="text">
-        <string>&lt;b&gt;Marina&lt;/b&gt;</string>
+        <string>Marina</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -130,14 +135,19 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-weight:bold</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="text">
-        <string>&lt;b&gt;Sasha&lt;/b&gt;</string>
+        <string>Sasha</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

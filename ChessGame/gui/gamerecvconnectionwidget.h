@@ -18,11 +18,12 @@ public:
     explicit GameRecvConnectionWidget(QWidget *parent = 0);
     ~GameRecvConnectionWidget();
 
+    void clearInput();
+
+private:
     void goToWaitingMode();
     void goToErrorMode();
     void goToInputMode();
-
-    void clearInput();
 
 private slots:
     void userNameChanged(const QString& name);
@@ -33,6 +34,7 @@ private slots:
 signals:
     void connectionCreated(IChessConnector* rcc, Player color);
     void connectionCanceled();
+
 private:
     QTimer _timer;
     Ui::GameRecvConnectionWidget *ui;
