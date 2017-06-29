@@ -1,21 +1,13 @@
 #include "darkchessgame.h"
-
+// простая проверка того, что клетка лежит в векторе из клеток
 bool isInVector(std::vector<Tile> range,Tile tile){
     bool result=false;
-    // FIXME(13)
-    /*
     for (auto tileInRange: range) {
         if (tileInRange.x == tile.x && tileInRange.y == tile.y){
             result = true;
             break;
         }
     }
-    */
-    for (int i=0;i<range.size();i++)
-        if ((tile.x==range[i].x)&&(tile.y==range[i].y)){
-            result=true;
-            break;
-        }
     return result;
 }
 // Победа определяется как отсутствие в массиве pieces короля определенного цвета
@@ -34,24 +26,16 @@ void DarkChessGame::checkVictory(ChessColor color){
 }
 std::vector<Tile> DarkChessGame::getMoveTiles(TiledPiece piece){
     std::vector<Tile> result;
-    int i;
     int x=piece.place.x;
     int y=piece.place.y;
-    // FIXME(11): заменить цикл на более читабельный
-    /*
     int pieceIndex = board[x-1][y-1].piecenum;
     PieceType thisPieceType = pieces[pieceIndex].type;
-
+    //клетки, куда фигура может сходить -- это пустые клетки из её поля видимости, за исключением клеток по диагонали для пешек
     for(auto visionTile: pieces[pieceIndex].vision) {
         if (board[visionTile.x-1][visionTile.y-1].type==PieceType::None &&
             (thisPieceType!=PieceType::Pawn || visionTile.x == x))
             result.push_back(visionTile);
-    }*/
-    for (i=0;i<pieces[board[x-1][y-1].piecenum].vision.size();i++)
-        if ((board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
-            [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type==PieceType::None)&&
-            ((pieces[board[x-1][y-1].piecenum].type!=PieceType::Pawn)||(pieces[board[x-1][y-1].piecenum].vision[i].x==x)))
-        result.push_back(pieces[board[x-1][y-1].piecenum].vision[i]);
+    }
     return result;
 }
 std::vector<Tile> DarkChessGame::getAttackTiles(TiledPiece piece){
@@ -59,56 +43,48 @@ std::vector<Tile> DarkChessGame::getAttackTiles(TiledPiece piece){
     int i;
     int x=piece.place.x;
     int y=piece.place.y;
-    // FIXME(12): то же самое
-    /*
     int pieceIndex = board[x-1][y-1].piecenum;
     PieceType thisPieceType = pieces[pieceIndex].type;
+    //клетки, которые фигура может атаковать -- это непустые клетки из её поля видимости, за исключением клеток спереди для пешек
     for(auto visionTile: pieces[pieceIndex].vision) {
         if (board[visionTile.x-1][visionTile.y-1].type!=PieceType::None &&
-            (thisPieceType != PieceType::Pawn || visionTile.x != x)
+            (thisPieceType != PieceType::Pawn || visionTile.x != x))
             result.push_back(visionTile);
     }
-    */
-    for (i=0;i<pieces[board[x-1][y-1].piecenum].vision.size();i++)
-        if ((board[pieces[board[x-1][y-1].piecenum].vision[i].x-1]
-            [pieces[board[x-1][y-1].piecenum].vision[i].y-1].type!=PieceType::None)&&
-            ((pieces[board[x-1][y-1].piecenum].type!=PieceType::Pawn)||(pieces[board[x-1][y-1].piecenum].vision[i].x!=x)))
-        result.push_back(pieces[board[x-1][y-1].piecenum].vision[i]);
     return result;
 }
+
+//обновляем поле видимости для всех фигур
 void DarkChessGame::updateVision(){
     int i,j;
+    //сначала сделаем все поле невидимым для всех, потом будем отмечать видимые клетки
     for(i=0;i<SIZE;i++)
         for(j=0;j<SIZE;j++){
             board[i][j].seenByWhite=false;
             board[i][j].seenByBlack=false;
         }
     int x,y;
+    //здесь dc -- это 0 для белых и 16 для чёрных, поскольку их номера в массиве фигур соответственно 0-15 и 16-31
     for(int dc=0;dc<TOTALPIECES/2+1;dc+=TOTALPIECES/2)
         for(i=0;i<TOTALPIECES/2;i++){
+            //обновим поле видимости каждой фигуры
             updatePieceVision(i+dc);
-            int x=pieces[i+dc].place.x;
-            int y=pieces[i+dc].place.y;
+            x=pieces[i+dc].place.x;
+            y=pieces[i+dc].place.y;
+            //поскольку фигура не видит сама себя, эту клетку нужно показать видимыми отдельно
             if (pieces[i+dc].type!=PieceType::None){
                 if (dc!=0)
                     board[x-1][y-1].seenByBlack=true;
                 else
                     board[x-1][y-1].seenByWhite=true;
             }
-            // FIXME(13): читабельность++
-            /*
+            //проходим по полю видимости каждой фигуры и отмечаем соответствующие клетки доски
             for(auto visionTile: pieces[i+dc].vision) {
                 if (dc)
                     board[visionTile.x-1][visionTile.y-1].seenByBlack=true;
                 else
                     board[visionTile.x-1][visionTile.y-1].seenByWhite=true;
             }
-            */
-            for (j=0;j<pieces[i+dc].vision.size();j++)
-                if (dc)
-                    board[pieces[i+dc].vision[j].x-1][pieces[i+dc].vision[j].y-1].seenByBlack=true;
-                else
-                    board[pieces[i+dc].vision[j].x-1][pieces[i+dc].vision[j].y-1].seenByWhite=true;
         }
 }
 //Возвращает клетки, не видимые данным игроком
