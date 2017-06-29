@@ -396,6 +396,15 @@ void DarkChessBoardWidget::setPalette(ChessBoardPallete cbp){_palette=cbp;}
 
 ChessBoardPallete DarkChessBoardWidget::getPalette(){return _palette;}
 
+QSize DarkChessBoardWidget::sizeHint() const {
+    return QSize(300, heightForWidth(300));
+}
+
+int DarkChessBoardWidget::heightForWidth(int w) const {
+    QApplication::postEvent(const_cast<DarkChessBoardWidget*>(this), new QEvent(QEvent::UpdateRequest));
+    return w;
+}
+
 void DarkChessBoardWidget::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->source() == this) {

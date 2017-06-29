@@ -49,14 +49,9 @@ public:
     void setPalette(ChessBoardPallete cbp);
     ChessBoardPallete getPalette();
 
-    virtual QSize sizeHint() const {
-        return QSize(300, heightForWidth(300));
-    }
+    virtual QSize sizeHint() const;
 
-    virtual int heightForWidth( int w )const {
-        QApplication::postEvent(const_cast<DarkChessBoardWidget*>(this), new QEvent(QEvent::UpdateRequest));
-        return w;
-    }
+    virtual int heightForWidth( int w )const;
 private:
     void initLegend();
     void initTiles();

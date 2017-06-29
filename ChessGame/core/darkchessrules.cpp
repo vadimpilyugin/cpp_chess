@@ -20,7 +20,7 @@ const int xCastlingPlaces[] = {8,6,5,7,1,4,5,3};//rookfrom,rookto,kingfrom,kingt
 
 
 bool isOnBoard(int x,int y){
-	return ((x>0)&&(x<SIZE+1)&&(y>0)&&(y<SIZE+1));
+    return ((x>0)&&(x<BOARDSIZE+1)&&(y>0)&&(y<BOARDSIZE+1));
 }
 
 //расставить фигуры и приготовиться к игре
@@ -82,7 +82,7 @@ bool DarkChessGame::checkCastling(int kingnum,bool isShort){
     // row и d выбираются исходя из цвета короля и длины рокировки и потом помогают нам найти ладью и места для рокировки
 	int row=0;
     if (color==ChessColor::Black)
-		row+=SIZE-1;
+        row+=BOARDSIZE-1;
 	int d=4;
 	if (isShort)
 		d=0;
@@ -105,10 +105,10 @@ void DarkChessGame::prepareCastling(Tile* rookfrom, Tile * rookto,Tile* kingfrom
 		kingto->y=1;
 	}
 	else{
-		rookfrom->y=SIZE;
-		rookto->y=SIZE;
-		kingfrom->y=SIZE;
-		kingto->y=SIZE;
+        rookfrom->y=BOARDSIZE;
+        rookto->y=BOARDSIZE;
+        kingfrom->y=BOARDSIZE;
+        kingto->y=BOARDSIZE;
 	}
 	if (isShort){
 		kingfrom->x=xCastlingPlaces[2];
@@ -237,13 +237,13 @@ void DarkChessGame::updatePieceVision(int num){
 			if (checkCastling(num,true)){
 				row=0;
                 if (color==ChessColor::Black)
-					row=SIZE-1;
+                    row=BOARDSIZE-1;
 				result.push_back(board[xCastlingPlaces[3]-1][row]);
 			}
 			if (checkCastling(num,false)){
 				row=0;
                 if (color==ChessColor::Black)
-					row=SIZE-1;
+                    row=BOARDSIZE-1;
 				result.push_back(board[xCastlingPlaces[7]-1][row]);
 			}
 			break;

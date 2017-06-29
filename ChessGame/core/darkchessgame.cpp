@@ -58,8 +58,8 @@ std::vector<Tile> DarkChessGame::getAttackTiles(TiledPiece piece){
 void DarkChessGame::updateVision(){
     int i,j;
     //сначала сделаем все поле невидимым для всех, потом будем отмечать видимые клетки
-    for(i=0;i<SIZE;i++)
-        for(j=0;j<SIZE;j++){
+    for(i=0;i<BOARDSIZE;i++)
+        for(j=0;j<BOARDSIZE;j++){
             board[i][j].seenByWhite=false;
             board[i][j].seenByBlack=false;
         }
@@ -91,8 +91,8 @@ void DarkChessGame::updateVision(){
 std::vector<Tile> DarkChessGame::getHiddenTiles(Player player){
     ChessColor color=player.color;
     std::vector<Tile> result;
-    for (int i=0;i<SIZE;i++)
-        for (int j=0;j<SIZE;j++)
+    for (int i=0;i<BOARDSIZE;i++)
+        for (int j=0;j<BOARDSIZE;j++)
             //пробежим по доске и проверим, видима ли каждая конкретная клетка
             if (color==ChessColor::White)
                 if (!board[i][j].seenByWhite)
@@ -109,8 +109,8 @@ std::vector<TiledPiece> DarkChessGame::getConvertionPieces(Player player){
     // нужно проверить первую либо последнюю линию на наличие пешек
     std::vector<TiledPiece> result;
     // белые должны дойти до 8 линии, черные - до 1
-    int line = player.color == ChessColor::White ? SIZE-1 : 0;
-    for (int i = 0; i < SIZE; i++) {
+    int line = player.color == ChessColor::White ? BOARDSIZE-1 : 0;
+    for (int i = 0; i < BOARDSIZE; i++) {
         Tile_content tile_with_piece = board[i][line];
         // проверяем клетки на наличие пешек
         if (tile_with_piece.type == PieceType::Pawn && pieces[tile_with_piece.piecenum].color == player.color)

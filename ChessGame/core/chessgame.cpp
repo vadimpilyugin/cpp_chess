@@ -1,19 +1,19 @@
 #include "chessgame.h"
 
-const int SIZE=8;
+const int BOARDSIZE=8;
 const int TOTALPIECES=32;
 
 ChessGame::ChessGame(){
     state=GameState::Going;
-	board=new Tile_content* [SIZE];
-	for (int i=0;i<SIZE;i++)
-		board[i]=new Tile_content[SIZE];
+    board=new Tile_content* [BOARDSIZE];
+    for (int i=0;i<BOARDSIZE;i++)
+        board[i]=new Tile_content[BOARDSIZE];
 	pieces=new Piece_dark[TOTALPIECES];
     Move nullmove;
     lastmove=nullmove;
 }
 ChessGame::~ChessGame(){
-	for(int i=0;i<SIZE;i++)
+    for(int i=0;i<BOARDSIZE;i++)
 		delete[] board[i];
 	delete[] board;
 	delete[] pieces;

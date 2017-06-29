@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <map>
 #include "piece.h"
+#include <algorithm>
 
 static std::map<PieceType,std::string> getPieceCharMapping(){
     std::map<PieceType,std::string> res;
@@ -12,6 +13,7 @@ static std::map<PieceType,std::string> getPieceCharMapping(){
     res[PieceType::Knight]="N";
     res[PieceType::Queen]="Q";
     res[PieceType::King]="K";
+    return res;
 }
 
 static const std::map<PieceType,std::string> pieceCharMapping=getPieceCharMapping();

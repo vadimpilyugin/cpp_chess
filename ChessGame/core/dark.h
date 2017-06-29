@@ -4,7 +4,7 @@
 #include "piece.h"
 #include <vector>
 
-extern const int SIZE;
+extern const int BOARDSIZE;
 extern const int TOTALPIECES;
 
 

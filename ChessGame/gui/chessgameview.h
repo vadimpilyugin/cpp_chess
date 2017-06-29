@@ -7,6 +7,8 @@
 #include "darkchessboardview.h"
 #include "networkdarkchessgame.h"
 #include "darkchesslog.h"
+#include "ichessboardview.h"
+#include "ichessboardcontroller.h"
 
 namespace Ui {
 class ChessGameWidget;
@@ -38,7 +40,8 @@ private slots:
 
 private:
     void initPlayersFromNDCG(NetworkDarkChessGame *ndcg);
-    DarkChessBoardView *_cbw;
+    IChessBoardView *_cbw;
+    IChessBoardController *_cbc;
     AChessGame *_acg;
     DarkChessLog _log;
     Player _player1,_player2;

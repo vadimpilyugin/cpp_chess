@@ -5,23 +5,23 @@
 const size_t rowCount=8;
 const size_t colCount=8;
 
-DarkChessBoardView::DarkChessBoardView(AChessGame *game,QWidget* parent):DarkChessBoardWidget(parent),_cg(game)
+DarkChessBoardView::DarkChessBoardView(ADarkChessGame *game, QWidget* parent):DarkChessBoardWidget(parent),_dcg(game)
 {
     QObject::connect(this,&DarkChessBoardWidget::pieceHover,this,&DarkChessBoardView::hightlightMoves);
-    QObject::connect(this,&DarkChessBoardWidget::pieceMoved,this,&DarkChessBoardView::sendMoveCommand);
-    QObject::connect(this,&DarkChessBoardWidget::pieceConverted,this,&DarkChessBoardView::sendConvertCommand);
+    QObject::connect(this,&DarkChessBoardWidget::pieceMoved,this,&DarkChessBoardView::pieceMovedSlot);
+    QObject::connect(this,&DarkChessBoardWidget::pieceConverted,this,&DarkChessBoardView::piecePromotedSlot);
 
-    if(_cg!=0) _cg->attachObserver(this);
+    if(_dcg!=0) _dcg->attachObserver(this);
 }
 
 DarkChessBoardView::~DarkChessBoardView()
 {
-    if(_cg!=0) _cg->detachObserver(this);
+    if(_dcg!=0) _dcg->detachObserver(this);
 }
 
 void DarkChessBoardView::update(AChessGame *game)
 {
-    if(game==0)game=_cg;
+    if(game==0)game=_dcg;
     if(game==0)return;
 
     for(int i=0;i<colCount;++i){
@@ -50,16 +50,16 @@ void DarkChessBoardView::update(AChessGame *game)
     else this->hideConvert();
 }
 
-void DarkChessBoardView::setChessGameModel(AChessGame *game)
+void DarkChessBoardView::setChessGameModel(ADarkChessGame *game)
 {
-    if(_cg) _cg->detachObserver(this);
-    _cg=game;
-    update(_cg);
+    if(_dcg) _dcg->detachObserver(this);
+    _dcg=game;
+    update(_dcg);
 }
 
-AChessGame *DarkChessBoardView::getChessGameModel()
+ADarkChessGame *DarkChessBoardView::getChessGameModel()
 {
-    return _cg;
+    return _dcg;
 }
 
 void DarkChessBoardView::setActivePlayer(ChessColor player)
@@ -78,44 +78,29 @@ ChessColor DarkChessBoardView::getActivePlayer()
 void DarkChessBoardView::hightlightMoves(Piece piece, Tile tile)
 {
     this->removeAllHighlights();
-    if(_cg!=0 && piece.type != PieceType::None){
+    if(_dcg!=0 && piece.type != PieceType::None){
         TiledPiece tiledPiece;
         tiledPiece.color=piece.color;
         tiledPiece.hasMoved=piece.hasMoved;
         tiledPiece.type=piece.type;
         tiledPiece.place=tile;
-        std::vector<Tile> attackTiles=_cg->getAttackTiles(tiledPiece);
+        std::vector<Tile> attackTiles=_dcg->getAttackTiles(tiledPiece);
         for(int i=0;i<attackTiles.size();++i){
             this->highlightAttackTile(attackTiles[i]);
         }
-        std::vector<Tile> moveTiles=_cg->getMoveTiles(tiledPiece);
+        std::vector<Tile> moveTiles=_dcg->getMoveTiles(tiledPiece);
         for(int i=0;i<moveTiles.size();++i){
             this->highlightMoveTile(moveTiles[i]);
         }
     }
 }
 
-void DarkChessBoardView::sendMoveCommand(Piece piece, Tile from, Tile to)
+void DarkChessBoardView::pieceMovedSlot(Piece piece, Tile from, Tile to)
 {
-    Move* move=new Move();
-    move->from=from;
-    move->to=to;
-    move->isConvertion=false;
-    move->playerColor=_activePlayer;
-    move->convertPiece=PieceType::None;
-    _cg->doCommand(move);
-    delete move;
-    //setActivePlayer(_activePlayer==ChessColor::White ? ChessColor::Black : ChessColor::White);
+    emit pieceMovedByPlayer(_activePlayer,piece,from,to);
 }
 
-void DarkChessBoardView::sendConvertCommand(TiledPiece piece, TiledPiece to)
+void DarkChessBoardView::piecePromotedSlot(TiledPiece from, TiledPiece to)
 {
-    Move* move=new Move();
-    move->from=piece.place;
-    move->to=to.place;
-    move->isConvertion=true;
-    move->playerColor=_activePlayer;
-    move->convertPiece=to.type;
-    _cg->doCommand(move);
-    delete move;
+    emit piecePromotedByPlayer(_activePlayer,from,to);
 }

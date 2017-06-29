@@ -26,7 +26,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     gamerecvconnectionwidget.cpp \
-    darkchesslog.cpp
+    darkchesslog.cpp \
+    chessboardcontroller.cpp
 
 HEADERS  += \
     aspectratiopixmaplabel.h \
@@ -39,7 +40,10 @@ HEADERS  += \
     mainwindow.h \
     gamerecvconnectionwidget.h \
     ichesslog.h \
-    darkchesslog.h
+    darkchesslog.h \
+    ichessboardview.h \
+    ichessboardcontroller.h \
+    chessboardcontroller.h
 
 FORMS += \
     chessgamewidget.ui \

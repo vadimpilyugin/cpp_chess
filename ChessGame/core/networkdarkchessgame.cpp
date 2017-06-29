@@ -94,6 +94,7 @@ void NetworkDarkChessGame::doCommand(Command * command){
         connector->sendCommand(pc);
     }
 
+    delete command;
 }
 
 void NetworkDarkChessGame::slotDoCommand(Command *command){
