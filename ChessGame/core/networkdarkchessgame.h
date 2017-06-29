@@ -17,6 +17,9 @@ public:
     Player getLocalPlayer();
     Player getRemotePlayer();
     void doCommand(Command *command); // FIXME(14): virtual void doCommand
+    ~NetworkDarkChessGame() {
+        delete connector;
+    }
 
 public slots:
     void slotDoCommand(Command* command);
