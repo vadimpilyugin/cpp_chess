@@ -21,14 +21,14 @@ ADarkChessGame::~ADarkChessGame(){
     delete[] board;
     delete[] pieces;
 }
-Move ADarkChessGame::getLastMove(){
+Move ADarkChessGame::getLastMove() const{
     return lastmove;
 }
 
-ChessColor ADarkChessGame::getOrderPlayer(){
+ChessColor ADarkChessGame::getOrderPlayer() const{
     return turn;
 }
-Piece ADarkChessGame::getPieceAtTile(Tile tile){
+Piece ADarkChessGame::getPieceAtTile(Tile tile) const{
     if (board[tile.x-1][tile.y-1].type==PieceType::None){
         Piece default_piece;
         return default_piece;
@@ -62,7 +62,7 @@ void ADarkChessGame::checkVictory(ChessColor color){
             state=GameState::BlackVictory;
     }
 }
-std::vector<Tile> ADarkChessGame::getMoveTiles(TiledPiece piece){
+std::vector<Tile> ADarkChessGame::getMoveTiles(TiledPiece piece) const{
     std::vector<Tile> result;
     int x=piece.place.x;
     int y=piece.place.y;
@@ -76,7 +76,7 @@ std::vector<Tile> ADarkChessGame::getMoveTiles(TiledPiece piece){
     }
     return result;
 }
-std::vector<Tile> ADarkChessGame::getAttackTiles(TiledPiece piece){
+std::vector<Tile> ADarkChessGame::getAttackTiles(TiledPiece piece) const{
     std::vector<Tile> result;
     int x=piece.place.x;
     int y=piece.place.y;
@@ -125,7 +125,7 @@ void ADarkChessGame::updateVision(){
         }
 }
 //Возвращает клетки, не видимые данным игроком
-std::vector<Tile> ADarkChessGame::getHiddenTiles(Player player){
+std::vector<Tile> ADarkChessGame::getHiddenTiles(Player player) const{
     ChessColor color=player.color;
     std::vector<Tile> result;
     for (int i=0;i<BOARDSIZE;i++)
@@ -141,7 +141,7 @@ std::vector<Tile> ADarkChessGame::getHiddenTiles(Player player){
     return result;
 }
 // возвращает фигуры на клетках, которые будут превращаться
-std::vector<TiledPiece> ADarkChessGame::getConvertionPieces(Player player){
+std::vector<TiledPiece> ADarkChessGame::getConvertionPieces(Player player) const{
     // нужно проверить первую либо последнюю линию на наличие пешек
     std::vector<TiledPiece> result;
     // белые должны дойти до 8 линии, черные - до 1

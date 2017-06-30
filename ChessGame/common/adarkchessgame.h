@@ -17,13 +17,13 @@ protected:
 public:
     ADarkChessGame();
     ~ADarkChessGame();
-    virtual ChessColor getOrderPlayer();
-    virtual Piece getPieceAtTile(Tile tile);
-    virtual Move getLastMove();
-    virtual std::vector<Tile> getMoveTiles(TiledPiece piece);
-    virtual std::vector<Tile> getAttackTiles(TiledPiece piece);
-    virtual std::vector<Tile> getHiddenTiles(Player player);
-    virtual std::vector<TiledPiece> getConvertionPieces(Player player);
+    virtual ChessColor getOrderPlayer()const;
+    virtual Piece getPieceAtTile(Tile tile)const;
+    virtual Move getLastMove()const;
+    virtual std::vector<Tile> getMoveTiles(TiledPiece piece)const;
+    virtual std::vector<Tile> getAttackTiles(TiledPiece piece)const;
+    virtual std::vector<Tile> getHiddenTiles(Player player)const;
+    virtual std::vector<TiledPiece> getConvertionPieces(Player player)const;
 protected:
     void initialize();
     bool doMove(Move move);

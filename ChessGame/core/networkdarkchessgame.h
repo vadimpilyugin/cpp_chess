@@ -14,13 +14,10 @@ private:
     bool blockConvertion;
 public:
     NetworkDarkChessGame(IChessConnector * connector_,Player localPlayer_ );
+    ~NetworkDarkChessGame();
     Player getLocalPlayer();
     Player getRemotePlayer();
     virtual void doCommand(Command *command);
-
-    ~NetworkDarkChessGame() {
-        if(connector!=0)delete connector;
-    }
 
 public slots:
     void slotDoCommand(Command* command);

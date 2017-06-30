@@ -26,6 +26,6 @@ void AChessGame::notifyObservers()
         (*it)->update(this);
 }
 
-GameState AChessGame::getState() {
+GameState AChessGame::getState() const {
     return state;
 }

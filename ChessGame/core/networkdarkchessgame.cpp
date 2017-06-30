@@ -23,6 +23,10 @@ blockConvertion(false){
     initialize();
 }
 
+NetworkDarkChessGame::~NetworkDarkChessGame() {
+    if(connector!=0)delete connector;
+}
+
 Player NetworkDarkChessGame::getLocalPlayer(){
     return localPlayer;
 }
