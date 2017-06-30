@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
-#include "real_chess_connector.h"
+#include "realchessconnector.h"
 #include "player.h"
 
 namespace Ui {

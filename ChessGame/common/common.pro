@@ -30,7 +30,7 @@ HEADERS += \
     serialize.h \
     tile.h \
     dark.h \
-    chess_connector.h
+    ichessconnector.h
 
 SOURCES += \
     achessgame.cpp \

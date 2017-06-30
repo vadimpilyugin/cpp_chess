@@ -1,6 +1,6 @@
 #pragma once
 #include "adarkchessgame.h"
-#include "chess_connector.h"
+#include "ichessconnector.h"
 #include <QObject>
 
 class NetworkDarkChessGame:public QObject,public ADarkChessGame{

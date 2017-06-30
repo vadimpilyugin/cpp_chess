@@ -1,5 +1,5 @@
 #include "networkdarkchessgame.h"
-#include "real_chess_connector.h"
+#include "realchessconnector.h"
 #include "printer.h"
 
 NetworkDarkChessGame::NetworkDarkChessGame(IChessConnector *connector_, Player localPlayer_):isGreetingFinished(false),amIServer(false),

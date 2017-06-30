@@ -3,7 +3,7 @@
 #include "chessgameview.h"
 #include "darkchessboardview.h"
 #include "networkdarkchessgame.h"
-#include "real_chess_connector.h"
+#include "realchessconnector.h"
 
 #include <QMessageBox>
 

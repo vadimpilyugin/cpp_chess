@@ -9,7 +9,6 @@
 #include "darkchesslog.h"
 #include "ichessboardview.h"
 #include "ichessboardcontroller.h"
-#include <memory>
 
 namespace Ui {
 class ChessGameWidget;
@@ -20,7 +19,7 @@ class ChessGameView : public QWidget,public IChessObserver
     Q_OBJECT
 
 public:
-    explicit ChessGameView(std::shared_ptr<ADarkChessGame> game,QWidget *parent = 0);
+    explicit ChessGameView(ADarkChessGame *game=0,QWidget *parent = 0);
     ~ChessGameView();
     virtual void update(AChessGame *game);
 
@@ -43,7 +42,7 @@ private:
     void initPlayersFromNDCG(NetworkDarkChessGame *ndcg);
     IChessBoardView *_cbw;
     IChessBoardController *_cbc;
-    std::shared_ptr<AChessGame> _acg;
+    AChessGame *_acg;
     DarkChessLog _log;
     Player _player1,_player2;
     ChessColor _activePlayer;

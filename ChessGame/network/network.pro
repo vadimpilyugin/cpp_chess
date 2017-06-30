@@ -15,10 +15,9 @@ CONFIG += staticlib
 INCLUDEPATH += ../common
 
 SOURCES += network.cpp \
-    chess_connector.cpp
+    chessconnector.cpp
 
 HEADERS += network.h \
     zmq.h \
     zmq.hpp \
-    chess_connector.h \
-    real_chess_connector.h
+    realchessconnector.h

@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "chess_connector.h"
+#include "ichessconnector.h"
 #include "player.h"
 #include "gameconnectionwidget.h"
 #include "gamerecvconnectionwidget.h"
 #include "chessgameview.h"
-#include <memory>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -29,12 +29,17 @@ public slots:
     void gameConnectionCreated(IChessConnector* connector,Player player);
     void gameConnectionCanceled();
 
+    void deleteChessGame(){
+        if(_cg!=0)delete _cg;
+        _cg=0;
+    }
+
+
 private:
     GameConnectionWidget *_gcw;
     GameRecvConnectionWidget *_grcw;
     ChessGameView *_cgv;
-    std::shared_ptr<AChessGame>_cg;
-
+    AChessGame *_cg;
 
     Ui::MainWindow *ui;
 };

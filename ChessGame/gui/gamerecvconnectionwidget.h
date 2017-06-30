@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QTimer>
 #include "player.h"
-#include "real_chess_connector.h"
+#include "realchessconnector.h"
 
 namespace Ui {
 class GameRecvConnectionWidget;
