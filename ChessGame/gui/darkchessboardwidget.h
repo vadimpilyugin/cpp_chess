@@ -17,7 +17,7 @@ public:
         moveTileColor(QColor(255,255,51)),attackTileColor(QColor(255,51,51)),hideTileColor(QColor(0,0,0)),
         hideTileBlackColor(102,50,0), hideTileWhiteColor(216,216,216){}
 
-    QColor blackTileColor,whiteTileColor,moveTileColor,attackTileColor,hideTileColor, hideTileWhiteColor, hideTileBlackColor;
+    QColor blackTileColor,whiteTileColor,moveTileColor,attackTileColor,hideTileColor, hideTileBlackColor, hideTileWhiteColor;
 };
 
 class DarkChessBoardWidget : public QWidget,public IDarkChessBoardWidget

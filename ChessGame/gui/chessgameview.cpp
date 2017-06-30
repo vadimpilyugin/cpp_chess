@@ -21,7 +21,6 @@ ChessGameView::ChessGameView(ADarkChessGame *game, QWidget *parent) :
 
     _cbc=new ChessBoardController(dynamic_cast<AChessGame*>(game),this);
 
-    QObject *bla=dynamic_cast<QObject*>(_cbw);
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(pieceMovedByPlayer(ChessColor,Piece,Tile,Tile)),dynamic_cast<QObject*>(_cbc), SLOT(sendMoveCommand(ChessColor,Piece,Tile,Tile)));
     connect(dynamic_cast<QObject*>(_cbw), SIGNAL(piecePromotedByPlayer(ChessColor,TiledPiece,TiledPiece)),dynamic_cast<QObject*>(_cbc), SLOT(sendPromoteCommand(ChessColor,TiledPiece,TiledPiece)));
 

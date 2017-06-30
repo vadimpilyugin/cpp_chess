@@ -55,12 +55,12 @@ void ADarkChessGame::checkVictory(ChessColor color){
     for(i=0;i<TOTALPIECES;i++)
         if ((pieces[i].color!=color)&&(pieces[i].type==PieceType::King))
             victory=false;
-    if (victory)
+    if (victory){
         if (color==ChessColor::White)
             state=GameState::WhiteVictory;
         else
             state=GameState::BlackVictory;
-    else;
+    }
 }
 std::vector<Tile> ADarkChessGame::getMoveTiles(TiledPiece piece){
     std::vector<Tile> result;
@@ -78,7 +78,6 @@ std::vector<Tile> ADarkChessGame::getMoveTiles(TiledPiece piece){
 }
 std::vector<Tile> ADarkChessGame::getAttackTiles(TiledPiece piece){
     std::vector<Tile> result;
-    int i;
     int x=piece.place.x;
     int y=piece.place.y;
     int pieceIndex = board[x-1][y-1].piecenum;
@@ -132,14 +131,13 @@ std::vector<Tile> ADarkChessGame::getHiddenTiles(Player player){
     for (int i=0;i<BOARDSIZE;i++)
         for (int j=0;j<BOARDSIZE;j++)
             //пробежим по доске и проверим, видима ли каждая конкретная клетка
-            if (color==ChessColor::White)
+            if (color==ChessColor::White){
                 if (!board[i][j].seenByWhite)
                     result.push_back(board[i][j]);
-                else;
-            else
+            }else{
                 if (!board[i][j].seenByBlack)
                     result.push_back(board[i][j]);
-                else;
+            }
     return result;
 }
 // возвращает фигуры на клетках, которые будут превращаться
@@ -195,8 +193,8 @@ bool ADarkChessGame::doMove(Move move){
     Piece_dark moving=pieces[board[move.from.x-1][move.from.y-1].piecenum];
     //Проверяем, является ли ход превращением пешки, проверяем его корректность и осуществляем превращение
     if ((move.isConvertion) && (moving.type==PieceType::Pawn) &&
-    ((moving.color==ChessColor::Black) && (move.from.y==1) ||
-    (moving.color==ChessColor::White) && (move.from.y==8))){
+    ( ((moving.color==ChessColor::Black) && (move.from.y==1)) ||
+    ((moving.color==ChessColor::White) && (move.from.y==8)) )){
         pieces[board[move.from.x-1][move.from.y-1].piecenum].type=move.convertPiece;
         board[move.from.x-1][move.from.y-1].type=move.convertPiece;
         updateVision();
@@ -448,19 +446,16 @@ void ADarkChessGame::updatePieceVision(int num){
                 if (board[place.x-1][place.y+dy-1].type==PieceType::None){
                     if ((!pieces[num].hasMoved)&&(isOnBoard(place.x,place.y+2*dy)))
                         result.push_back(board[place.x-1][place.y+2*dy-1]);
-                    else;
                 }
-                else;
             }
-            else;
             //теперь разберёмся с клетками по диагонали от пешки, их две, dx - это разность между абсциссами пешки и этих клеток
-            for(int dx=-1;dx<2;dx+=2)
+            for(int dx=-1;dx<2;dx+=2){
                 //эта клетка видна, если она пустая, или там стоит чужая фигура
                 if ((isOnBoard(place.x+dx,place.y+dy))&&
                                 ((board[place.x+dx-1][place.y+dy-1].type==PieceType::None)||
                                 (pieces[board[place.x+dx-1][place.y+dy-1].piecenum].color!=pieces[board[place.x-1][place.y-1].piecenum].color)))
                     result.push_back(board[place.x+dx-1][place.y+dy-1]);
-                else;
+            }
             break;
         case PieceType::King:
         //для короля проверяем все направления, но не как линии, а как единичные поля

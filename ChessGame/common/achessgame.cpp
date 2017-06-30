@@ -21,8 +21,8 @@ void AChessGame::detachObserver(IChessObserver *observer){
 void AChessGame::notifyObservers()
 {
     Printer::debug("Notifying observers");
-    set<IChessObserver*>::iterator it = observers.begin();
-    for (it; it != observers.end(); ++it)
+    set<IChessObserver*>::iterator it;
+    for (it=observers.begin(); it != observers.end(); ++it)
         (*it)->update(this);
 }
 
